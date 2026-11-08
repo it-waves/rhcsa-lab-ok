@@ -1,0 +1,211 @@
+1
+00:00:00,400 --> 00:00:03,273
+Installing software on Linux takes one command.
+
+2
+00:00:03,293 --> 00:00:07,274
+The real skill is knowing what you installed, where it came from,
+
+3
+00:00:07,294 --> 00:00:08,444
+and how to undo it.
+
+4
+00:00:08,914 --> 00:00:13,054
+In this video: install and remove RPM software packages.
+
+5
+00:00:17,574 --> 00:00:20,157
+Here's the task, the way an exam would state it.
+
+6
+00:00:20,627 --> 00:00:23,700
+Install and remove RPM software packages.
+
+7
+00:00:24,170 --> 00:00:28,747
+We'll look before we install, install from a repository, install from a file,
+
+8
+00:00:28,767 --> 00:00:31,851
+see what a package put on the system, and remove it.
+
+9
+00:00:39,371 --> 00:00:45,175
+Two tools work with packages. rpm talks to the database of installed packages.
+
+10
+00:00:45,195 --> 00:00:46,444
+dnf goes further:
+
+11
+00:00:46,464 --> 00:00:50,178
+it finds packages in repositories, downloads them,
+
+12
+00:00:50,198 --> 00:00:52,940
+and installs whatever they depend on.
+
+13
+00:00:55,410 --> 00:00:58,047
+So we use dnf to install and remove,
+
+14
+00:00:58,067 --> 00:01:01,662
+and rpm to ask questions about what is installed.
+
+15
+00:01:08,182 --> 00:01:13,868
+Before installing, check. rpm -q tree asks: is the package tree installed?
+
+16
+00:01:13,888 --> 00:01:15,565
+The answer: it is not.
+
+17
+00:01:21,085 --> 00:01:24,779
+dnf info shows the details of an available package:
+
+18
+00:01:24,799 --> 00:01:29,658
+its version, its size, the repository it comes from, and a summary.
+
+19
+00:01:29,678 --> 00:01:32,862
+The repository metadata lines are not shown.
+
+20
+00:01:40,382 --> 00:01:44,408
+dnf search looks for a word in package names and summaries.
+
+21
+00:01:44,428 --> 00:01:49,962
+The exact match, tree, comes first. The list is long, so only the start is shown.
+
+22
+00:01:56,482 --> 00:02:01,582
+sudo dnf install adds the package. -y answers yes to the question.
+
+23
+00:02:01,602 --> 00:02:04,142
+The download output is shortened.
+
+24
+00:02:09,612 --> 00:02:14,755
+rpm -q now shows the exact version installed, and the command works.
+
+25
+00:02:21,275 --> 00:02:24,840
+rpm -ql lists every file a package installed:
+
+26
+00:02:24,860 --> 00:02:28,743
+the program, its documentation, and its man page.
+
+27
+00:02:32,213 --> 00:02:38,102
+rpm -qf goes the other way. Give it a file, and it names the package that owns it.
+
+28
+00:02:43,622 --> 00:02:46,541
+You can also install from a package file.
+
+29
+00:02:46,561 --> 00:02:49,767
+dnf download saves one without installing it.
+
+30
+00:02:49,787 --> 00:02:53,351
+We download zip, and ls confirms the file is here.
+
+31
+00:02:59,871 --> 00:03:05,147
+dnf install with ./ and the file name installs from the file. Look:
+
+32
+00:03:05,167 --> 00:03:09,179
+it also installed unzip, because zip depends on it.
+
+33
+00:03:09,199 --> 00:03:12,736
+dnf found unzip in the repository on its own.
+
+34
+00:03:18,206 --> 00:03:20,426
+rpm -q zip confirms it.
+
+35
+00:03:25,946 --> 00:03:31,878
+To remove, use dnf remove. Same pattern: sudo, -y, and the package name.
+
+36
+00:03:37,348 --> 00:03:42,661
+Now rpm -q says tree is not installed, and the shell cannot find the command.
+
+37
+00:03:48,181 --> 00:03:50,284
+dnf history lists every change:
+
+38
+00:03:50,304 --> 00:03:54,735
+its number, the command, the date, and how many packages changed.
+
+39
+00:03:54,755 --> 00:03:58,913
+Our install, install from file, and remove are the top three.
+
+40
+00:04:06,433 --> 00:04:11,935
+One more tool. dnf provides finds which package supplies a file. Here, unzip.
+
+41
+00:04:11,955 --> 00:04:16,525
+The repository called at System means it is installed right now.
+
+42
+00:04:22,995 --> 00:04:26,452
+This is how you find what to install when a command is missing.
+
+43
+00:04:30,972 --> 00:04:34,408
+Our five steps: task, demo, check, reboot, and your turn.
+
+44
+00:04:35,928 --> 00:04:39,483
+Installed packages live on disk, so they survive a reboot.
+
+45
+00:04:39,503 --> 00:04:42,009
+We restart the lab, and it comes back up.
+
+46
+00:04:45,479 --> 00:04:49,086
+After a fresh boot, zip is still installed, and tree is still gone.
+
+47
+00:04:56,606 --> 00:04:59,356
+Your turn. Create a folder lab13.
+
+48
+00:04:59,376 --> 00:05:04,978
+Use dnf provides to find the package that supplies /usr/bin/telnet,
+
+49
+00:05:04,998 --> 00:05:11,105
+and write its name on line one of lab13/answer.txt. Install that package.
+
+50
+00:05:11,125 --> 00:05:14,378
+Then install tree, and remove it again.
+
+51
+00:05:17,848 --> 00:05:20,665
+Run the checker, and try before you open the solution.
+
+52
+00:05:26,185 --> 00:05:29,578
+Next up: Configure access to Flatpak repositories.
+
+53
+00:05:30,048 --> 00:05:32,951
+Subscribe to follow the series, and let's keep going.
