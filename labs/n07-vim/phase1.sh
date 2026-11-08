@@ -1,7 +1,16 @@
 . /tmp/lab/lib.sh
-srun 'dnf install -y vim-enhanced tmux >/dev/null 2>&1; rpm -q tmux'
-step "P1"
-run 'export TERM=xterm-256color; tmux -f /dev/null -L c new-session -d -s c -x 70 -y 12 "vim notes.txt; echo vim-exit=$?; sleep 30"; sleep 2; tmux -L c capture-pane -t c -p'
-step "P2 keys"
-run 'export TERM=xterm-256color; tmux -L c send-keys -t c i "Hello RHCSA" Escape; sleep 1; tmux -L c capture-pane -t c -p'
-run 'export TERM=xterm-256color; tmux -L c send-keys -t c ":wq" Enter; sleep 1; tmux -L c capture-pane -t c -p; cat notes.txt'
+srun 'dnf install -y vim-enhanced >/dev/null 2>&1; rpm -q vim-enhanced'
+run 'pip install --user pyte 2>&1 | tail -1'
+step "P"
+run 'printf "line one\nline two\n" > notes.txt'
+run 'python3 /tmp/lab/vimdrive.py notes.txt <<EOT
+S start
+K G
+K o
+K line three
+S insert
+K \e
+S normal
+K :wq\r
+EOT
+cat notes.txt'
