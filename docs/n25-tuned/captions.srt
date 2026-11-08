@@ -1,0 +1,151 @@
+1
+00:00:00,400 --> 00:00:05,704
+One server runs a database and needs speed. Another is a laptop and needs battery.
+
+2
+00:00:05,724 --> 00:00:09,340
+Linux can change its whole tuning with a single command.
+
+3
+00:00:09,810 --> 00:00:12,222
+In this video: manage tuning profiles.
+
+4
+00:00:16,742 --> 00:00:19,325
+Here's the task, the way an exam would state it.
+
+5
+00:00:19,795 --> 00:00:21,311
+Manage tuning profiles.
+
+6
+00:00:21,781 --> 00:00:26,004
+We'll install the tuning service, look at the profiles, switch to another one,
+
+7
+00:00:26,024 --> 00:00:28,289
+and see that the choice survives a reboot.
+
+8
+00:00:37,809 --> 00:00:42,910
+tuned is a service that applies a bundle of system settings, called a profile.
+
+9
+00:00:42,930 --> 00:00:45,405
+The command to manage it is tuned-adm.
+
+10
+00:00:53,875 --> 00:00:58,979
+Each profile is made for a job. virtual-guest is for virtual machines.
+
+11
+00:00:58,999 --> 00:01:03,663
+throughput-performance is for raw speed. powersave saves energy.
+
+12
+00:01:03,683 --> 00:01:06,079
+balanced is a general middle way.
+
+13
+00:01:18,549 --> 00:01:24,204
+The command tuned-adm recommend suggests the best profile for the machine it runs on.
+
+14
+00:01:31,724 --> 00:01:37,741
+First: is tuned installed? rpm -q asks the package database. Not installed here.
+
+15
+00:01:43,211 --> 00:01:48,084
+So we install it with dnf. The option -y answers yes to the questions.
+
+16
+00:01:48,104 --> 00:01:52,068
+It adds the tuned package and sixty-nine helper packages,
+
+17
+00:01:52,088 --> 00:01:57,101
+which we skip in the video. The install even enables the service for us.
+
+18
+00:02:14,621 --> 00:02:20,087
+systemctl enable --now makes a service start at every boot, and starts it right now.
+
+19
+00:02:20,107 --> 00:02:24,137
+It prints nothing, because the install had already enabled it.
+
+20
+00:02:35,607 --> 00:02:38,702
+systemctl is-active confirms: active.
+
+21
+00:02:44,222 --> 00:02:49,489
+Now we look. tuned-adm active shows the profile in use: virtual-guest.
+
+22
+00:02:49,509 --> 00:02:52,963
+And tuned-adm recommend suggests the same one,
+
+23
+00:02:52,983 --> 00:02:56,362
+so our machine already has the right profile.
+
+24
+00:03:09,882 --> 00:03:14,013
+tuned-adm list shows every profile with a short description.
+
+25
+00:03:14,033 --> 00:03:19,547
+The pipe and head -n 12 keep the first twelve lines. Here are the first of them.
+
+26
+00:03:27,067 --> 00:03:32,207
+To switch, use tuned-adm profile and the name. We pick throughput-performance.
+
+27
+00:03:32,227 --> 00:03:35,580
+It needs sudo, and it prints nothing when it works.
+
+28
+00:03:46,050 --> 00:03:49,444
+tuned-adm active confirms the new profile.
+
+29
+00:03:54,964 --> 00:03:58,400
+Our five steps: task, demo, check, reboot, and your turn.
+
+30
+00:03:59,920 --> 00:04:06,062
+We reboot. Afterwards, tuned-adm active still says throughput-performance.
+
+31
+00:04:06,082 --> 00:04:10,891
+The choice is saved in the file /etc/tuned/active_profile,
+
+32
+00:04:10,911 --> 00:04:13,639
+and the service reads it at boot.
+
+33
+00:04:24,109 --> 00:04:28,057
+To finish, we go back to virtual-guest, the recommended profile.
+
+34
+00:04:34,577 --> 00:04:38,743
+Your turn. Install tuned and start it. Set the profile to powersave.
+
+35
+00:04:38,763 --> 00:04:40,466
+Reboot, and run the checker.
+
+36
+00:04:46,936 --> 00:04:48,687
+Try before you open the solution.
+
+37
+00:04:54,207 --> 00:04:57,920
+Next up: locate and interpret system log files and journals.
+
+38
+00:04:58,390 --> 00:05:01,293
+Subscribe to follow the series, and let's keep going.
