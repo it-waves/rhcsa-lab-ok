@@ -1,0 +1,219 @@
+1
+00:00:00,400 --> 00:00:03,679
+Every task on the RHCSA exam starts the same way.
+
+2
+00:00:03,699 --> 00:00:06,844
+You get a shell prompt, and you type a command.
+
+3
+00:00:07,314 --> 00:00:12,405
+If the syntax is off, nothing happens, or the wrong thing does. So in this video:
+
+4
+00:00:12,425 --> 00:00:16,318
+access a shell prompt, and issue commands with correct syntax.
+
+5
+00:00:20,338 --> 00:00:22,921
+Here's the task, the way an exam would state it.
+
+6
+00:00:23,391 --> 00:00:27,040
+Access a shell prompt, and issue commands with correct syntax.
+
+7
+00:00:27,510 --> 00:00:30,391
+We'll read the prompt, break a command into its parts,
+
+8
+00:00:30,411 --> 00:00:33,293
+and learn to read the errors when the syntax is wrong.
+
+9
+00:00:40,313 --> 00:00:43,152
+Every command starts at a prompt. Let's read ours.
+
+10
+00:00:43,622 --> 00:00:46,862
+whoami says we're student. hostname says node1.
+
+11
+00:00:46,882 --> 00:00:49,706
+echo dollar SHELL says our shell is bash.
+
+12
+00:00:49,726 --> 00:00:52,967
+And pwd says we're in slash home slash student.
+
+13
+00:00:56,437 --> 00:00:59,617
+Now look at the prompt itself. In square brackets:
+
+14
+00:00:59,637 --> 00:01:03,649
+the user, an at sign, the host name, and the current directory.
+
+15
+00:01:03,669 --> 00:01:08,257
+A tilde means your home directory. The dollar sign means a regular user.
+
+16
+00:01:08,277 --> 00:01:10,113
+Root's prompt ends in a hash.
+
+17
+00:01:22,633 --> 00:01:27,221
+Most commands follow one pattern: the command, then options, then arguments.
+
+18
+00:01:27,691 --> 00:01:31,436
+The command is the program. Options change how it behaves.
+
+19
+00:01:31,456 --> 00:01:35,266
+Arguments say what it works on. Spaces separate every part.
+
+20
+00:01:47,286 --> 00:01:52,685
+Here, ls is the command, dash l is an option, and the file path is the argument.
+
+21
+00:01:56,655 --> 00:01:59,980
+Short options use one dash. Long options use two.
+
+22
+00:01:59,999 --> 00:02:04,827
+uname dash r, and uname dash dash kernel-release, give the same answer.
+
+23
+00:02:07,297 --> 00:02:08,832
+Short options can be combined.
+
+24
+00:02:08,852 --> 00:02:11,164
+ls dash l d means dash l and dash d together,
+
+25
+00:02:11,184 --> 00:02:14,274
+and it lists the directories themselves, not their contents.
+
+26
+00:02:23,794 --> 00:02:28,531
+Now let's break things on purpose, because on the exam you need to read errors fast.
+
+27
+00:02:29,001 --> 00:02:34,549
+Capital L S: command not found. Linux is case-sensitive, and commands are lowercase.
+
+28
+00:02:38,519 --> 00:02:40,254
+ls dash l with no space:
+
+29
+00:02:40,274 --> 00:02:45,006
+bash looks for a command literally named ls-l, and can't find it.
+
+30
+00:02:49,976 --> 00:02:55,737
+ls dash z: invalid option. The message even tells you to try ls dash dash help.
+
+31
+00:03:01,757 --> 00:03:05,044
+A path that doesn't exist: no such file or directory.
+
+32
+00:03:08,514 --> 00:03:11,471
+mkdir with nothing after it: missing operand.
+
+33
+00:03:11,491 --> 00:03:14,382
+An operand is an argument the command needs.
+
+34
+00:03:18,852 --> 00:03:23,246
+After every command, the exit status is stored in dollar question mark.
+
+35
+00:03:23,266 --> 00:03:26,789
+Zero means success. Anything else means something failed.
+
+36
+00:03:33,759 --> 00:03:39,072
+127 means command not found. The last command worked, so it gives zero.
+
+37
+00:03:44,592 --> 00:03:46,152
+Spaces matter in another way, too.
+
+38
+00:03:46,172 --> 00:03:48,523
+touch my file creates two files, named my and file,
+
+39
+00:03:48,543 --> 00:03:50,289
+because the space separates arguments.
+
+40
+00:03:57,759 --> 00:04:01,323
+Put quotes around the name, and you get one file named my file.
+
+41
+00:04:07,343 --> 00:04:10,287
+When you forget syntax, the command can tell you.
+
+42
+00:04:10,307 --> 00:04:12,464
+Most commands accept dash dash help.
+
+43
+00:04:17,934 --> 00:04:21,701
+And the manual, run with man, is installed on this system.
+
+44
+00:04:21,721 --> 00:04:26,598
+For what documentation is available in the exam, check Red Hat's exam page.
+
+45
+00:04:26,618 --> 00:04:27,642
+We won't assume.
+
+46
+00:04:32,662 --> 00:04:36,290
+Our five steps are: task, demo, check, reboot, and your turn.
+
+47
+00:04:36,760 --> 00:04:41,407
+This objective changes nothing on the system, so there is nothing to persist,
+
+48
+00:04:41,427 --> 00:04:44,377
+and we skip the reboot. Later videos will use it.
+
+49
+00:04:49,897 --> 00:04:55,657
+Your turn. In your home directory, create a directory called lab1, and inside it,
+
+50
+00:04:55,677 --> 00:04:58,154
+one empty file named notes dot txt.
+
+51
+00:05:01,124 --> 00:05:05,879
+Then list it with a long listing. Three broken attempts are in the description.
+
+52
+00:05:05,899 --> 00:05:07,995
+For each one, explain why it fails.
+
+53
+00:05:10,965 --> 00:05:13,782
+Run the checker, and try before you open the solution.
+
+54
+00:05:18,302 --> 00:05:21,909
+Next up: Log in and switch users in multi-user targets.
+
+55
+00:05:22,379 --> 00:05:25,281
+Subscribe to follow the series, and let's keep going.
