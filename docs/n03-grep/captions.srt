@@ -1,0 +1,227 @@
+1
+00:00:00,400 --> 00:00:03,030
+Your server writes thousands of lines of logs.
+
+2
+00:00:03,050 --> 00:00:07,292
+Somewhere in there is the one line that matters. Grep finds it in a blink.
+
+3
+00:00:07,762 --> 00:00:11,859
+In this video: use grep and regular expressions to analyze text.
+
+4
+00:00:15,879 --> 00:00:18,462
+Here's the task, the way an exam would state it.
+
+5
+00:00:18,932 --> 00:00:22,048
+Use grep and regular expressions to analyze text.
+
+6
+00:00:22,518 --> 00:00:24,421
+We'll find lines that match a word,
+
+7
+00:00:24,441 --> 00:00:27,938
+then learn the small pattern symbols that make a search precise.
+
+8
+00:00:35,458 --> 00:00:39,705
+First, a small practice file, so the examples are easy to follow.
+
+9
+00:00:39,725 --> 00:00:42,660
+It's a tiny server log called server dot log.
+
+10
+00:00:42,680 --> 00:00:45,614
+The kit has a one-time block that creates it.
+
+11
+00:00:47,084 --> 00:00:51,924
+C A T shows the file. Eight lines: some info, a warning, and three errors.
+
+12
+00:00:51,944 --> 00:00:54,616
+Notice one error is written in lowercase.
+
+13
+00:00:58,636 --> 00:01:03,727
+Now grep. Grep searches text and prints only the lines that contain your pattern.
+
+14
+00:01:03,747 --> 00:01:09,027
+Here the pattern is the word ERROR, and the file is server dot log. Two lines match.
+
+15
+00:01:11,997 --> 00:01:13,437
+Capital letters matter.
+
+16
+00:01:13,457 --> 00:01:17,502
+Searching for lowercase error finds only the one lowercase line.
+
+17
+00:01:20,472 --> 00:01:24,335
+Dash i means ignore case. Now all three error lines show up.
+
+18
+00:01:28,355 --> 00:01:31,742
+Options change what grep does. Dash v means invert:
+
+19
+00:01:31,762 --> 00:01:35,951
+show every line that does not match. So everything except INFO.
+
+20
+00:01:38,921 --> 00:01:43,650
+Dash c means count. It prints how many lines match, not the lines themselves.
+
+21
+00:01:43,670 --> 00:01:45,130
+Two lines contain ERROR.
+
+22
+00:01:48,100 --> 00:01:51,366
+Dash n adds line numbers. The warning is on line three.
+
+23
+00:01:51,386 --> 00:01:54,352
+Handy when you need to open the file at that spot.
+
+24
+00:01:58,372 --> 00:02:02,852
+Now regular expressions. These are small symbols that describe a pattern.
+
+25
+00:02:02,872 --> 00:02:07,475
+We put the pattern in single quotes, so the shell leaves the symbols alone.
+
+26
+00:02:07,495 --> 00:02:09,324
+The caret means start of line.
+
+27
+00:02:09,344 --> 00:02:12,837
+This finds lines starting with that date and time prefix.
+
+28
+00:02:19,307 --> 00:02:23,405
+The dollar sign means end of line. Only one line ends with D B.
+
+29
+00:02:26,375 --> 00:02:30,998
+A dot means any one character, and a star means repeat the thing before it,
+
+30
+00:02:31,018 --> 00:02:34,404
+any number of times. So dot star means anything at all.
+
+31
+00:02:34,424 --> 00:02:37,128
+This finds ERROR, then anything, then alice.
+
+32
+00:02:40,098 --> 00:02:44,925
+Square brackets mean one character from this set. User, space, then a or b.
+
+33
+00:02:44,945 --> 00:02:46,670
+That matches alice and bob.
+
+34
+00:02:50,690 --> 00:02:55,348
+Dash capital E turns on extended expressions, which add more symbols.
+
+35
+00:02:55,368 --> 00:02:59,822
+The vertical bar means or. This finds lines with ERROR or WARNING.
+
+36
+00:03:02,792 --> 00:03:05,983
+The plus sign means one or more of the thing before it.
+
+37
+00:03:06,003 --> 00:03:10,537
+Here that's one or more digits, then the word percent. It finds the disk line.
+
+38
+00:03:14,557 --> 00:03:18,415
+Grep can search a whole folder. Dash r means recursive:
+
+39
+00:03:18,435 --> 00:03:21,095
+look inside every file in that folder.
+
+40
+00:03:21,115 --> 00:03:24,973
+Here we search slash etc slash ssh for PermitRootLogin.
+
+41
+00:03:24,993 --> 00:03:30,473
+As a normal user, we get permission denied, because these files are protected.
+
+42
+00:03:38,943 --> 00:03:43,058
+With sudo, which runs a command as the administrator, grep can read them.
+
+43
+00:03:43,078 --> 00:03:47,136
+It found the setting, and it's commented out with a hash on this system.
+
+44
+00:03:50,106 --> 00:03:51,916
+And grep works on a pipe.
+
+45
+00:03:51,936 --> 00:03:56,892
+L S lists slash etc, and grep keeps only the names containing S S H.
+
+46
+00:04:00,912 --> 00:04:04,348
+Our five steps: task, demo, check, reboot, and your turn.
+
+47
+00:04:04,818 --> 00:04:07,578
+Files live on disk, so they survive a reboot.
+
+48
+00:04:07,598 --> 00:04:10,110
+We restart the lab, and it comes back up.
+
+49
+00:04:13,580 --> 00:04:16,876
+Uptime says zero minutes, so this really is a fresh boot.
+
+50
+00:04:16,896 --> 00:04:19,960
+The checker later confirms the files are still there.
+
+51
+00:04:25,480 --> 00:04:28,310
+Your turn. Make a directory called lab four.
+
+52
+00:04:28,330 --> 00:04:32,713
+Then use grep with dash i to find the error lines in server dot log.
+
+53
+00:04:35,683 --> 00:04:39,260
+Send those lines into lab four slash errors dot t x t,
+
+54
+00:04:39,280 --> 00:04:42,123
+using the greater-than sign from last time.
+
+55
+00:04:42,143 --> 00:04:46,053
+Then run the checker, and try before you open the solution.
+
+56
+00:04:53,573 --> 00:04:56,817
+Next up: Access remote systems using SSH.
+
+57
+00:04:57,287 --> 00:05:00,190
+Subscribe to follow the series, and let's keep going.
