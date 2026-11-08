@@ -1,0 +1,215 @@
+1
+00:00:00,400 --> 00:00:04,449
+Every configuration file on a Linux server is a plain text file.
+
+2
+00:00:04,469 --> 00:00:07,565
+To change one, you have to create it and edit it,
+
+3
+00:00:07,585 --> 00:00:10,108
+and the standard editor for that is vim.
+
+4
+00:00:10,578 --> 00:00:13,225
+In this video: create and edit text files.
+
+5
+00:00:17,245 --> 00:00:19,828
+Here's the task, the way an exam would state it.
+
+6
+00:00:20,298 --> 00:00:22,006
+Create and edit text files.
+
+7
+00:00:22,476 --> 00:00:26,114
+We'll create files from the shell, then edit them with vim:
+
+8
+00:00:26,134 --> 00:00:29,773
+insert text, delete a line, undo, search, and save or quit.
+
+9
+00:00:39,293 --> 00:00:43,816
+The quickest way to make a file is touch. It creates an empty file.
+
+10
+00:00:43,836 --> 00:00:46,121
+ls -l shows it is zero bytes long.
+
+11
+00:00:52,591 --> 00:00:57,499
+To put text in a file without an editor, use echo with the greater-than sign,
+
+12
+00:00:57,519 --> 00:01:01,019
+as we saw before. It replaces whatever was in the file.
+
+13
+00:01:04,489 --> 00:01:08,499
+Two greater-than signs append instead. They add a line to the end.
+
+14
+00:01:08,519 --> 00:01:09,781
+cat shows both lines.
+
+15
+00:01:17,301 --> 00:01:21,828
+vim has two main modes, and this is what confuses everyone at first.
+
+16
+00:01:21,848 --> 00:01:26,241
+In normal mode, keys are commands. In insert mode, keys type text.
+
+17
+00:01:34,711 --> 00:01:38,698
+You start in normal mode. Press i or o to enter insert mode.
+
+18
+00:01:38,718 --> 00:01:40,434
+Press Escape to come back.
+
+19
+00:01:40,454 --> 00:01:44,440
+If a key does something strange, press Escape and try again.
+
+20
+00:01:53,910 --> 00:01:59,328
+To save and quit, be in normal mode and type a colon.
+
+21
+00:01:59,348 --> 00:02:06,818
+:w saves. :q quits. :wq does both. :q! quits and throws the changes away.
+
+22
+00:02:13,338 --> 00:02:16,716
+On Red Hat systems the vi command is always there,
+
+23
+00:02:16,736 --> 00:02:21,269
+but the full vim command may not be. Here, which vim finds nothing.
+
+24
+00:02:21,289 --> 00:02:23,579
+Which shows where a command lives.
+
+25
+00:02:29,049 --> 00:02:35,678
+So we install it: sudo dnf install -y vim-enhanced, the same way we installed bzip2.
+
+26
+00:02:35,698 --> 00:02:39,952
+Most of the output is trimmed. Now which vim finds it.
+
+27
+00:02:52,472 --> 00:02:54,902
+Now open the file with vim notes.txt.
+
+28
+00:02:54,922 --> 00:02:59,802
+These are real screens from our lab, recorded from a scripted vim session.
+
+29
+00:02:59,822 --> 00:03:01,391
+You press the same keys.
+
+30
+00:03:06,861 --> 00:03:09,129
+Capital G jumps to the last line.
+
+31
+00:03:09,149 --> 00:03:13,150
+Lowercase o opens a new line below and enters insert mode.
+
+32
+00:03:13,170 --> 00:03:15,715
+The bottom of the screen says INSERT.
+
+33
+00:03:19,685 --> 00:03:20,877
+We type line three.
+
+34
+00:03:20,897 --> 00:03:25,340
+Then Escape returns to normal mode, and the INSERT message disappears.
+
+35
+00:03:29,310 --> 00:03:34,602
+Now :wq saves and quits. And cat confirms the file has three lines.
+
+36
+00:03:41,122 --> 00:03:46,459
+Open the file again. gg jumps to the first line, and dd deletes the current line.
+
+37
+00:03:46,479 --> 00:03:49,038
+The first line is gone from the screen.
+
+38
+00:03:54,508 --> 00:03:57,389
+u undoes the last change, and the line is back.
+
+39
+00:04:00,859 --> 00:04:06,210
+Now :q! quits without saving, so the file on disk never changed.
+
+40
+00:04:06,230 --> 00:04:08,391
+cat shows all three lines.
+
+41
+00:04:14,911 --> 00:04:18,508
+A slash starts a search. Type slash three, and press Enter.
+
+42
+00:04:18,528 --> 00:04:21,206
+The cursor jumps to the match on line three.
+
+43
+00:04:25,676 --> 00:04:32,077
+dd deletes that line, and :wq saves. cat shows the file is back to two lines.
+
+44
+00:04:38,597 --> 00:04:43,370
+Here is the cheat sheet. These keys cover most of what you will do on the exam.
+
+45
+00:04:43,390 --> 00:04:45,190
+The kit has it as a text file.
+
+46
+00:05:02,710 --> 00:05:06,146
+Our five steps: task, demo, check, reboot, and your turn.
+
+47
+00:05:06,616 --> 00:05:11,140
+Files on disk survive a reboot. We restart the lab, and it comes back up.
+
+48
+00:05:14,610 --> 00:05:17,533
+Uptime says zero minutes, so this is a fresh boot.
+
+49
+00:05:17,553 --> 00:05:21,182
+The file we edited is still here, and the checker confirms it.
+
+50
+00:05:26,702 --> 00:05:32,613
+Your turn. Use vim to create lab7.txt with three lines: alpha, beta, gamma.
+
+51
+00:05:35,583 --> 00:05:40,200
+Then delete the beta line, add delta at the end, save, and run the checker.
+
+52
+00:05:40,220 --> 00:05:42,240
+Try before you open the solution.
+
+53
+00:05:49,760 --> 00:05:53,751
+Next up: Create, delete, copy, and move files and directories.
+
+54
+00:05:54,221 --> 00:05:57,123
+Subscribe to follow the series, and let's keep going.
