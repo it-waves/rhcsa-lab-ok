@@ -1,4 +1,4 @@
 . /tmp/lab/lib.sh
 step "Reboot check"
-run 'man -k "change file ownership"'
+run 'man -k "owner and group"'
 run 'cat lab11/answer.txt'

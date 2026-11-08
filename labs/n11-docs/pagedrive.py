@@ -2,7 +2,7 @@
 # Runs a real pager/viewer (man, info) in a pseudo-terminal, sends keys, and prints what vim's screen shows.
 # usage: pagedrive.py CMD [ARGS]  < script ; script lines: "K <keys>" (\e=Esc \r=Enter), "S <label>" (print screen)
 import os, pty, sys, time, select, struct, fcntl, termios, pyte
-ROWS, COLS = 14, 72
+ROWS, COLS = 14, 84
 class Scr(pyte.Screen):
     def select_graphic_rendition(self, *a, **k):
         if k.get('private'): return

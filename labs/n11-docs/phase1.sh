@@ -4,10 +4,10 @@ step "0. Setup (not shown)"
 srun 'dnf install -y python3-pip >/dev/null 2>&1; rpm -q python3-pip'
 run 'python3 -m pip install --user pyte 2>&1 | tail -1'
 step "1. Search by keyword"
-run 'man -k "change file ownership"'
+run 'man -k "owner and group"'
 run 'whatis passwd'
 srun 'mandb -q'
-run 'man -k "change file ownership"'
+run 'man -k "owner and group"'
 run 'whatis passwd'
 run 'whatis ls'
 step "2. Read a page"
@@ -16,7 +16,7 @@ pg man ls <<'EOT'
 S opened
 K  
 S next screen
-K /--all\r
+K /human\r
 S search
 K n
 S next match
@@ -26,6 +26,8 @@ step "3. Sections"
 run 'man -w passwd'
 run 'man 5 passwd'
 srun 'dnf install -y man-pages'
+run 'whatis passwd'
+srun 'mandb -q'
 run 'whatis passwd'
 run 'man -w 5 passwd'
 pg man 5 passwd <<'EOT'
