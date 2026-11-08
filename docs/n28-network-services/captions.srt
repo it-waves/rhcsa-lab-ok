@@ -1,0 +1,183 @@
+1
+00:00:00,400 --> 00:00:03,169
+A service is down, and people are calling.
+
+2
+00:00:03,189 --> 00:00:07,087
+Check it, start it, make sure it comes back after a reboot.
+
+3
+00:00:07,107 --> 00:00:09,809
+Three small jobs, one command: systemctl.
+
+4
+00:00:10,279 --> 00:00:14,569
+In this video: start, stop, and check the status of network services.
+
+5
+00:00:19,089 --> 00:00:21,672
+Here's the task, the way an exam would state it.
+
+6
+00:00:22,142 --> 00:00:25,386
+Start, stop, and check the status of network services.
+
+7
+00:00:25,856 --> 00:00:30,215
+We'll see which services listen on the network, check them, stop and start one,
+
+8
+00:00:30,235 --> 00:00:32,044
+and control what happens at boot.
+
+9
+00:00:41,564 --> 00:00:46,211
+A network service is a program that waits for connections on a port.
+
+10
+00:00:46,231 --> 00:00:50,397
+systemd manages them, and you talk to systemd with systemctl.
+
+11
+00:00:56,867 --> 00:01:01,161
+There are two separate questions. Is it running right now? That is active.
+
+12
+00:01:01,181 --> 00:01:05,999
+And will it start at boot? That is enabled. A service can be one without the other.
+
+13
+00:01:14,469 --> 00:01:19,036
+The verbs are simple: status, start, stop, restart, enable, disable.
+
+14
+00:01:24,556 --> 00:01:27,644
+First: what is listening? ss shows sockets.
+
+15
+00:01:27,664 --> 00:01:33,354
+Dash t is tcp, dash l is listening only, dash n shows numbers instead of names.
+
+16
+00:01:33,374 --> 00:01:37,763
+We see port twenty-two, which is ssh, and port ninety-ninety.
+
+17
+00:01:46,233 --> 00:01:51,311
+Add dash p, with sudo, and ss also shows which program owns each port.
+
+18
+00:01:51,331 --> 00:01:53,642
+Port twenty-two belongs to sshd.
+
+19
+00:01:53,662 --> 00:01:56,919
+Port ninety-ninety is held by systemd itself,
+
+20
+00:01:56,939 --> 00:02:00,634
+which starts the web console when someone connects.
+
+21
+00:02:12,154 --> 00:02:15,965
+Now the status. systemctl status prints a full report.
+
+22
+00:02:15,985 --> 00:02:20,079
+The pipe and head dash n three keep the first three lines:
+
+23
+00:02:20,099 --> 00:02:24,974
+the name, whether it is loaded and enabled, and whether it is active.
+
+24
+00:02:24,994 --> 00:02:26,961
+sshd is enabled and running.
+
+25
+00:02:37,431 --> 00:02:40,416
+For scripts, there are two short questions.
+
+26
+00:02:40,436 --> 00:02:43,981
+is-active says active, and is-enabled says enabled.
+
+27
+00:02:50,451 --> 00:02:55,573
+We repeat the status for chronyd, the time service. It is also enabled and running.
+
+28
+00:03:03,093 --> 00:03:07,255
+Now we stop chronyd. It needs sudo, and it prints nothing.
+
+29
+00:03:07,275 --> 00:03:11,941
+is-active now says inactive. Never stop sshd on a remote machine:
+
+30
+00:03:11,961 --> 00:03:14,465
+you would lose your own connection.
+
+31
+00:03:22,935 --> 00:03:24,986
+systemctl start brings it back.
+
+32
+00:03:25,006 --> 00:03:27,926
+And restart stops and starts it in one step,
+
+33
+00:03:27,946 --> 00:03:31,534
+which is what you do after changing its configuration.
+
+34
+00:03:43,054 --> 00:03:44,754
+Now the boot behaviour.
+
+35
+00:03:44,774 --> 00:03:50,212
+systemctl disable removes the link that starts the service at boot. Look:
+
+36
+00:03:50,232 --> 00:03:56,492
+is-enabled says disabled, but is-active still says active. Disable does not stop it.
+
+37
+00:03:56,512 --> 00:03:58,735
+It only changes the next boot.
+
+38
+00:04:08,255 --> 00:04:11,691
+Our five steps: task, demo, check, reboot, and your turn.
+
+39
+00:04:13,211 --> 00:04:18,033
+We reboot. Afterwards chronyd is disabled and inactive, as predicted.
+
+40
+00:04:18,053 --> 00:04:19,647
+One command fixes both:
+
+41
+00:04:19,667 --> 00:04:24,839
+enable dash dash now enables it for the next boot and starts it right now.
+
+42
+00:04:34,359 --> 00:04:36,603
+Your turn. Stop and disable chronyd.
+
+43
+00:04:36,623 --> 00:04:41,507
+Then enable it and start it again in one command. Reboot, and run the checker.
+
+44
+00:04:47,977 --> 00:04:49,728
+Try before you open the solution.
+
+45
+00:04:55,248 --> 00:04:58,364
+Next up: securely transfer files between systems.
+
+46
+00:04:58,834 --> 00:05:01,737
+Subscribe to follow the series, and let's keep going.
