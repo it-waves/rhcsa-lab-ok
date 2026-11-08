@@ -1,0 +1,247 @@
+1
+00:00:00,400 --> 00:00:06,120
+Backups, downloads, and software almost always arrive as one file that holds many
+
+2
+00:00:06,140 --> 00:00:10,727
+files. That file is made with tar, and shrunk with gzip or bzip2.
+
+3
+00:00:11,197 --> 00:00:12,180
+In this video:
+
+4
+00:00:12,200 --> 00:00:17,555
+archive, compress, unpack, and uncompress files using tar, gzip, and bzip2.
+
+5
+00:00:21,575 --> 00:00:24,158
+Here's the task, the way an exam would state it.
+
+6
+00:00:24,628 --> 00:00:30,069
+Archive, compress, unpack, and uncompress files using tar, gzip, and bzip2.
+
+7
+00:00:30,539 --> 00:00:35,983
+Two ideas. Archiving puts many files into one. Compressing makes a file smaller.
+
+8
+00:00:36,003 --> 00:00:37,964
+We'll do both, and undo both.
+
+9
+00:00:45,484 --> 00:00:49,858
+Here is the tar command we'll use the most. It reads like a sentence:
+
+10
+00:00:49,878 --> 00:00:54,061
+tar, then options, then the archive name, then what to put inside.
+
+11
+00:01:06,531 --> 00:01:10,806
+The options are single letters after one dash. c means create.
+
+12
+00:01:10,826 --> 00:01:15,447
+z means compress with gzip. f means the next word is the file name.
+
+13
+00:01:15,467 --> 00:01:18,287
+Always put f last, right before the name.
+
+14
+00:01:24,757 --> 00:01:28,161
+To list an archive use t. To extract it use x.
+
+15
+00:01:28,181 --> 00:01:31,585
+Swap c for t or x and the rest stays the same.
+
+16
+00:01:39,105 --> 00:01:43,406
+First, something to archive. We make a directory called project.
+
+17
+00:01:43,426 --> 00:01:45,229
+mkdir means make directory.
+
+18
+00:01:51,199 --> 00:01:57,245
+Echo prints text, and the greater-than sign sends it into a file, as we saw before.
+
+19
+00:01:57,265 --> 00:01:59,072
+That gives us readme.txt.
+
+20
+00:02:02,042 --> 00:02:03,456
+cp copies a file.
+
+21
+00:02:03,476 --> 00:02:09,275
+We copy the big system file /etc/services into the project directory.
+
+22
+00:02:09,295 --> 00:02:14,673
+ls -l lists the folder with sizes. Two files, one of them large.
+
+23
+00:02:24,193 --> 00:02:29,037
+Now create the archive. Tar -cf project.tar, then the folder name.
+
+24
+00:02:29,057 --> 00:02:31,469
+Nothing is printed when it works.
+
+25
+00:02:35,439 --> 00:02:38,399
+To look inside without unpacking, use -tf.
+
+26
+00:02:38,419 --> 00:02:41,520
+The archive holds the folder and both files.
+
+27
+00:02:44,990 --> 00:02:49,001
+And the size. About seven hundred kilobytes, the same as the files,
+
+28
+00:02:49,021 --> 00:02:52,309
+because an archive on its own does not shrink anything.
+
+29
+00:02:56,329 --> 00:02:59,765
+To unpack, make an empty directory called restore first.
+
+30
+00:03:02,735 --> 00:03:05,913
+Tar -xf, the archive, and -C restore.
+
+31
+00:03:05,933 --> 00:03:11,014
+Capital C means change to that directory before extracting.
+
+32
+00:03:15,984 --> 00:03:19,270
+ls shows the folder came back with both files inside.
+
+33
+00:03:23,290 --> 00:03:24,941
+One note about this lab.
+
+34
+00:03:24,961 --> 00:03:28,214
+Compressing with bzip2 needs the bzip2 program,
+
+35
+00:03:28,234 --> 00:03:33,089
+and it is not installed on this lab image. Without it, tar stops with:
+
+36
+00:03:33,109 --> 00:03:34,342
+command not found.
+
+37
+00:03:37,812 --> 00:03:42,305
+So we install it. Sudo runs one command as the administrator.
+
+38
+00:03:42,325 --> 00:03:44,451
+dnf is the package installer.
+
+39
+00:03:44,471 --> 00:03:48,743
+Install adds software, and -y answers yes to the question.
+
+40
+00:03:48,763 --> 00:03:52,960
+Most of the output is download messages; we show the end.
+
+41
+00:04:05,480 --> 00:04:09,675
+Now compression. Take the same command and add z.
+
+42
+00:04:09,695 --> 00:04:16,297
+-czf makes a gzip-compressed archive. The name ends in .tar.gz by convention.
+
+43
+00:04:20,267 --> 00:04:27,223
+For bzip2, use j instead of z. -cjf, and the name ends in .tar.bz2.
+
+44
+00:04:30,693 --> 00:04:35,560
+Compare the sizes. The plain archive is seven hundred six thousand bytes.
+
+45
+00:04:35,580 --> 00:04:39,309
+Gzip brings it to about one hundred forty five thousand.
+
+46
+00:04:39,329 --> 00:04:44,263
+Bzip2 is smaller still, about one hundred thirty two thousand, but slower.
+
+47
+00:04:48,283 --> 00:04:54,471
+You can also compress a single file without tar. We copy services to data.txt first.
+
+48
+00:04:59,441 --> 00:05:02,674
+gzip replaces the file with data.txt.gz.
+
+49
+00:05:02,694 --> 00:05:07,634
+The original is gone, and the compressed one is much smaller.
+
+50
+00:05:12,104 --> 00:05:15,242
+gunzip reverses it, and the original comes back.
+
+51
+00:05:19,262 --> 00:05:25,663
+Bzip2 works the same way. bzip2 and the file name gives a file ending in .bz2.
+
+52
+00:05:32,133 --> 00:05:37,959
+bunzip2 reverses it, and we have our seven hundred one thousand byte file again, unchanged.
+
+53
+00:05:41,979 --> 00:05:45,415
+Our five steps: task, demo, check, reboot, and your turn.
+
+54
+00:05:45,885 --> 00:05:50,409
+Files on disk survive a reboot. We restart the lab, and it comes back up.
+
+55
+00:05:53,379 --> 00:05:56,219
+Uptime says zero minutes, so this is a fresh boot.
+
+56
+00:05:56,239 --> 00:05:59,823
+The archive we made is still here, and the checker confirms it.
+
+57
+00:06:05,343 --> 00:06:12,151
+Your turn. In your home directory, make a gzip-compressed archive called backup.tar.gz of the
+
+58
+00:06:12,171 --> 00:06:13,472
+project directory.
+
+59
+00:06:16,442 --> 00:06:21,694
+Then make a directory called lab6, and extract the archive into it with -C.
+
+60
+00:06:21,714 --> 00:06:25,489
+Run the checker, and try before you open the solution.
+
+61
+00:06:33,009 --> 00:06:35,400
+Next up: Create and edit text files.
+
+62
+00:06:35,870 --> 00:06:38,772
+Subscribe to follow the series, and let's keep going.
