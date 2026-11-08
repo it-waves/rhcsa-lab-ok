@@ -1,8 +1,8 @@
 . /tmp/lab/lib.sh
 # several commands in ONE shell, each shown on its own prompt line (so $? carries over)
 seqrun() {
-  local s=""
-  for c in "$@"; do s+="printf '[%s@%s ~]\$ %s\n' \"\$(id -un)\" \"\$(hostname -s)\" $(printf %q "$c")"$'\n'"$c"$'\n'; done
+  local s="__rc=0"$'\n'
+  for c in "$@"; do s+="printf '[%s@%s ~]\$ %s\n' \"\$(id -un)\" \"\$(hostname -s)\" $(printf %q "$c")"$'\n'"(exit \$__rc)"$'\n'"$c"$'\n'"__rc=\$?"$'\n'; done
   bash -c "$s" 2>&1
   echo "# exit=$?"
 }
