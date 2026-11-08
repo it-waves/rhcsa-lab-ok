@@ -1,0 +1,231 @@
+1
+00:00:00,400 --> 00:00:04,075
+Every script you write has to make decisions. Is the file there?
+
+2
+00:00:04,095 --> 00:00:07,655
+Is the number big enough? Today, you teach a script to choose.
+
+3
+00:00:08,125 --> 00:00:13,054
+In this video: conditionally execute code, using if, test, and square brackets.
+
+4
+00:00:17,574 --> 00:00:20,157
+Here's the task, the way an exam would state it.
+
+5
+00:00:20,627 --> 00:00:25,599
+Conditionally execute code (use of: if, test, [], etc.).
+
+6
+00:00:26,069 --> 00:00:30,335
+We'll check the exit status of a command, write a first script with if,
+
+7
+00:00:30,355 --> 00:00:33,475
+compare numbers and text, combine tests on one line,
+
+8
+00:00:33,495 --> 00:00:35,649
+and read a script's own exit status.
+
+9
+00:00:45,169 --> 00:00:49,923
+A shell decides using the exit status. Every command ends with a number.
+
+10
+00:00:49,943 --> 00:00:53,106
+Zero means success. Anything else means failure.
+
+11
+00:00:59,576 --> 00:01:04,892
+The if statement runs a command and looks at that number. Zero: the then part runs.
+
+12
+00:01:04,912 --> 00:01:07,848
+Not zero: the else part runs, if there is one.
+
+13
+00:01:07,868 --> 00:01:13,055
+And test, or square brackets, are simply commands that check something and report
+
+14
+00:01:13,075 --> 00:01:14,276
+success or failure.
+
+15
+00:01:23,796 --> 00:01:27,621
+test -f checks whether a regular file exists.
+
+16
+00:01:27,641 --> 00:01:32,407
+It prints nothing; it only sets the exit status. echo $?
+
+17
+00:01:32,427 --> 00:01:39,072
+prints the status of the last command. For /etc/passwd, the answer is 0: true.
+
+18
+00:01:45,542 --> 00:01:49,042
+For a file that does not exist, the status is 1: false.
+
+19
+00:01:52,512 --> 00:01:55,302
+Square brackets do the same job as test.
+
+20
+00:01:55,322 --> 00:02:01,132
+The spaces inside the brackets are required. -d checks for a directory. Zero again.
+
+21
+00:02:09,652 --> 00:02:11,308
+Here is our first script.
+
+22
+00:02:11,328 --> 00:02:15,733
+The first line, #!/bin/bash, tells the system to run it with bash.
+
+23
+00:02:15,753 --> 00:02:20,226
+Then if, a test in square brackets, then, the command to run, else,
+
+24
+00:02:20,246 --> 00:02:24,248
+the other command, and fi, which is if backwards, closes it.
+
+25
+00:02:24,268 --> 00:02:28,875
+The lab created this file for us; in vim you would type exactly this.
+
+26
+00:02:34,395 --> 00:02:39,654
+We try to run it with ./check.sh. The ./ means: in this folder.
+
+27
+00:02:39,674 --> 00:02:45,687
+It fails with permission denied, because the file is not executable yet.
+
+28
+00:02:45,707 --> 00:02:47,111
+ls -l shows no x.
+
+29
+00:02:51,581 --> 00:02:58,266
+chmod +x adds the execute permission. Now ls shows the x, and the script runs.
+
+30
+00:02:58,286 --> 00:03:03,337
+The file /etc/redhat-release exists, so the then part runs.
+
+31
+00:03:11,857 --> 00:03:15,214
+Inside the brackets you compare. For files:
+
+32
+00:03:15,234 --> 00:03:21,575
+-f is a regular file, -d is a directory, -e is anything that exists. For numbers:
+
+33
+00:03:21,595 --> 00:03:27,858
+-eq equal, -ne not equal, -gt greater than, -lt less than, -ge greater or equal,
+
+34
+00:03:27,878 --> 00:03:30,057
+-le less or equal. For text:
+
+35
+00:03:30,077 --> 00:03:35,240
+an equals sign, and an exclamation mark with equals for not equal.
+
+36
+00:03:40,760 --> 00:03:44,661
+Our second script has two ifs. A variable holds the number 7.
+
+37
+00:03:44,681 --> 00:03:49,803
+The first if has an elif, which means else if: greater than 10, then equal to 7.
+
+38
+00:03:49,823 --> 00:03:55,074
+The variable is in double quotes, and the number operators are words, not symbols.
+
+39
+00:03:55,094 --> 00:04:00,409
+The second if compares text with an equals sign, and has no else, which is allowed.
+
+40
+00:04:04,929 --> 00:04:07,565
+It prints: exactly 7, and hello, student.
+
+41
+00:04:07,585 --> 00:04:11,970
+Change the number in vim and run it again to see the other branches.
+
+42
+00:04:19,490 --> 00:04:23,507
+You can also decide on a single line. Two ampersands mean and:
+
+43
+00:04:23,527 --> 00:04:28,065
+run the second command only if the first succeeded. Two pipes mean or:
+
+44
+00:04:28,085 --> 00:04:30,670
+run the second only if the first failed.
+
+45
+00:04:34,140 --> 00:04:40,328
+/tmp exists, so the echo runs. /nothing does not exist, so the or part runs.
+
+46
+00:04:47,848 --> 00:04:52,580
+A script has an exit status too: the status of its last command.
+
+47
+00:04:52,600 --> 00:04:54,585
+Run check.sh, then echo $?:
+
+48
+00:04:54,605 --> 00:04:59,412
+zero. That is how other scripts, and the checker, know it worked.
+
+49
+00:05:06,932 --> 00:05:10,368
+Our five steps: task, demo, check, reboot, and your turn.
+
+50
+00:05:11,888 --> 00:05:14,946
+Scripts are files on disk, so they survive a reboot.
+
+51
+00:05:14,966 --> 00:05:17,372
+We restart the lab, and it comes back up.
+
+52
+00:05:20,842 --> 00:05:24,747
+After a fresh boot, ./check.sh runs the same way.
+
+53
+00:05:32,267 --> 00:05:35,368
+Your turn. Make a folder called lab16.
+
+54
+00:05:35,388 --> 00:05:39,145
+In it, create an executable script, exists.sh,
+
+55
+00:05:39,165 --> 00:05:44,236
+that prints found if /etc/hosts is a file, and missing if not.
+
+56
+00:05:50,706 --> 00:05:53,524
+Run the checker, and try before you open the solution.
+
+57
+00:05:59,044 --> 00:06:04,251
+Next up: use looping constructs, like for, to process files and command line input.
+
+58
+00:06:04,721 --> 00:06:07,623
+Subscribe to follow the series, and let's keep going.
