@@ -24,4 +24,4 @@ Use input-output redirection (>, >>, |, 2>, etc.)
 `practice.md`, `solution.md`, `check.sh`, `commands.md`, `captions.srt`
 
 ## Lab
-Use the lab from V00 (user `student`, host `node1`). Reset: `rm -rf ~/redir ~/lab3`.
+Use the lab from V00 (user `student`, host `node1`). Reset: `rm -rf redir lab3` (from your home directory).
