@@ -1,0 +1,18 @@
+. /tmp/lab/lib.sh
+step "probe"
+run 'command -v man info whatis apropos mandb'
+run 'man --version'
+run 'man -w ls'
+run 'man ls | head -n 12'
+run 'man -f ls'
+run 'man -k "change file ownership" | head'
+run 'whatis passwd'
+run 'ls /usr/share/doc | head -n 15'
+run 'ls /usr/share/doc | wc -l'
+run 'info --version | head -n 1'
+run 'ls /usr/share/info | head'
+run 'man -s 5 passwd | head -n 8'
+run 'ls /usr/share/man'
+run 'ls /usr/share/doc/bash* /usr/share/doc/coreutils* 2>&1 | head -n 12'
+run 'rpm -qd bash | head -n 8'
+run 'ls /usr/share/doc/chrony* 2>&1 | head'
