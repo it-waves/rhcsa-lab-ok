@@ -1,0 +1,187 @@
+1
+00:00:00,400 --> 00:00:01,985
+A new disk arrives, empty.
+
+2
+00:00:02,005 --> 00:00:06,924
+Before you can store a single file on it, you have to divide it into partitions.
+
+3
+00:00:06,944 --> 00:00:10,257
+Get this wrong, and you can erase a disk full of data.
+
+4
+00:00:10,727 --> 00:00:15,337
+In this video: list, create, and delete partitions on GPT disks.
+
+5
+00:00:19,857 --> 00:00:22,440
+Here's the task, the way an exam would state it.
+
+6
+00:00:22,910 --> 00:00:26,538
+List, create, and delete partitions on GPT disks.
+
+7
+00:00:27,008 --> 00:00:31,774
+We'll list the disks, put a GPT label on an empty disk, create two partitions,
+
+8
+00:00:31,794 --> 00:00:33,430
+check them, and delete one.
+
+9
+00:00:42,950 --> 00:00:47,510
+A disk is a long row of space. A partition is a named slice of it.
+
+10
+00:00:47,530 --> 00:00:50,563
+A partition table, at the start of the disk,
+
+11
+00:00:50,583 --> 00:00:56,391
+records where each slice begins and ends. GPT is the modern kind of partition table.
+
+12
+00:01:02,861 --> 00:01:05,303
+Disks are named by the kernel.
+
+13
+00:01:05,323 --> 00:01:11,949
+On this virtual machine, vda is the system disk, and vdb and vdc are empty disks.
+
+14
+00:01:11,969 --> 00:01:16,708
+A partition adds a number: vdb1 is the first slice of vdb.
+
+15
+00:01:25,178 --> 00:01:27,667
+The tool we use is parted. One warning:
+
+16
+00:01:27,687 --> 00:01:30,948
+writing a new label erases the old partition table.
+
+17
+00:01:30,968 --> 00:01:33,329
+Always check you have the right disk.
+
+18
+00:01:42,849 --> 00:01:48,973
+First, list the block devices with lsblk. Each line is a disk or a partition.
+
+19
+00:01:48,993 --> 00:01:52,724
+The disk vda has four partitions and is in use.
+
+20
+00:01:52,744 --> 00:01:57,272
+vdb and vdc are five gigabyte disks with nothing on them.
+
+21
+00:01:57,292 --> 00:02:01,581
+The tiny vdd is the setup disk of this lab; ignore it.
+
+22
+00:02:13,101 --> 00:02:18,163
+Now parted, the disk, and the word print. It says: unrecognised disk label.
+
+23
+00:02:18,183 --> 00:02:21,550
+The disk is blank, with no partition table at all.
+
+24
+00:02:33,070 --> 00:02:38,362
+We create the label. parted -s runs silently, without asking questions.
+
+25
+00:02:38,382 --> 00:02:43,226
+Then the disk, mklabel, and gpt. It prints nothing when it works.
+
+26
+00:02:51,696 --> 00:02:57,031
+print again: Partition Table is gpt, and the list of partitions is still empty.
+
+27
+00:03:04,551 --> 00:03:08,219
+Now a partition. mkpart, a name, a start, and an end.
+
+28
+00:03:08,239 --> 00:03:12,464
+The first is called data1, from one mebibyte to one gibibyte.
+
+29
+00:03:12,484 --> 00:03:16,222
+We start at one mebibyte, to leave room for the table.
+
+30
+00:03:24,692 --> 00:03:30,128
+The second, data2, starts where the first ended, at one gibibyte, and ends at two.
+
+31
+00:03:30,148 --> 00:03:31,392
+No gap, no overlap.
+
+32
+00:03:37,862 --> 00:03:41,831
+print shows both partitions, with number, start, end, size and name.
+
+33
+00:03:49,351 --> 00:03:54,556
+fdisk -l is another way to list partitions. Same two partitions, in sectors.
+
+34
+00:03:54,576 --> 00:03:59,438
+The type says Linux filesystem, because we have not formatted them yet.
+
+35
+00:03:59,458 --> 00:04:01,363
+That comes in a later video.
+
+36
+00:04:12,883 --> 00:04:16,319
+Our five steps: task, demo, check, reboot, and your turn.
+
+37
+00:04:17,839 --> 00:04:21,401
+We reboot. Then lsblk shows the two partitions again:
+
+38
+00:04:21,421 --> 00:04:25,862
+the partition table is written on the disk itself, so it survives.
+
+39
+00:04:35,382 --> 00:04:41,059
+Now we delete partition two. parted, the disk, rm, and the partition number. Be careful:
+
+40
+00:04:41,079 --> 00:04:46,498
+this removes the entry in the table, and the data in that slice becomes unreachable.
+
+41
+00:04:54,968 --> 00:04:58,724
+print and lsblk confirm: only data1 is left.
+
+42
+00:05:10,244 --> 00:05:13,439
+Your turn, on the disk vdc. Create a GPT label.
+
+43
+00:05:13,459 --> 00:05:18,158
+Make a partition of five hundred mebibytes, and another one after it.
+
+44
+00:05:18,178 --> 00:05:21,168
+Then delete the second one. Run the checker.
+
+45
+00:05:27,638 --> 00:05:29,389
+Try before you open the solution.
+
+46
+00:05:34,909 --> 00:05:37,748
+Next up: create and remove physical volumes.
+
+47
+00:05:38,218 --> 00:05:41,120
+Subscribe to follow the series, and let's keep going.
