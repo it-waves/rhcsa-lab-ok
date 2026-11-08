@@ -1,0 +1,203 @@
+1
+00:00:00,400 --> 00:00:03,327
+Sometimes a server must not start everything.
+
+2
+00:00:03,347 --> 00:00:07,517
+Maybe a service is broken, or you need a quiet system to fix it.
+
+3
+00:00:07,537 --> 00:00:11,708
+Linux lets you choose, at boot, how much of the system to start.
+
+4
+00:00:12,178 --> 00:00:15,699
+In this video: boot systems into different targets manually.
+
+5
+00:00:20,219 --> 00:00:22,802
+Here's the task, the way an exam would state it.
+
+6
+00:00:23,272 --> 00:00:25,940
+Boot systems into different targets manually.
+
+7
+00:00:26,410 --> 00:00:29,618
+We'll learn what a target is, see which targets are active,
+
+8
+00:00:29,638 --> 00:00:33,558
+pass a target to the kernel at boot, and watch the system come up in it.
+
+9
+00:00:43,078 --> 00:00:49,065
+A target is a goal state for the system: a group of services that should be running.
+
+10
+00:00:49,085 --> 00:00:52,283
+multi-user.target is a full text-mode system.
+
+11
+00:00:52,303 --> 00:00:55,645
+graphical.target adds a graphical login on top.
+
+12
+00:01:02,115 --> 00:01:06,678
+rescue.target is a small system with a root shell, for repairs.
+
+13
+00:01:06,698 --> 00:01:12,426
+emergency.target is even smaller: only the root file system, mounted read-only.
+
+14
+00:01:12,446 --> 00:01:14,681
+Both ask for the root password.
+
+15
+00:01:21,151 --> 00:01:24,604
+At the boot menu, you press e to edit the entry,
+
+16
+00:01:24,624 --> 00:01:29,741
+add systemd.unit=TARGET at the end of the linux line, and press Ctrl+X.
+
+17
+00:01:29,761 --> 00:01:33,142
+That boots once, and changes nothing permanent.
+
+18
+00:01:44,662 --> 00:01:51,174
+First, look. systemctl get-default shows the target this machine normally boots into:
+
+19
+00:01:51,194 --> 00:01:52,557
+multi-user.target.
+
+20
+00:01:57,027 --> 00:02:02,427
+systemctl is-active asks if a target is running. multi-user is active.
+
+21
+00:02:02,447 --> 00:02:06,841
+graphical is inactive, which is why the exit status is 3.
+
+22
+00:02:12,361 --> 00:02:14,846
+Every boot has a kernel command line,
+
+23
+00:02:14,866 --> 00:02:18,095
+the list of options the kernel was started with.
+
+24
+00:02:18,115 --> 00:02:20,938
+You can read it in the file /proc/cmdline.
+
+25
+00:02:25,408 --> 00:02:29,625
+It names the kernel image, the console, and the root file system.
+
+26
+00:02:29,645 --> 00:02:33,602
+There is no systemd.unit here, so the default target is used.
+
+27
+00:02:39,122 --> 00:02:43,483
+A virtual machine in the cloud has no keyboard for the boot menu,
+
+28
+00:02:43,503 --> 00:02:48,808
+so we add the same option a different way. grubby edits the saved boot entries.
+
+29
+00:02:48,828 --> 00:02:51,774
+The option is systemd.unit=graphical.target.
+
+30
+00:02:56,244 --> 00:03:01,519
+grubby --info shows the default entry. The args line now ends with our option.
+
+31
+00:03:01,539 --> 00:03:05,931
+Remember: this one is permanent, so we will remove it afterwards.
+
+32
+00:03:13,451 --> 00:03:16,887
+Our five steps: task, demo, check, reboot, and your turn.
+
+33
+00:03:18,407 --> 00:03:25,448
+We reboot. After the boot, the kernel command line ends with systemd.unit=graphical.target.
+
+34
+00:03:31,968 --> 00:03:35,007
+systemctl get-default still says multi-user,
+
+35
+00:03:35,027 --> 00:03:40,012
+and it even tells us that the kernel command line overrides the default.
+
+36
+00:03:40,032 --> 00:03:42,445
+And graphical.target is now active.
+
+37
+00:03:42,465 --> 00:03:46,894
+This lab has no desktop installed, so the screen looks the same,
+
+38
+00:03:46,914 --> 00:03:48,353
+but the target is up.
+
+39
+00:03:54,873 --> 00:03:55,849
+Now we clean up.
+
+40
+00:03:55,869 --> 00:03:59,146
+grubby with --remove-args takes the option out again,
+
+41
+00:03:59,166 --> 00:04:02,320
+and the info output shows the args line without it.
+
+42
+00:04:06,790 --> 00:04:11,762
+For rescue or emergency, the steps are the same, only the target name changes.
+
+43
+00:04:11,782 --> 00:04:14,770
+On the exam you would press e at the boot menu.
+
+44
+00:04:14,790 --> 00:04:17,266
+We cannot show that screen in this lab.
+
+45
+00:04:24,786 --> 00:04:31,756
+Your turn. Add the option systemd.unit=graphical.target to the boot entries, and reboot.
+
+46
+00:04:31,776 --> 00:04:34,298
+Then make a folder called lab21,
+
+47
+00:04:34,318 --> 00:04:40,811
+and save the output of systemctl is-active graphical.target in a file, target.txt.
+
+48
+00:04:40,831 --> 00:04:43,433
+Finally, remove the option again.
+
+49
+00:04:49,903 --> 00:04:52,720
+Run the checker, and try before you open the solution.
+
+50
+00:04:58,240 --> 00:05:02,465
+Next up: interrupt the boot process in order to gain access to a system.
+
+51
+00:05:02,935 --> 00:05:05,838
+Subscribe to follow the series, and let's keep going.
