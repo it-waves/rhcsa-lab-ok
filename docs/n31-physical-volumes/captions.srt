@@ -1,0 +1,155 @@
+1
+00:00:00,400 --> 00:00:05,974
+You have a spare disk, and you want to use it with LVM, the Logical Volume Manager.
+
+2
+00:00:05,994 --> 00:00:11,367
+Before LVM can touch the disk, the disk has to be prepared as a physical volume.
+
+3
+00:00:11,837 --> 00:00:14,974
+In this video: create and remove physical volumes.
+
+4
+00:00:19,494 --> 00:00:22,077
+Here's the task, the way an exam would state it.
+
+5
+00:00:22,547 --> 00:00:24,745
+Create and remove physical volumes.
+
+6
+00:00:25,215 --> 00:00:29,367
+We'll check there are none, create one on a blank disk, look at its details,
+
+7
+00:00:29,387 --> 00:00:30,465
+and remove it again.
+
+8
+00:00:39,985 --> 00:00:44,653
+LVM builds storage in three layers. At the bottom, physical volumes:
+
+9
+00:00:44,673 --> 00:00:48,031
+disks, or partitions, that LVM is allowed to use.
+
+10
+00:00:48,051 --> 00:00:52,237
+On top of them, volume groups, which pool the space together.
+
+11
+00:00:52,257 --> 00:00:57,821
+And on top of those, logical volumes, which is what you finally format and mount.
+
+12
+00:01:06,291 --> 00:01:08,694
+This video is only the bottom layer.
+
+13
+00:01:08,714 --> 00:01:13,539
+A physical volume is a disk with a small LVM label written at its start.
+
+14
+00:01:13,559 --> 00:01:15,423
+The next videos build on it.
+
+15
+00:01:23,893 --> 00:01:28,256
+We use the empty disk vdb. As always, check the disk name first:
+
+16
+00:01:28,276 --> 00:01:30,380
+these commands change the disk.
+
+17
+00:01:37,900 --> 00:01:43,389
+First, pvs, with sudo. It lists physical volumes. Right now it prints nothing:
+
+18
+00:01:43,409 --> 00:01:46,285
+this machine has no physical volumes yet.
+
+19
+00:01:53,805 --> 00:01:59,295
+Now pvcreate, and the disk. It says: physical volume successfully created.
+
+20
+00:01:59,315 --> 00:02:05,326
+The second line is just LVM creating its devices file, the first time it is used.
+
+21
+00:02:12,796 --> 00:02:19,395
+pvs again. Now there is one line. The name is vdb. The volume group column is empty:
+
+22
+00:02:19,415 --> 00:02:22,468
+nobody uses it yet. The format is lvm2.
+
+23
+00:02:22,488 --> 00:02:26,408
+The size is five gigabytes, and all of it is free.
+
+24
+00:02:36,928 --> 00:02:40,444
+pvdisplay shows the details of one physical volume.
+
+25
+00:02:40,464 --> 00:02:42,940
+The name, the size, and a unique ID.
+
+26
+00:02:42,960 --> 00:02:48,695
+Allocatable says no, and the extents are zero, because no volume group uses it yet.
+
+27
+00:02:48,715 --> 00:02:51,329
+We will see these numbers change soon.
+
+28
+00:03:02,849 --> 00:03:06,285
+Our five steps: task, demo, check, reboot, and your turn.
+
+29
+00:03:07,805 --> 00:03:11,216
+We reboot. Then pvs shows the physical volume again:
+
+30
+00:03:11,236 --> 00:03:14,910
+the label is written on the disk itself, so it survives.
+
+31
+00:03:24,430 --> 00:03:29,187
+Now we remove it. pvremove, and the disk. It wipes the LVM label.
+
+32
+00:03:29,207 --> 00:03:33,818
+This only works while no volume group uses the physical volume.
+
+33
+00:03:42,288 --> 00:03:47,306
+pvs prints nothing again, and lsblk still shows the disk, untouched,
+
+34
+00:03:47,326 --> 00:03:49,159
+ready for something else.
+
+35
+00:03:58,679 --> 00:04:04,215
+Your turn. Create a physical volume on the disk vdc. Remove the one on vdb.
+
+36
+00:04:04,235 --> 00:04:05,400
+Run the checker.
+
+37
+00:04:11,870 --> 00:04:13,621
+Try before you open the solution.
+
+38
+00:04:19,141 --> 00:04:22,278
+Next up: assign physical volumes to volume groups.
+
+39
+00:04:22,748 --> 00:04:25,651
+Subscribe to follow the series, and let's keep going.
