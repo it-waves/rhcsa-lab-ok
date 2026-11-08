@@ -1,4 +1,7 @@
 . /tmp/lab/lib.sh
+sudo systemctl is-system-running --wait >/dev/null 2>&1
+while pgrep -x mkfs.erofs >/dev/null || pgrep -x dracut >/dev/null; do sleep 2; done
+sleep 5
 # bg: show the command like a terminal would, but start it detached so the capture does not wait for it.
 bg() { printf '[%s@%s ~]$ %s\n' "$(id -un)" "$(hostname -s)" "$1"; ( setsid bash -c "$1" </dev/null >/dev/null 2>&1 & ); echo "# exit=0"; }
 cat > memhog.py <<'EOT'
