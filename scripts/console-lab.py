@@ -57,9 +57,11 @@ def grub_edit(extra, label):
     """reboot, catch the GRUB menu, edit the entry, append `extra`, boot."""
     m = mark()
     subprocess.Popen(SSH + ['sudo systemctl reboot'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    end = time.time() + 150; seen = False
+    end = time.time() + 150; seen = False; t0 = time.time(); last = 0
     while time.time() < end:
         send('\x1b', 0.02)
+        if time.time() - last > 15:
+            last = time.time(); print('[diag] %ds raw=%d bytes; tail: %r' % (last - t0, len(raw), since(m)[-160:]), flush=True)
         txt = screen_text()
         if re.search(r'GNU GRUB|Rocky Linux \(', txt) and 'Use the' in txt: seen = True; break
         time.sleep(0.25)
@@ -81,6 +83,7 @@ def grub_edit(extra, label):
     return True
 
 print('waiting for ssh'); assert ssh_wait()
+print(ssh('grep -i grub /etc/default/grub; uptime -p; cat /proc/cmdline').stdout, flush=True)
 ssh('sudo systemctl is-system-running --wait')
 # ---------- A: rd.break, reset root password ----------
 if grub_edit('rd.break', 'A'):
