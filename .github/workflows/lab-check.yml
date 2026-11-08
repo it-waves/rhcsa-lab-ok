@@ -1,0 +1,63 @@
+name: lab-check
+on:
+  workflow_dispatch:
+jobs:
+  boot-and-check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Report runner
+        run: |
+          nproc; free -h; grep -m1 -o -E 'vmx|svm' /proc/cpuinfo || echo "no vmx/svm"; ls -l /dev/kvm || echo "no /dev/kvm"
+      - name: Enable KVM for the runner user
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm || true
+          ls -l /dev/kvm
+      - name: Install QEMU tools
+        run: sudo apt-get update && sudo apt-get install -y qemu-system-x86 qemu-utils cloud-image-utils
+      - name: Download Rocky Linux 10 GenericCloud image and verify checksum
+        run: |
+          mkdir -p lab && cd lab
+          B=https://dl.rockylinux.org/pub/rocky/10/images/x86_64
+          curl -fsSL -O $B/Rocky-10-GenericCloud-Base.latest.x86_64.qcow2
+          curl -fsSL -O $B/Rocky-10-GenericCloud-Base.latest.x86_64.qcow2.CHECKSUM
+          cat Rocky-10-GenericCloud-Base.latest.x86_64.qcow2.CHECKSUM
+          sha256sum -c Rocky-10-GenericCloud-Base.latest.x86_64.qcow2.CHECKSUM
+      - name: Create disks and cloud-init seed
+        run: |
+          cd lab
+          ssh-keygen -t ed25519 -N '' -f key -q
+          qemu-img resize Rocky-10-GenericCloud-Base.latest.x86_64.qcow2 20G
+          qemu-img create -f qcow2 extra1.qcow2 5G
+          qemu-img create -f qcow2 extra2.qcow2 5G
+          printf '#cloud-config\nhostname: node1\nusers:\n  - name: student\n    sudo: ALL=(ALL) NOPASSWD:ALL\n    shell: /bin/bash\n    ssh_authorized_keys:\n      - %s\n' "$(cat key.pub)" > user-data
+          cloud-localds seed.img user-data
+      - name: Boot VM
+        run: |
+          cd lab
+          qemu-system-x86_64 -enable-kvm -cpu host -smp 2 -m 3072 -display none -daemonize \
+            -serial file:serial.log -pidfile qemu.pid \
+            -drive file=Rocky-10-GenericCloud-Base.latest.x86_64.qcow2,if=virtio,format=qcow2 \
+            -drive file=extra1.qcow2,if=virtio,format=qcow2 -drive file=extra2.qcow2,if=virtio,format=qcow2 \
+            -drive file=seed.img,if=virtio,format=raw \
+            -netdev user,id=n0,hostfwd=tcp::2222-:22 -device virtio-net-pci,netdev=n0
+          for i in $(seq 1 90); do
+            if ssh -i key -p 2222 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5 student@127.0.0.1 true 2>/dev/null; then echo "ssh up after $((i*5))s"; break; fi
+            sleep 5
+          done
+      - name: Run lab-check inside the VM
+        run: |
+          cd lab
+          O="-i key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+          scp $O -P 2222 ../scripts/lab-check.sh student@127.0.0.1:/tmp/lab-check.sh
+          ssh $O -p 2222 student@127.0.0.1 'cd /tmp && sudo bash lab-check.sh; cat /tmp/lab-check-*.txt' | tee ../lab-check-output.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lab-check
+          path: |
+            lab-check-output.txt
+            lab/serial.log
