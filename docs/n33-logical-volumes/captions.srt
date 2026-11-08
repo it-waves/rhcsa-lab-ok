@@ -1,0 +1,179 @@
+1
+00:00:00,400 --> 00:00:04,624
+You have a pool of disk space. But nobody stores files in a pool.
+
+2
+00:00:04,644 --> 00:00:10,108
+You carve out slices of the right size, and those slices are called logical volumes.
+
+3
+00:00:10,578 --> 00:00:13,865
+In this video: create and delete logical volumes.
+
+4
+00:00:18,385 --> 00:00:20,968
+Here's the task, the way an exam would state it.
+
+5
+00:00:21,438 --> 00:00:23,722
+Create and delete logical volumes.
+
+6
+00:00:24,192 --> 00:00:28,962
+We'll start with a volume group, create two logical volumes of different sizes,
+
+7
+00:00:28,982 --> 00:00:30,721
+look at them, and delete one.
+
+8
+00:00:40,241 --> 00:00:42,882
+The top layer of LVM: logical volumes.
+
+9
+00:00:42,902 --> 00:00:47,645
+Each one is a named slice of a volume group, with a size you choose.
+
+10
+00:00:47,665 --> 00:00:50,866
+You can make as many as the pool has room for.
+
+11
+00:00:58,336 --> 00:01:01,446
+Our group, vgdata, has about ten gigabytes.
+
+12
+00:01:01,466 --> 00:01:06,759
+We will cut out lvdata, one gigabyte, and lvlogs, five hundred megabytes.
+
+13
+00:01:06,779 --> 00:01:08,215
+The rest stays free.
+
+14
+00:01:16,685 --> 00:01:20,289
+The lab already created the group from the two spare disks,
+
+15
+00:01:20,309 --> 00:01:23,790
+as in the last two videos. It has no logical volumes yet.
+
+16
+00:01:31,310 --> 00:01:37,474
+First, vgs. The group vgdata has two physical volumes, zero logical volumes,
+
+17
+00:01:37,494 --> 00:01:43,089
+and almost ten gigabytes free. Then lvs, which lists logical volumes.
+
+18
+00:01:43,109 --> 00:01:44,879
+It prints nothing yet.
+
+19
+00:01:55,399 --> 00:01:58,869
+Now lvcreate. Dash n gives the name, lvdata.
+
+20
+00:01:58,889 --> 00:02:05,373
+Dash capital L gives the size, one gigabyte. Last comes the volume group. It says:
+
+21
+00:02:05,393 --> 00:02:07,198
+logical volume created.
+
+22
+00:02:14,668 --> 00:02:18,823
+lvs lists it: the name, the group, and the size, one gigabyte.
+
+23
+00:02:18,843 --> 00:02:23,672
+The long Attr column is a row of flags; the letter a means it is active.
+
+24
+00:02:34,192 --> 00:02:36,308
+A second one, the same way:
+
+25
+00:02:36,328 --> 00:02:42,321
+dash n lvlogs, dash capital L, five hundred M, in vgdata. M means megabytes.
+
+26
+00:02:48,791 --> 00:02:51,907
+lvs now lists both volumes, with their sizes.
+
+27
+00:02:58,427 --> 00:03:02,254
+Each logical volume gets a device file under slash dev,
+
+28
+00:03:02,274 --> 00:03:04,632
+in a folder named after the group.
+
+29
+00:03:04,652 --> 00:03:09,598
+These are links to the real device names, dm dash zero and dm dash one.
+
+30
+00:03:09,618 --> 00:03:13,724
+This is the path you will format and mount in later videos.
+
+31
+00:03:22,194 --> 00:03:24,663
+And vgs now shows two logical volumes,
+
+32
+00:03:24,683 --> 00:03:27,806
+and about eight and a half gigabytes still free.
+
+33
+00:03:36,326 --> 00:03:39,762
+Our five steps: task, demo, check, reboot, and your turn.
+
+34
+00:03:41,282 --> 00:03:44,133
+We reboot. Then lvs shows both volumes again:
+
+35
+00:03:44,153 --> 00:03:47,769
+they are stored on the disks themselves, so they survive.
+
+36
+00:03:57,289 --> 00:04:02,139
+Now we delete lvlogs. lvremove, dash y, and group slash volume.
+
+37
+00:04:02,159 --> 00:04:08,554
+Dash y answers yes to the confirmation. Be careful: the data in the volume is gone.
+
+38
+00:04:17,024 --> 00:04:18,843
+lvs shows only lvdata.
+
+39
+00:04:18,863 --> 00:04:24,023
+And vgs shows one logical volume, and the space is free again.
+
+40
+00:04:33,543 --> 00:04:39,622
+Your turn. A group called examvg already exists, with an old volume called oldlv.
+
+41
+00:04:39,642 --> 00:04:44,969
+Create a volume called examlv of three hundred megabytes. Delete oldlv.
+
+42
+00:04:44,989 --> 00:04:46,174
+Run the checker.
+
+43
+00:04:52,644 --> 00:04:54,394
+Try before you open the solution.
+
+44
+00:04:59,914 --> 00:05:03,926
+Next up: mount file systems at boot by UUID or label.
+
+45
+00:05:04,396 --> 00:05:07,299
+Subscribe to follow the series, and let's keep going.
