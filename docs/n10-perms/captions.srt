@@ -8,7 +8,7 @@ Get permissions wrong, and nothing works, or worse, everything is open to everyo
 
 3
 00:00:10,173 --> 00:00:15,849
-In this video: list, set, and change standard u g o slash r w x permissions.
+In this video: list, set, and change standard ugo/rwx permissions.
 
 4
 00:00:20,369 --> 00:00:22,952
@@ -196,7 +196,7 @@ Next up: Locate, read, and use system documentation, including man, info,
 
 50
 00:05:07,061 --> 00:05:10,279
-and files in slash usr slash share slash doc.
+and files in /usr/share/doc.
 
 51
 00:05:10,749 --> 00:05:13,651

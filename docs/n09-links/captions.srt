@@ -216,7 +216,7 @@ Run the checker, and try before you open the solution.
 
 55
 00:05:38,136 --> 00:05:43,513
-Next up: List, set, and change standard u g o slash r w x permissions.
+Next up: List, set, and change standard ugo/rwx permissions.
 
 56
 00:05:43,983 --> 00:05:46,886
