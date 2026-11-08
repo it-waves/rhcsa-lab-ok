@@ -1,12 +1,16 @@
 . /tmp/lab/lib.sh
-step "Task: confirm the lab, then make two changes that must survive a reboot"
+step "Check 1: the system and its resources"
 run 'cat /etc/redhat-release'
-run 'uname -r'
-run 'lsblk -o NAME,SIZE,TYPE,MOUNTPOINTS'
+run 'nproc'
+run 'free -h'
+run '/lib64/ld-linux-x86-64.so.2 --help | grep supported'
+step "Check 2: the two extra practice disks"
+run 'lsblk -o NAME,SIZE,TYPE,MOUNTPOINTS | grep -E "^(NAME|vd[a-c])"'
+step "Check 3: security and services"
 run 'getenforce'
-step "Demo: set a persistent hostname and create a user"
+run 'systemctl is-active chronyd sshd'
+step "Persistence test: make two changes"
 srun 'hostnamectl set-hostname node1.lab.example'
 srun 'useradd -m -s /bin/bash labuser'
-step "Check before reboot"
 run 'hostnamectl --static'
 run 'id labuser'
