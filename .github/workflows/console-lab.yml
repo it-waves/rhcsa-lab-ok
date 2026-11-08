@@ -1,0 +1,47 @@
+name: console-lab
+on:
+  workflow_dispatch:
+jobs:
+  console:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enable KVM for the runner user
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm || true
+      - name: Install QEMU tools and pyte
+        run: |
+          sudo apt-get update && sudo apt-get install -y qemu-system-x86 qemu-utils cloud-image-utils
+          pip install pyte
+      - name: Download Rocky Linux 10 GenericCloud image and verify checksum
+        run: |
+          mkdir -p lab && cd lab
+          B=https://dl.rockylinux.org/pub/rocky/10/images/x86_64
+          curl -fsSL -O $B/Rocky-10-GenericCloud-Base.latest.x86_64.qcow2
+          curl -fsSL -O $B/Rocky-10-GenericCloud-Base.latest.x86_64.qcow2.CHECKSUM
+          sha256sum -c Rocky-10-GenericCloud-Base.latest.x86_64.qcow2.CHECKSUM
+      - name: Create disks and cloud-init seed
+        run: |
+          cd lab
+          ssh-keygen -t ed25519 -N '' -f key -q
+          qemu-img resize Rocky-10-GenericCloud-Base.latest.x86_64.qcow2 20G
+          printf '#cloud-config\nhostname: node1\nmanage_etc_hosts: localhost\nusers:\n  - name: student\n    sudo: ALL=(ALL) NOPASSWD:ALL\n    shell: /bin/bash\n    ssh_authorized_keys:\n      - %s\n' "$(cat key.pub)" > user-data
+          cloud-localds seed.img user-data
+      - name: Boot VM with a serial socket
+        run: |
+          cd lab
+          qemu-system-x86_64 -enable-kvm -cpu host -smp 2 -m 3072 -display none -daemonize \
+            -serial unix:/tmp/ser.sock,server=on,wait=off -pidfile qemu.pid \
+            -drive file=Rocky-10-GenericCloud-Base.latest.x86_64.qcow2,if=virtio,format=qcow2 \
+            -drive file=seed.img,if=virtio,format=raw \
+            -netdev user,id=n0,hostfwd=tcp::2222-:22 -device virtio-net-pci,netdev=n0
+      - name: Drive the console
+        run: python3 -u scripts/console-lab.py 2>&1 | tee console-out.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: console-out
+          path: console-out.txt
