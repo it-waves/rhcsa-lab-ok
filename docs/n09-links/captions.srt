@@ -1,0 +1,223 @@
+1
+00:00:00,400 --> 00:00:04,877
+Sometimes one file needs two names, or has to appear in two places at once.
+
+2
+00:00:04,897 --> 00:00:10,513
+Links do that, and there are two kinds that behave very differently when something goes wrong.
+
+3
+00:00:10,983 --> 00:00:13,438
+In this video: create hard and soft links.
+
+4
+00:00:17,458 --> 00:00:20,041
+Here's the task, the way an exam would state it.
+
+5
+00:00:20,511 --> 00:00:22,091
+Create hard and soft links.
+
+6
+00:00:22,561 --> 00:00:26,460
+We'll make one file, give it a hard link and a soft link, change it,
+
+7
+00:00:26,480 --> 00:00:29,687
+and then delete the original to see which link survives.
+
+8
+00:00:37,207 --> 00:00:41,749
+One idea first. A file has two parts: a name, and the data on disk.
+
+9
+00:00:41,769 --> 00:00:45,358
+Linux keeps the data under a number called the inode.
+
+10
+00:00:51,828 --> 00:00:56,522
+A hard link is a second name for the same data. A soft link is different.
+
+11
+00:00:56,542 --> 00:01:01,237
+It is a tiny file that stores a path, like a signpost pointing at a name.
+
+12
+00:01:11,757 --> 00:01:16,618
+First, a folder and a file to link to. mkdir makes the folder links.
+
+13
+00:01:16,638 --> 00:01:22,361
+echo with the greater-than sign writes original data into report.txt, as before.
+
+14
+00:01:28,831 --> 00:01:31,463
+ls -l shows one file, fourteen bytes.
+
+15
+00:01:31,483 --> 00:01:36,982
+The number after the permissions is the link count. It is 1: one name so far.
+
+16
+00:01:41,502 --> 00:01:45,405
+ln, short for link, makes a link. The pattern is like cp:
+
+17
+00:01:45,425 --> 00:01:50,911
+the existing file first, then the new name. With no option, you get a hard link.
+
+18
+00:01:50,931 --> 00:01:54,559
+report-hard.txt becomes a second name for report.txt.
+
+19
+00:01:59,029 --> 00:02:04,157
+ls -li. The -i option adds the inode number at the start of each line.
+
+20
+00:02:04,177 --> 00:02:10,188
+Both names show the same inode, and the link count is now 2. Same data, two names.
+
+21
+00:02:16,658 --> 00:02:18,857
+cat on the hard link prints the same text.
+
+22
+00:02:22,877 --> 00:02:28,236
+ln -s makes a soft link, also called a symbolic link. The order is the same:
+
+23
+00:02:28,256 --> 00:02:30,572
+target first, then the link name.
+
+24
+00:02:30,592 --> 00:02:36,446
+The target is written relative to the folder the link lives in, so just report.txt.
+
+25
+00:02:40,916 --> 00:02:46,388
+ls -li again. The soft link has its own inode, and a type letter l, for link.
+
+26
+00:02:46,408 --> 00:02:48,600
+An arrow shows where it points.
+
+27
+00:02:48,620 --> 00:02:52,023
+Its link count stays 1, and its size, ten bytes,
+
+28
+00:02:52,043 --> 00:02:55,019
+is just the length of the text report.txt.
+
+29
+00:03:01,489 --> 00:03:04,608
+cat follows the signpost and prints the data.
+
+30
+00:03:04,628 --> 00:03:08,445
+readlink prints what a soft link points to: report.txt.
+
+31
+00:03:14,965 --> 00:03:20,413
+Now we change the file through one name. echo with two greater-than signs appends:
+
+32
+00:03:20,433 --> 00:03:25,548
+it adds a line instead of replacing the file. We add more data to report.txt.
+
+33
+00:03:29,018 --> 00:03:30,640
+Both links show the new line.
+
+34
+00:03:30,660 --> 00:03:35,056
+The hard link shares the data, and the soft link follows the name to the data.
+
+35
+00:03:40,576 --> 00:03:45,420
+Now the real test. rm removes report.txt, the original name.
+
+36
+00:03:48,390 --> 00:03:51,842
+ls -li. The hard link is still here, same inode,
+
+37
+00:03:51,862 --> 00:03:54,663
+and its link count dropped from 2 to 1.
+
+38
+00:03:54,683 --> 00:03:58,930
+The data was never deleted, because one name still uses it.
+
+39
+00:04:02,400 --> 00:04:05,243
+cat on the hard link still prints both lines.
+
+40
+00:04:05,263 --> 00:04:09,187
+The soft link, though, points at a name that no longer exists,
+
+41
+00:04:09,207 --> 00:04:13,132
+and cat says no such file or directory. That is a broken link.
+
+42
+00:04:18,602 --> 00:04:22,839
+Remember: a hard link survives the original. A soft link breaks.
+
+43
+00:04:22,859 --> 00:04:26,896
+A hard link cannot cross filesystems or point to a directory,
+
+44
+00:04:26,916 --> 00:04:28,758
+but a soft link can do both.
+
+45
+00:04:33,278 --> 00:04:36,714
+Our five steps: task, demo, check, reboot, and your turn.
+
+46
+00:04:38,234 --> 00:04:40,960
+Links live on disk, so they survive a reboot.
+
+47
+00:04:40,980 --> 00:04:43,462
+We restart the lab, and it comes back up.
+
+48
+00:04:46,932 --> 00:04:48,727
+Same inodes, same link counts.
+
+49
+00:04:48,747 --> 00:04:53,263
+The hard link still has its data, and the broken soft link is still broken,
+
+50
+00:04:53,283 --> 00:04:56,469
+while the soft link we made for practice still works.
+
+51
+00:05:08,989 --> 00:05:14,191
+Your turn. In the links folder, create base.txt holding the word lab9.
+
+52
+00:05:14,211 --> 00:05:20,233
+Then make base-hard.txt, a hard link to it, and base-soft.txt, a soft link to it.
+
+53
+00:05:24,703 --> 00:05:28,016
+Check with ls -li: the hard link shares the inode.
+
+54
+00:05:28,036 --> 00:05:31,616
+Run the checker, and try before you open the solution.
+
+55
+00:05:38,136 --> 00:05:43,513
+Next up: List, set, and change standard u g o slash r w x permissions.
+
+56
+00:05:43,983 --> 00:05:46,886
+Subscribe to follow the series, and let's keep going.
