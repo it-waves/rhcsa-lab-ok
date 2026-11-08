@@ -5,4 +5,4 @@ srun 'flatpak remote-add labhub https://dl.flathub.org/repo/flathub.flatpakrepo'
 srun 'flatpak remote-modify --disable labhub'
 step "Checker"
 run 'bash /tmp/lab/check.sh'
-run 'flatpak remotes --system --columns=name,url,options'
+run 'flatpak remotes --system --show-disabled --columns=name,url,options'

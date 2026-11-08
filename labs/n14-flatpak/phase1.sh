@@ -12,6 +12,7 @@ run 'flatpak remote-ls flathub --app | head -n 5'
 step "4. Disable and enable"
 srun 'flatpak remote-modify --disable flathub'
 run 'flatpak remotes'
+run 'flatpak remotes --show-disabled'
 srun 'flatpak remote-modify --enable flathub'
 run 'flatpak remotes'
 step "5. A repository for one user"
