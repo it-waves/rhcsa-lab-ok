@@ -1,0 +1,191 @@
+1
+00:00:00,400 --> 00:00:04,433
+You need to get a file to another server. Email is not an option.
+
+2
+00:00:04,453 --> 00:00:09,297
+The safe way is built into every Linux system, and it takes one short command.
+
+3
+00:00:09,767 --> 00:00:13,246
+In this video: securely transfer files between systems.
+
+4
+00:00:17,766 --> 00:00:20,349
+Here's the task, the way an exam would state it.
+
+5
+00:00:20,819 --> 00:00:23,295
+Securely transfer files between systems.
+
+6
+00:00:23,765 --> 00:00:29,102
+We'll copy a file with scp, copy a folder, synchronize it with rsync,
+
+7
+00:00:29,122 --> 00:00:30,422
+and look at sftp.
+
+8
+00:00:39,942 --> 00:00:44,562
+All three tools, scp, rsync and sftp, use ssh underneath.
+
+9
+00:00:44,582 --> 00:00:50,994
+So everything is encrypted on the way, and you log in the same way as with ssh.
+
+10
+00:00:59,464 --> 00:01:02,839
+The pattern is always: tool, source, destination.
+
+11
+00:01:02,859 --> 00:01:06,996
+A file on another system is written user at host colon path.
+
+12
+00:01:17,466 --> 00:01:20,498
+One honest note: our lab has a single machine.
+
+13
+00:01:20,518 --> 00:01:24,279
+So localhost, the machine itself, plays the other system.
+
+14
+00:01:24,299 --> 00:01:29,521
+The ssh connection and the commands are exactly the same as with a real server.
+
+15
+00:01:35,041 --> 00:01:37,134
+First we create a small file.
+
+16
+00:01:37,154 --> 00:01:43,036
+echo writes the text, and the greater-than sign sends it into the file report dot
+
+17
+00:01:43,056 --> 00:01:46,242
+txt. ls dash l confirms it: seventeen bytes.
+
+18
+00:01:55,762 --> 00:01:59,424
+Now scp. Source: report dot txt. Destination:
+
+19
+00:01:59,444 --> 00:02:04,087
+student at localhost, colon, slash tmp slash. That means:
+
+20
+00:02:04,107 --> 00:02:10,959
+put it in the folder slash tmp of the other system. It prints nothing when it works.
+
+21
+00:02:10,979 --> 00:02:13,086
+ls shows the file arrived.
+
+22
+00:02:27,556 --> 00:02:32,918
+To fetch a file, swap the order: the remote file first, a local name second.
+
+23
+00:02:32,938 --> 00:02:37,733
+Then cmp compares the two files. No output means they are identical.
+
+24
+00:02:51,253 --> 00:02:55,387
+Now a folder. We make the folder project, with two small files in it.
+
+25
+00:02:55,407 --> 00:02:56,652
+One command per line.
+
+26
+00:03:03,122 --> 00:03:08,273
+scp dash r copies a folder with everything inside, r for recursive.
+
+27
+00:03:08,293 --> 00:03:14,371
+And ssh can run one command on the other system: here, ls on the copied folder.
+
+28
+00:03:14,391 --> 00:03:15,838
+Both files arrived.
+
+29
+00:03:31,358 --> 00:03:37,421
+scp copies everything every time. rsync is smarter: it only sends what changed.
+
+30
+00:03:37,441 --> 00:03:39,807
+First, is rsync installed? Yes.
+
+31
+00:03:44,277 --> 00:03:45,267
+rsync dash a v:
+
+32
+00:03:45,287 --> 00:03:50,652
+a is archive mode, which keeps folders, permissions and times, and v is verbose,
+
+33
+00:03:50,672 --> 00:03:54,421
+so it lists what it sends. Note the slash after project:
+
+34
+00:03:54,441 --> 00:03:58,999
+it means the contents of the folder. The first run sends both files.
+
+35
+00:04:16,519 --> 00:04:22,585
+Now we add a third file, and run the same rsync again. Look: only c dot txt is sent.
+
+36
+00:04:22,605 --> 00:04:28,019
+The other two are already there. That is why rsync is the tool for backups.
+
+37
+00:04:43,539 --> 00:04:47,601
+The third tool is sftp, an interactive file transfer session.
+
+38
+00:04:47,621 --> 00:04:51,549
+Here we feed it one command through a pipe: ls on our file.
+
+39
+00:04:51,569 --> 00:04:55,764
+In a normal session you type get to download and put to upload.
+
+40
+00:05:09,284 --> 00:05:12,720
+Our five steps: task, demo, check, reboot, and your turn.
+
+41
+00:05:14,240 --> 00:05:17,741
+We reboot, and the copy in our home folder is still there.
+
+42
+00:05:17,761 --> 00:05:21,687
+The files we transferred are ordinary files, kept like any other.
+
+43
+00:05:31,207 --> 00:05:38,169
+Your turn. With scp, copy exam dot txt to slash tmp slash exam dash copy dot txt.
+
+44
+00:05:38,189 --> 00:05:44,374
+With rsync, back up the folder docs to slash tmp slash docs dash backup.
+
+45
+00:05:44,394 --> 00:05:46,184
+Then run the checker.
+
+46
+00:05:52,654 --> 00:05:54,405
+Try before you open the solution.
+
+47
+00:05:59,925 --> 00:06:04,150
+Next up: list, create, and delete partitions on GPT disks.
+
+48
+00:06:04,620 --> 00:06:07,523
+Subscribe to follow the series, and let's keep going.
