@@ -28,7 +28,6 @@ step "5. Extended expressions: -E"
 run "grep -E 'ERROR|WARNING' server.log"
 run "grep -E '[0-9]+ percent' server.log"
 step "6. Search many files, and use a pipe"
-run 'grep -r sshd /etc/pam.d'
 run 'grep -r PermitRootLogin /etc/ssh'
 run 'sudo grep -r PermitRootLogin /etc/ssh'
 run 'ls /etc | grep ssh'
