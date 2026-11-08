@@ -1,0 +1,203 @@
+1
+00:00:00,400 --> 00:00:05,182
+You mount a disk by hand, everything works, and then you reboot. The mount is gone.
+
+2
+00:00:05,202 --> 00:00:07,901
+To make it permanent, you write it into a file.
+
+3
+00:00:07,921 --> 00:00:10,620
+And how you name the disk in that file matters.
+
+4
+00:00:11,090 --> 00:00:15,230
+In this video: mount file systems at boot, by UUID or label.
+
+5
+00:00:19,750 --> 00:00:22,333
+Here's the task, the way an exam would state it.
+
+6
+00:00:22,803 --> 00:00:28,607
+Configure systems to mount file systems at boot by universally unique ID, or label.
+
+7
+00:00:29,077 --> 00:00:32,535
+We'll find the label and the UUID of two volumes,
+
+8
+00:00:32,555 --> 00:00:37,291
+mount one by label and one by UUID, and prove it survives a reboot.
+
+9
+00:00:46,811 --> 00:00:52,612
+Linux reads the file slash etc slash fstab at boot to know what to mount, and where.
+
+10
+00:00:52,632 --> 00:00:56,562
+Each line names a disk, a folder, and a file system type.
+
+11
+00:01:04,032 --> 00:01:08,991
+You could name the disk by its device name, like slash dev slash vdb.
+
+12
+00:01:09,011 --> 00:01:12,888
+But device names can change from one boot to the next.
+
+13
+00:01:12,908 --> 00:01:18,156
+A label or a UUID belongs to the file system itself, so it never changes.
+
+14
+00:01:26,626 --> 00:01:29,912
+A label is a short name that a person chooses.
+
+15
+00:01:29,932 --> 00:01:34,870
+A UUID is a long unique number, made when the file system is created.
+
+16
+00:01:34,890 --> 00:01:36,739
+Both are fine on the exam.
+
+17
+00:01:44,209 --> 00:01:49,524
+The lab already created two logical volumes and put an ext4 file system on each.
+
+18
+00:01:49,544 --> 00:01:53,192
+You will learn to create file systems in a later video.
+
+19
+00:02:00,712 --> 00:02:06,298
+First, findmnt and a folder. It prints nothing: nothing is mounted there.
+
+20
+00:02:06,318 --> 00:02:09,678
+Then blkid, with sudo, and the first volume.
+
+21
+00:02:09,698 --> 00:02:14,439
+It prints the device, its LABEL, its UUID, and its TYPE, ext4.
+
+22
+00:02:14,459 --> 00:02:16,820
+This one has the label appdata.
+
+23
+00:02:24,290 --> 00:02:30,030
+The second volume has a UUID, but no label. So we will mount it by UUID.
+
+24
+00:02:36,550 --> 00:02:40,168
+First the folder where it will be mounted, with mkdir.
+
+25
+00:02:40,188 --> 00:02:42,796
+Then we add one line to the fstab file.
+
+26
+00:02:42,816 --> 00:02:46,838
+Echo prints the line, and tee dash a appends it to the file.
+
+27
+00:02:46,858 --> 00:02:49,735
+The pipe sends the output of echo into tee.
+
+28
+00:02:56,205 --> 00:03:01,825
+The line says: this label, this folder, ext4, default options, and two zeros.
+
+29
+00:03:01,845 --> 00:03:06,074
+Then daemon-reload tells systemd to read the changed file.
+
+30
+00:03:06,094 --> 00:03:11,055
+And mount dash a mounts everything in fstab that is not mounted yet.
+
+31
+00:03:18,525 --> 00:03:22,532
+findmnt now shows the folder, mounted from the logical volume.
+
+32
+00:03:22,552 --> 00:03:25,779
+If mount dash a prints no error, the line is good.
+
+33
+00:03:33,299 --> 00:03:36,828
+Now the same with the UUID. The folder first.
+
+34
+00:03:36,848 --> 00:03:43,058
+Then the line starts with UUID, an equals sign, and the long number from blkid.
+
+35
+00:03:43,078 --> 00:03:45,503
+Same folder, type, and options.
+
+36
+00:03:51,973 --> 00:03:57,670
+Again daemon-reload and mount dash a. And findmnt shows the second volume mounted.
+
+37
+00:04:05,190 --> 00:04:08,460
+Here are our two lines in fstab. Six fields:
+
+38
+00:04:08,480 --> 00:04:14,143
+the device, by LABEL or UUID, the folder, the file system type, the options,
+
+39
+00:04:14,163 --> 00:04:19,975
+and two numbers for old backup and file system check tools. Zero zero is fine.
+
+40
+00:04:33,495 --> 00:04:37,733
+A warning. A wrong line in fstab can stop the system from booting.
+
+41
+00:04:37,753 --> 00:04:41,280
+So never reboot before testing: run mount dash a first.
+
+42
+00:04:41,300 --> 00:04:44,312
+If it prints an error, fix the line right away.
+
+43
+00:04:53,832 --> 00:04:57,268
+Our five steps: task, demo, check, reboot, and your turn.
+
+44
+00:04:58,788 --> 00:05:04,645
+We reboot. Then findmnt shows both folders mounted again, by label and by UUID,
+
+45
+00:05:04,665 --> 00:05:07,472
+without anyone typing a mount command.
+
+46
+00:05:16,992 --> 00:05:20,922
+Your turn. A volume with the label examlabel is ready.
+
+47
+00:05:20,942 --> 00:05:27,066
+Create the folder slash mnt slash exam. Add a line to fstab that mounts it by label.
+
+48
+00:05:27,086 --> 00:05:29,260
+Mount it, and run the checker.
+
+49
+00:05:35,730 --> 00:05:37,481
+Try before you open the solution.
+
+50
+00:05:43,001 --> 00:05:47,738
+Next up: add partitions, logical volumes and swap non-destructively.
+
+51
+00:05:48,208 --> 00:05:51,111
+Subscribe to follow the series, and let's keep going.
