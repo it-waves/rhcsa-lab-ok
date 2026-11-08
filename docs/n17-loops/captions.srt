@@ -1,0 +1,179 @@
+1
+00:00:00,400 --> 00:00:03,492
+A script that does one thing once is just a command.
+
+2
+00:00:03,512 --> 00:00:07,441
+A loop lets it do the same thing for a hundred files, in a second.
+
+3
+00:00:07,911 --> 00:00:08,747
+In this video:
+
+4
+00:00:08,767 --> 00:00:13,267
+use looping constructs, like for, to process files and command line input.
+
+5
+00:00:17,787 --> 00:00:20,370
+Here's the task, the way an exam would state it.
+
+6
+00:00:20,840 --> 00:00:25,236
+Use Looping constructs (for, etc.) to process file, command line input.
+
+7
+00:00:25,706 --> 00:00:29,312
+We'll loop over a list, count with a range, loop over files,
+
+8
+00:00:29,332 --> 00:00:33,664
+loop over the arguments given to a script, and read a file line by line.
+
+9
+00:00:43,184 --> 00:00:46,953
+A loop repeats commands. The for loop takes a list of items.
+
+10
+00:00:46,973 --> 00:00:49,984
+For each item, it puts the item into a variable,
+
+11
+00:00:50,004 --> 00:00:52,636
+and runs the commands between do and done.
+
+12
+00:00:59,106 --> 00:01:03,473
+The while loop is different: it keeps going as long as a command succeeds.
+
+13
+00:01:03,493 --> 00:01:06,318
+We'll use it to read a file, one line at a time.
+
+14
+00:01:13,838 --> 00:01:17,138
+Our first loop. for fruit in apple banana cherry.
+
+15
+00:01:17,158 --> 00:01:22,286
+The variable fruit takes each word in turn. Between do and done, we echo it.
+
+16
+00:01:22,306 --> 00:01:25,741
+A dollar sign in front of the name gives its value.
+
+17
+00:01:25,761 --> 00:01:31,567
+The lab created this file; and we make it executable with the same chmod +x as before.
+
+18
+00:01:36,037 --> 00:01:39,260
+It runs the loop three times: one line for each fruit.
+
+19
+00:01:44,780 --> 00:01:49,701
+Counting. Curly braces with two dots expand to every number in between:
+
+20
+00:01:49,721 --> 00:01:53,738
+1 to 5. echo shows the expansion; the shell does the work.
+
+21
+00:01:53,758 --> 00:01:56,173
+The same range works in a for loop.
+
+22
+00:02:00,643 --> 00:02:03,013
+The loop prints Number 1 through Number 5.
+
+23
+00:02:08,533 --> 00:02:14,750
+Looping over files. *.txt is a wildcard: every file whose name ends in .txt.
+
+24
+00:02:14,770 --> 00:02:20,822
+ls shows three of them. The loop puts each file name in the variable file.
+
+25
+00:02:26,342 --> 00:02:30,240
+It runs once per file. wc -l counts the lines in a file:
+
+26
+00:02:30,260 --> 00:02:33,108
+it prints the number, then the file name.
+
+27
+00:02:33,128 --> 00:02:37,586
+The quotes around the variable keep file names with spaces safe.
+
+28
+00:02:43,106 --> 00:02:49,205
+Command line input. Inside a script, "$@" means: every argument given to the script.
+
+29
+00:02:49,225 --> 00:02:52,046
+The loop goes through them, one by one.
+
+30
+00:02:55,516 --> 00:02:57,975
+We run it with three names: three greetings.
+
+31
+00:02:57,995 --> 00:03:01,469
+With no names, the loop has nothing to do, and prints nothing.
+
+32
+00:03:07,989 --> 00:03:11,175
+To process a file line by line, use while read.
+
+33
+00:03:11,195 --> 00:03:16,904
+read -r takes one line into the variable line; the -r keeps backslashes as they are.
+
+34
+00:03:16,924 --> 00:03:22,497
+The less-than sign feeds the file into the loop. The loop ends when the file does.
+
+35
+00:03:26,967 --> 00:03:31,150
+colors.txt has three lines, and the loop reads three lines.
+
+36
+00:03:36,670 --> 00:03:40,106
+Our five steps: task, demo, check, reboot, and your turn.
+
+37
+00:03:41,626 --> 00:03:44,684
+Scripts are files on disk, so they survive a reboot.
+
+38
+00:03:44,704 --> 00:03:47,110
+We restart the lab, and it comes back up.
+
+39
+00:03:50,580 --> 00:03:54,699
+After a fresh boot, ./loop1.sh runs the same way.
+
+40
+00:04:02,219 --> 00:04:04,916
+Your turn. Make a folder called lab17.
+
+41
+00:04:04,936 --> 00:04:10,922
+In it, create an executable script, hello.sh, that greets every argument with Hello,
+
+42
+00:04:10,942 --> 00:04:15,212
+a comma, and the name. With no arguments, it prints nothing.
+
+43
+00:04:21,682 --> 00:04:24,500
+Run the checker, and try before you open the solution.
+
+44
+00:04:30,020 --> 00:04:33,797
+Next up: process script inputs, like $1 and $2.
+
+45
+00:04:34,267 --> 00:04:37,170
+Subscribe to follow the series, and let's keep going.
