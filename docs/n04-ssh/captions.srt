@@ -1,0 +1,227 @@
+1
+00:00:00,400 --> 00:00:03,372
+Servers live in data centers, not on your desk.
+
+2
+00:00:03,392 --> 00:00:08,273
+To manage one, you reach it over the network, and the tool for that is S S H.
+
+3
+00:00:08,743 --> 00:00:12,307
+In this video: access remote systems using S S H.
+
+4
+00:00:16,327 --> 00:00:18,910
+Here's the task, the way an exam would state it.
+
+5
+00:00:19,380 --> 00:00:22,026
+Access remote systems using S S H.
+
+6
+00:00:22,496 --> 00:00:26,224
+We'll log in, run commands on another machine, copy files to it,
+
+7
+00:00:26,244 --> 00:00:28,215
+and read the errors when it fails.
+
+8
+00:00:35,735 --> 00:00:37,561
+S S H stands for secure shell.
+
+9
+00:00:37,581 --> 00:00:41,684
+It gives you a shell, or runs a single command, on another machine,
+
+10
+00:00:41,704 --> 00:00:43,715
+and everything travels encrypted.
+
+11
+00:00:47,185 --> 00:00:49,109
+The shape is always the same.
+
+12
+00:00:49,129 --> 00:00:52,864
+The word S S H, then the user you log in as, an at sign,
+
+13
+00:00:52,884 --> 00:00:55,144
+and the machine's name or address.
+
+14
+00:00:58,614 --> 00:01:01,259
+After that you can add a command to run there.
+
+15
+00:01:01,279 --> 00:01:03,692
+Without one, you get an interactive login.
+
+16
+00:01:11,212 --> 00:01:12,570
+A note about this lab.
+
+17
+00:01:12,590 --> 00:01:17,831
+We only have one machine, so we connect to localhost, which means this very machine.
+
+18
+00:01:17,851 --> 00:01:22,904
+For a real server you just use its name or address instead. Nothing else changes.
+
+19
+00:01:25,874 --> 00:01:28,946
+Also, the first time you connect to a new machine,
+
+20
+00:01:28,966 --> 00:01:33,523
+S S H asks you to confirm its fingerprint, and then asks for the password.
+
+21
+00:01:33,543 --> 00:01:36,739
+This video is recorded by a script with no keyboard,
+
+22
+00:01:36,759 --> 00:01:40,388
+so the lab sets up a key and trusts the machine in advance.
+
+23
+00:01:40,408 --> 00:01:44,222
+The kit lists those steps, and keys get their own video later.
+
+24
+00:01:48,242 --> 00:01:53,588
+Here is the full form. S S H, student at localhost, then the command hostname.
+
+25
+00:01:53,608 --> 00:01:57,715
+It runs on the remote machine and prints its name: node one.
+
+26
+00:02:04,185 --> 00:02:09,989
+If you leave out the user, S S H uses the name you are logged in as right now. Same result.
+
+27
+00:02:12,959 --> 00:02:17,889
+Another command: whoami prints the user you are on the remote side. It says student.
+
+28
+00:02:21,909 --> 00:02:25,164
+Remote servers listen on a port, like a numbered door.
+
+29
+00:02:25,184 --> 00:02:29,228
+For S S H the default is twenty-two, so you normally never type it.
+
+30
+00:02:29,248 --> 00:02:33,473
+Dash p lets you choose a different one. Here we spell out the default.
+
+31
+00:02:39,993 --> 00:02:44,550
+First, we make a small file with echo and the greater-than sign from earlier.
+
+32
+00:02:44,570 --> 00:02:46,096
+It holds one line of text.
+
+33
+00:02:49,066 --> 00:02:53,086
+S C P means secure copy. It copies files over S S H.
+
+34
+00:02:53,106 --> 00:02:56,583
+The source comes first, then the destination.
+
+35
+00:02:56,603 --> 00:03:02,332
+Here the destination is localhost, colon, slash tmp slash hello dot t x t.
+
+36
+00:03:02,352 --> 00:03:04,896
+Nothing is printed when it works.
+
+37
+00:03:07,866 --> 00:03:12,924
+Let's prove it arrived. S S H runs cat on the remote side, and there's our line.
+
+38
+00:03:15,894 --> 00:03:21,013
+Copying the other way is the same command, with the remote file as the source.
+
+39
+00:03:21,033 --> 00:03:23,319
+We bring it back as copy dot t x t.
+
+40
+00:03:26,289 --> 00:03:27,933
+And cat shows the same text.
+
+41
+00:03:31,953 --> 00:03:35,857
+Now, when it fails. A machine name that doesn't exist gives:
+
+42
+00:03:35,877 --> 00:03:37,623
+could not resolve hostname.
+
+43
+00:03:37,643 --> 00:03:41,874
+That means a wrong name or a naming problem, not a login problem.
+
+44
+00:03:44,844 --> 00:03:48,083
+A user that isn't allowed in gives: permission denied.
+
+45
+00:03:48,103 --> 00:03:52,910
+The machine answered, but it refused you. Wrong user, wrong password, or no key.
+
+46
+00:03:56,930 --> 00:04:00,366
+Our five steps: task, demo, check, reboot, and your turn.
+
+47
+00:04:00,836 --> 00:04:03,596
+Files live on disk, so they survive a reboot.
+
+48
+00:04:03,616 --> 00:04:06,128
+We restart the lab, and it comes back up.
+
+49
+00:04:09,598 --> 00:04:12,894
+Uptime says zero minutes, so this really is a fresh boot.
+
+50
+00:04:12,914 --> 00:04:15,978
+The checker later confirms the files are still there.
+
+51
+00:04:21,498 --> 00:04:24,593
+Your turn. Make a directory called lab five.
+
+52
+00:04:24,613 --> 00:04:27,707
+Then use S S H to run hostname on localhost.
+
+53
+00:04:30,677 --> 00:04:34,834
+Send the result into lab five slash remote dash host dot t x t,
+
+54
+00:04:34,854 --> 00:04:36,624
+with the greater-than sign.
+
+55
+00:04:36,644 --> 00:04:40,535
+Then run the checker, and try before you open the solution.
+
+56
+00:04:48,055 --> 00:04:54,136
+Next up: Archive, compress, unpack, and uncompress files using tar, gzip, and bzip2.
+
+57
+00:04:54,606 --> 00:04:57,509
+Subscribe to follow the series, and let's keep going.
