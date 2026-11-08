@@ -1,0 +1,187 @@
+1
+00:00:00,400 --> 00:00:05,493
+Every command works with three streams: input, normal output, and error output.
+
+2
+00:00:05,513 --> 00:00:08,081
+Redirection decides where each one goes.
+
+3
+00:00:08,551 --> 00:00:09,556
+So in this video:
+
+4
+00:00:09,576 --> 00:00:14,135
+use input-output redirection, with greater-than, double greater-than, pipes,
+
+5
+00:00:14,155 --> 00:00:15,401
+and two greater-than.
+
+6
+00:00:19,421 --> 00:00:22,004
+Here's the task, the way an exam would state it.
+
+7
+00:00:22,474 --> 00:00:24,234
+Use input-output redirection:
+
+8
+00:00:24,254 --> 00:00:28,470
+greater-than, double greater-than, pipe, two greater-than, and so on.
+
+9
+00:00:28,940 --> 00:00:32,838
+We'll send output to files, append to them, chain commands together,
+
+10
+00:00:32,858 --> 00:00:35,085
+and separate errors from normal output.
+
+11
+00:00:42,605 --> 00:00:48,055
+Three streams matter. Standard input is stream zero. Standard output is stream one.
+
+12
+00:00:48,075 --> 00:00:49,966
+Standard error is stream two.
+
+13
+00:01:01,436 --> 00:01:04,056
+By default, input comes from the keyboard,
+
+14
+00:01:04,076 --> 00:01:08,456
+and both output and errors go to the screen. Redirection changes that.
+
+15
+00:01:17,976 --> 00:01:22,622
+Greater-than sends standard output to a file, and replaces whatever was there.
+
+16
+00:01:22,642 --> 00:01:26,511
+We write first line, then second line, and the first one is gone.
+
+17
+00:01:35,981 --> 00:01:38,123
+Double greater-than appends instead.
+
+18
+00:01:38,143 --> 00:01:41,187
+Now the file holds the second line, then the third.
+
+19
+00:01:49,707 --> 00:01:53,989
+A pipe connects one command's output to the next command's input.
+
+20
+00:01:54,009 --> 00:01:58,092
+Here L S lists slash etc, and head keeps the first five lines.
+
+21
+00:02:07,062 --> 00:02:09,093
+And W C dash L counts lines.
+
+22
+00:02:09,113 --> 00:02:13,634
+Slash etc has one hundred eighty-three entries on this system.
+
+23
+00:02:20,154 --> 00:02:24,120
+Now errors. L S is asked for a missing path and a real one.
+
+24
+00:02:24,140 --> 00:02:27,430
+Both messages land on the screen, mixed together.
+
+25
+00:02:35,900 --> 00:02:38,937
+Two greater-than redirects standard error.
+
+26
+00:02:38,957 --> 00:02:43,669
+Normal output goes to good dot t x t, errors go to bad dot t x t,
+
+27
+00:02:43,689 --> 00:02:45,416
+and we print both files.
+
+28
+00:02:58,936 --> 00:03:02,646
+To send both streams to one file, redirect output first,
+
+29
+00:03:02,666 --> 00:03:06,310
+then add two greater-than ampersand one. Order matters:
+
+30
+00:03:06,330 --> 00:03:08,708
+output first, then errors follow it.
+
+31
+00:03:19,178 --> 00:03:22,623
+To throw output away, send it to slash dev slash null.
+
+32
+00:03:22,643 --> 00:03:27,819
+The error is gone from the screen, but the exit status still says it failed: two.
+
+33
+00:03:38,339 --> 00:03:41,658
+Less-than feeds a file to a command's input.
+
+34
+00:03:41,678 --> 00:03:45,679
+W C dash L reads out dot t x t, and counts two lines.
+
+35
+00:03:53,149 --> 00:03:56,595
+tee writes to a file and also shows the output on screen.
+
+36
+00:03:56,615 --> 00:03:58,420
+Handy in the middle of a pipe.
+
+37
+00:04:06,940 --> 00:04:10,376
+Our five steps: task, demo, check, reboot, and your turn.
+
+38
+00:04:10,846 --> 00:04:13,606
+Files live on disk, so they survive a reboot.
+
+39
+00:04:13,626 --> 00:04:16,138
+We restart the lab, and it comes back up.
+
+40
+00:04:19,608 --> 00:04:22,904
+Uptime says zero minutes, so this really is a fresh boot.
+
+41
+00:04:22,924 --> 00:04:25,988
+The checker later confirms the files are still there.
+
+42
+00:04:31,508 --> 00:04:35,027
+Your turn. Create a directory called lab3.
+
+43
+00:04:35,047 --> 00:04:39,915
+Run L S on slash etc slash hostname and slash nonexistent,
+
+44
+00:04:39,935 --> 00:04:46,656
+so that normal output goes to ok dot t x t, and the error goes to err dot t x t.
+
+45
+00:04:49,626 --> 00:04:54,833
+Both files go in lab3. Then run the checker, and try before you open the solution.
+
+46
+00:05:00,853 --> 00:05:04,609
+Next up: Use grep and regular expressions to analyze text.
+
+47
+00:05:05,079 --> 00:05:07,982
+Subscribe to follow the series, and let's keep going.
