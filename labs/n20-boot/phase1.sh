@@ -6,4 +6,4 @@ step "2. Schedule a shutdown, then cancel it"
 run 'sudo shutdown -h +10'
 run 'sudo shutdown -c'
 step "3. Is the system healthy?"
-run 'systemctl is-system-running'
+run 'systemctl is-system-running --wait'
