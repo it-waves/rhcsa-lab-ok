@@ -4,8 +4,11 @@ step "1. Where are the log files?"
 run 'ls /var/log | head -n 12'
 run 'rpm -q rsyslog'
 run 'ls -d /var/log/journal'
+run 'ls /var/log/messages /var/log/secure'
+run 'sudo tail -n 3 /var/log/secure'
 step "2. Read the journal"
-run 'sudo journalctl -n 5 --no-pager'
+run 'sudo journalctl -u kdump -n 3 --no-pager'
+run 'sudo journalctl -k -n 3 --no-pager'
 run 'sudo journalctl -u sshd -n 4 --no-pager'
 run 'sudo journalctl -p err -b --no-pager | tail -n 4'
 step "3. Write a message and find it"
