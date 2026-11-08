@@ -98,6 +98,7 @@ def grub_edit(extra, label, downs=3):
 print('waiting for ssh'); assert ssh_wait()
 print(ssh('grep -i grub /etc/default/grub; uptime -p; cat /proc/cmdline').stdout, flush=True)
 ssh('sudo systemctl is-system-running --wait')
+print(ssh("sudo sed -i 's/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=30/' /etc/default/grub && sudo grub2-mkconfig -o /boot/grub2/grub.cfg 2>&1 | tail -2; grep GRUB_TIMEOUT /etc/default/grub").stdout, flush=True)
 # ---------- A: rd.break, reset root password ----------
 if grub_edit('rd.break', 'A'):
     m = mark(); hmp('sendkey ctrl-x')
@@ -129,17 +130,3 @@ if grub_edit('rd.break', 'A'):
     print('waiting for the relabel boot + ssh ...', flush=True)
     assert ssh_wait(60), 'VM did not come back'
     r = ssh('sudo passwd -S root; getenforce; ls -l /.autorelabel; sudo systemctl is-system-running --wait'); banner('A / after boot (ssh)'); print(r.stdout, r.stderr, flush=True)
-# ---------- B: rescue.target ----------
-if grub_edit('systemd.unit=rescue.target', 'B'):
-    m = mark(); hmp('sendkey ctrl-x')
-    ok = wait(r'(?i)password for maintenance|Press Enter for maintenance|root password', 240, m)
-    banner('B / rescue prompt'); print('\n'.join(since(m).split('\n')[-20:]), flush=True)
-    if ok:
-        m = mark(); send(PW + '\n', 0.04); wait(r'#\s*$', 30, m); time.sleep(2)
-        out = []
-        for c in ['systemctl is-active rescue.target', 'systemctl is-active multi-user.target', 'systemctl get-default', 'whoami']:
-            m = mark(); send(c + '\n', 0.04); time.sleep(2.5); out.append(since(m))
-        banner('B / rescue session transcript'); print(''.join(out), flush=True)
-        m = mark(); send('systemctl default\n', 0.04); time.sleep(5)
-    assert ssh_wait(60), 'VM did not come back after rescue'
-    r = ssh('cat /proc/cmdline; systemctl is-active multi-user.target'); banner('B / after boot (ssh)'); print(r.stdout, flush=True)
