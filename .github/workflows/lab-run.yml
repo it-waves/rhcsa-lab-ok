@@ -1,6 +1,11 @@
-name: lab-check
+name: lab-run
 on:
   workflow_dispatch:
+    inputs:
+      lab:
+        description: lab folder under labs/
+        required: true
+        default: v00-lab-setup
 jobs:
   boot-and-check:
     runs-on: ubuntu-24.04
@@ -48,16 +53,12 @@ jobs:
             if ssh -i key -p 2222 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5 student@127.0.0.1 true 2>/dev/null; then echo "ssh up after $((i*5))s"; break; fi
             sleep 5
           done
-      - name: Run lab-check inside the VM
-        run: |
-          cd lab
-          O="-i key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-          scp $O -P 2222 ../scripts/lab-check.sh student@127.0.0.1:/tmp/lab-check.sh
-          ssh $O -p 2222 student@127.0.0.1 'cd /tmp && sudo bash lab-check.sh; cat /tmp/lab-check-*.txt' | tee ../lab-check-output.txt
+      - name: Run the lab (phase 1, reboot, phase 2)
+        run: bash scripts/run-lab.sh "${{ inputs.lab }}"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: lab-check
+          name: lab-${{ inputs.lab }}
           path: |
-            lab-check-output.txt
+            out/
             lab/serial.log
