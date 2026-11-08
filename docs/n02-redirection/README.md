@@ -8,6 +8,7 @@ Companion notes for the video. Not affiliated with or endorsed by Red Hat.
 Use input-output redirection (>, >>, |, 2>, etc.)
 
 ## What the video covers
+0. One command per line, and every new command is explained (mkdir, echo, cat, head, wc, tee).
 1. The three streams: 0 standard input, 1 standard output, 2 standard error.
 2. `>` writes to a file and replaces it; `>>` appends.
 3. `|` sends the output of one command to the input of the next.

@@ -13,3 +13,14 @@
 | `cmd \| tee file` | write to file and show on screen |
 
 Stream numbers: 0 = stdin, 1 = stdout, 2 = stderr. Order matters: `> file 2>&1` works, `2>&1 > file` does not send errors to the file.
+
+## New commands used in the video
+| Command | Meaning |
+|---|---|
+| `mkdir name` | make a directory |
+| `echo "text"` | print text on the screen |
+| `cat file` | show the contents of a file |
+| `head -n 5` | show only the first 5 lines |
+| `wc -l` | count lines |
+| `tee file` | write to a file and also show on screen |
+| `uptime -p` | how long the machine has been up |

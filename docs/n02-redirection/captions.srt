@@ -55,133 +55,185 @@ By default, input comes from the keyboard,
 and both output and errors go to the screen. Redirection changes that.
 
 15
-00:01:17,976 --> 00:01:22,622
-Greater-than sends standard output to a file, and replaces whatever was there.
+00:01:17,976 --> 00:01:23,461
+We start with one small command at a time. M K D I R means make directory.
 
 16
-00:01:22,642 --> 00:01:26,511
-We write first line, then second line, and the first one is gone.
+00:01:23,481 --> 00:01:26,511
+We make a folder called redir to work in.
 
 17
-00:01:35,981 --> 00:01:38,123
-Double greater-than appends instead.
+00:01:29,481 --> 00:01:34,687
+E C H O prints text on the screen. That's all it does. Here it prints first line.
 
 18
-00:01:38,143 --> 00:01:41,187
-Now the file holds the second line, then the third.
+00:01:37,657 --> 00:01:42,804
+Now the greater-than sign. It sends the output to a file instead of the screen.
 
 19
-00:01:49,707 --> 00:01:53,989
-A pipe connects one command's output to the next command's input.
+00:01:42,824 --> 00:01:46,597
+Nothing appears, because the text went into out dot t x t.
 
 20
-00:01:54,009 --> 00:01:58,092
-Here L S lists slash etc, and head keeps the first five lines.
+00:01:49,567 --> 00:01:53,067
+C A T shows what is inside a file. There is our first line.
 
 21
-00:02:07,062 --> 00:02:09,093
-And W C dash L counts lines.
+00:01:56,037 --> 00:02:00,391
+Run it again with new text. Greater-than replaces whatever the file held.
 
 22
-00:02:09,113 --> 00:02:13,634
-Slash etc has one hundred eighty-three entries on this system.
+00:02:03,361 --> 00:02:07,458
+Only the second line is left. The first one is gone. That is overwrite.
 
 23
-00:02:20,154 --> 00:02:24,120
-Now errors. L S is asked for a missing path and a real one.
+00:02:11,478 --> 00:02:13,490
+Double greater-than appends instead.
 
 24
-00:02:24,140 --> 00:02:27,430
-Both messages land on the screen, mixed together.
+00:02:13,510 --> 00:02:17,047
+It adds to the end of the file and keeps what is already there.
 
 25
-00:02:35,900 --> 00:02:38,937
-Two greater-than redirects standard error.
+00:02:20,017 --> 00:02:22,749
+Now the file holds the second line, then the third.
 
 26
-00:02:38,957 --> 00:02:43,669
-Normal output goes to good dot t x t, errors go to bad dot t x t,
+00:02:26,769 --> 00:02:27,867
+A pipe is the vertical bar.
 
 27
-00:02:43,689 --> 00:02:45,416
-and we print both files.
+00:02:27,887 --> 00:02:31,055
+It sends the output of the command on its left into the command on its right.
 
 28
-00:02:58,936 --> 00:03:02,646
-To send both streams to one file, redirect output first,
+00:02:31,075 --> 00:02:32,422
+L S lists the files in slash etc.
 
 29
-00:03:02,666 --> 00:03:06,310
-then add two greater-than ampersand one. Order matters:
+00:02:32,442 --> 00:02:35,154
+Head shows only the first lines, and dash n five means five lines.
 
 30
-00:03:06,330 --> 00:03:08,708
-output first, then errors follow it.
+00:02:44,624 --> 00:02:48,046
+Here the right side is W C dash L. W C counts, and dash L counts lines.
 
 31
-00:03:19,178 --> 00:03:22,623
-To throw output away, send it to slash dev slash null.
+00:02:48,066 --> 00:02:51,196
+So slash etc has one hundred eighty-three entries on this system.
 
 32
-00:03:22,643 --> 00:03:27,819
-The error is gone from the screen, but the exit status still says it failed: two.
+00:02:58,716 --> 00:03:02,411
+Now errors. L S is asked for two paths: one that does not exist, and one that does.
 
 33
-00:03:38,339 --> 00:03:41,658
-Less-than feeds a file to a command's input.
+00:03:02,431 --> 00:03:05,992
+We get an error message and a normal result, both on the screen, mixed together.
 
 34
-00:03:41,678 --> 00:03:45,679
-W C dash L reads out dot t x t, and counts two lines.
+00:03:14,462 --> 00:03:16,995
+Two greater-than sends only the errors to a file.
 
 35
-00:03:53,149 --> 00:03:56,595
-tee writes to a file and also shows the output on screen.
+00:03:17,015 --> 00:03:19,705
+Greater-than good dot t x t takes the normal output.
 
 36
-00:03:56,615 --> 00:03:58,420
-Handy in the middle of a pipe.
+00:03:19,725 --> 00:03:23,978
+Two greater-than bad dot t x t takes the errors. Nothing prints on the screen now.
 
 37
-00:04:06,940 --> 00:04:10,376
-Our five steps: task, demo, check, reboot, and your turn.
+00:03:26,948 --> 00:03:29,829
+Good dot t x t holds the normal result.
 
 38
-00:04:10,846 --> 00:04:13,606
-Files live on disk, so they survive a reboot.
+00:03:32,799 --> 00:03:37,835
+And bad dot t x t holds the error message. The two streams are now separate.
 
 39
-00:04:13,626 --> 00:04:16,138
-We restart the lab, and it comes back up.
+00:03:41,855 --> 00:03:45,611
+To put both streams in one file, redirect the output first,
 
 40
-00:04:19,608 --> 00:04:22,904
-Uptime says zero minutes, so this really is a fresh boot.
+00:03:45,631 --> 00:03:49,067
+then add two greater-than, ampersand, one. That means:
 
 41
-00:04:22,924 --> 00:04:25,988
-The checker later confirms the files are still there.
+00:03:49,087 --> 00:03:51,627
+send errors to the same place as output.
 
 42
-00:04:31,508 --> 00:04:35,027
-Your turn. Create a directory called lab3.
+00:03:59,097 --> 00:04:07,738
+Both lines are in both dot t x t.
 
 43
-00:04:35,047 --> 00:04:39,915
-Run L S on slash etc slash hostname and slash nonexistent,
+00:04:10,708 --> 00:04:15,931
+To throw output away, send it to slash dev slash null. Think of it as a black hole.
 
 44
-00:04:39,935 --> 00:04:46,656
-so that normal output goes to ok dot t x t, and the error goes to err dot t x t.
+00:04:15,951 --> 00:04:18,710
+The error disappears and nothing is printed.
 
 45
-00:04:49,626 --> 00:04:54,833
-Both files go in lab3. Then run the checker, and try before you open the solution.
+00:04:22,730 --> 00:04:26,281
+Less-than feeds a file to a command as its input.
 
 46
-00:05:00,853 --> 00:05:04,609
-Next up: Use grep and regular expressions to analyze text.
+00:04:26,301 --> 00:04:30,070
+W C dash L reads out dot t x t and counts two lines.
 
 47
-00:05:05,079 --> 00:05:07,982
+00:04:35,540 --> 00:04:37,895
+Tee writes to a file and also shows the output on screen.
+
+48
+00:04:37,915 --> 00:04:40,811
+Here it saves saved and shown into tee dot t x t, and we still see it.
+
+49
+00:04:43,781 --> 00:04:46,427
+And cat confirms the file holds the same text.
+
+50
+00:04:50,447 --> 00:04:53,883
+Our five steps: task, demo, check, reboot, and your turn.
+
+51
+00:04:54,353 --> 00:04:57,113
+Files live on disk, so they survive a reboot.
+
+52
+00:04:57,133 --> 00:04:59,645
+We restart the lab, and it comes back up.
+
+53
+00:05:03,115 --> 00:05:06,411
+Uptime says zero minutes, so this really is a fresh boot.
+
+54
+00:05:06,431 --> 00:05:09,495
+The checker later confirms the files are still there.
+
+55
+00:05:15,015 --> 00:05:18,534
+Your turn. Create a directory called lab3.
+
+56
+00:05:18,554 --> 00:05:23,422
+Run L S on slash etc slash hostname and slash nonexistent,
+
+57
+00:05:23,442 --> 00:05:30,163
+so that normal output goes to ok dot t x t, and the error goes to err dot t x t.
+
+58
+00:05:33,133 --> 00:05:38,340
+Both files go in lab3. Then run the checker, and try before you open the solution.
+
+59
+00:05:44,360 --> 00:05:48,116
+Next up: Use grep and regular expressions to analyze text.
+
+60
+00:05:48,586 --> 00:05:51,489
 Subscribe to follow the series, and let's keep going.
