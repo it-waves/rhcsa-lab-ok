@@ -101,7 +101,9 @@ ssh('sudo systemctl is-system-running --wait')
 # ---------- A: rd.break, reset root password ----------
 if grub_edit('rd.break', 'A'):
     m = mark(); hmp('sendkey ctrl-x')
-    ok = wait(r'switch_root:/#', 240, m)
+    ok = wait(r'Press Enter for maintenance|switch_root:/#', 240, m)
+    if ok and not re.search(r'switch_root:/#', since(m)):
+        time.sleep(1); shot('A_4_emergency_prompt'); send('\n', 0.04); ok = wait(r'switch_root:/#', 40, m); time.sleep(1); shot('A_5_shell')
     banner('A / after Ctrl-X: kernel and initramfs output (tail)'); print('\n'.join(since(m).split('\n')[-25:]), flush=True)
     if ok:
         m = mark()
@@ -125,7 +127,7 @@ if grub_edit('rd.break', 'A'):
         print(''.join(out), flush=True)
         send('exit\n', 0.04)
     print('waiting for the relabel boot + ssh ...', flush=True)
-    assert ssh_wait(240), 'VM did not come back'
+    assert ssh_wait(60), 'VM did not come back'
     r = ssh('sudo passwd -S root; getenforce; ls -l /.autorelabel; sudo systemctl is-system-running --wait'); banner('A / after boot (ssh)'); print(r.stdout, r.stderr, flush=True)
 # ---------- B: rescue.target ----------
 if grub_edit('systemd.unit=rescue.target', 'B'):
@@ -139,5 +141,5 @@ if grub_edit('systemd.unit=rescue.target', 'B'):
             m = mark(); send(c + '\n', 0.04); time.sleep(2.5); out.append(since(m))
         banner('B / rescue session transcript'); print(''.join(out), flush=True)
         m = mark(); send('systemctl default\n', 0.04); time.sleep(5)
-    assert ssh_wait(240), 'VM did not come back after rescue'
+    assert ssh_wait(60), 'VM did not come back after rescue'
     r = ssh('cat /proc/cmdline; systemctl is-active multi-user.target'); banner('B / after boot (ssh)'); print(r.stdout, flush=True)

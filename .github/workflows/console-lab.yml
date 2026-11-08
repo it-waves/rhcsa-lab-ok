@@ -4,7 +4,9 @@ on:
 jobs:
   console:
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 25
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - name: Enable KVM for the runner user
@@ -47,3 +49,10 @@ jobs:
           path: |
             console-out.txt
             shots/
+      - name: Publish screenshots to a branch
+        if: always()
+        run: |
+          mkdir -p /tmp/pub && cp -r shots /tmp/pub/ && cp console-out.txt /tmp/pub/
+          cd /tmp/pub && git init -q && git config user.email a@b.c && git config user.name bot
+          git add . && git commit -qm shots
+          git push -q -f https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git HEAD:refs/heads/console-shots
