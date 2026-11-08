@@ -68,7 +68,7 @@ Read is 4, write is 2, execute is 1. Add them up per group.
 
 18
 00:01:40,652 --> 00:01:46,762
-r w dash is 4 plus 2, which is 6. r dash dash is 4. So this file is 6, 4, 4.
+rw- is 4 plus 2, which is 6. r-- is 4. So this file is 6, 4, 4.
 
 19
 00:01:53,282 --> 00:01:55,091
@@ -100,7 +100,7 @@ With numbers, you set all three groups at once. 640 means user 6, group 4, other
 
 26
 00:02:36,327 --> 00:02:40,894
-r w dash, r dash dash, and nothing. The listing confirms it.
+rw-, r--, and nothing. The listing confirms it.
 
 27
 00:02:45,364 --> 00:02:49,262
@@ -112,7 +112,7 @@ the user gets everything, group and others get read and execute.
 
 29
 00:02:54,506 --> 00:02:56,608
-r w x, r dash x, r dash x.
+rwx, r-x, r-x.
 
 30
 00:03:02,128 --> 00:03:06,760
