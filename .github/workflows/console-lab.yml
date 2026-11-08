@@ -14,8 +14,8 @@ jobs:
           sudo udevadm trigger --name-match=kvm || true
       - name: Install QEMU tools and pyte
         run: |
-          sudo apt-get update && sudo apt-get install -y qemu-system-x86 qemu-utils cloud-image-utils
-          pip install pyte
+          sudo apt-get update && sudo apt-get install -y qemu-system-x86 qemu-utils cloud-image-utils tesseract-ocr
+          pip install pyte pillow
       - name: Download Rocky Linux 10 GenericCloud image and verify checksum
         run: |
           mkdir -p lab && cd lab
@@ -34,7 +34,7 @@ jobs:
         run: |
           cd lab
           qemu-system-x86_64 -enable-kvm -cpu host -smp 2 -m 3072 -display none -daemonize \
-            -serial unix:/tmp/ser.sock,server=on,wait=off -pidfile qemu.pid \
+            -serial unix:/tmp/ser.sock,server=on,wait=off -monitor unix:/tmp/mon.sock,server=on,wait=off -vga std -pidfile qemu.pid \
             -drive file=Rocky-10-GenericCloud-Base.latest.x86_64.qcow2,if=virtio,format=qcow2 \
             -drive file=seed.img,if=virtio,format=raw \
             -netdev user,id=n0,hostfwd=tcp::2222-:22 -device virtio-net-pci,netdev=n0
@@ -44,4 +44,6 @@ jobs:
         if: always()
         with:
           name: console-out
-          path: console-out.txt
+          path: |
+            console-out.txt
+            shots/

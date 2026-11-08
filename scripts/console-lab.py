@@ -53,33 +53,46 @@ def ssh_wait(n=180):
         time.sleep(5)
     return False
 
-def grub_edit(extra, label):
-    """reboot, catch the GRUB menu, edit the entry, append `extra`, boot."""
-    m = mark()
+import os
+from PIL import Image
+os.makedirs('shots', exist_ok=True)
+mon = socket.socket(socket.AF_UNIX); mon.connect('/tmp/mon.sock'); mon.settimeout(2)
+def hmp(c):
+    mon.send((c + '\n').encode()); time.sleep(0.25)
+    try: return mon.recv(65536).decode('utf-8', 'replace')
+    except Exception: return ''
+hmp('')
+KEY = {' ': 'spc', '.': 'dot', '=': 'equal', '-': 'minus', '/': 'slash', '_': 'shift-minus'}
+def keys(text, delay=0.12):
+    for ch in text: hmp('sendkey ' + KEY.get(ch, ch)); time.sleep(delay)
+def shot(name):
+    ppm = '/tmp/%s.ppm' % name
+    hmp('screendump ' + ppm); time.sleep(0.6)
+    try:
+        im = Image.open(ppm).convert('RGB'); im.save('shots/%s.png' % name)
+    except Exception as e:
+        print('!! screendump failed', e); return ''
+    r = subprocess.run(['tesseract', 'shots/%s.png' % name, '-', '--psm', '6'], capture_output=True, text=True)
+    return r.stdout
+def grub_edit(extra, label, downs=3):
+    """reboot, catch the GRUB menu (screendump + OCR), edit the entry, append `extra`."""
     subprocess.Popen(SSH + ['sudo systemctl reboot'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    end = time.time() + 150; seen = False; t0 = time.time(); last = 0
+    end = time.time() + 120; seen = False; n = 0
     while time.time() < end:
-        send('\x1b', 0.02)
-        if time.time() - last > 15:
-            last = time.time(); print('[diag] %ds raw=%d bytes; tail: %r' % (last - t0, len(raw), since(m)[-160:]), flush=True)
-        txt = screen_text()
-        if re.search(r'GNU GRUB|Rocky Linux \(', txt) and 'Use the' in txt: seen = True; break
-        time.sleep(0.25)
-    banner(label + ' / GRUB MENU'); print(screen_text(), flush=True)
+        hmp('sendkey esc'); time.sleep(0.6)
+        n += 1
+        if n % 3 == 0:
+            t = shot('probe'); 
+            if re.search(r'(?i)rocky', t) and re.search(r'(?i)highlight|use the|boot', t): seen = True; break
+    banner(label + ' / GRUB MENU (OCR)'); print(shot(label + '_1_menu'), flush=True)
     if not seen: print('!! no GRUB menu'); return False
-    send('e'); time.sleep(1.5)
-    banner(label + ' / GRUB EDITOR (before)'); print(screen_text(), flush=True)
-    rows = disp()
-    li = [i for i, l in enumerate(rows) if l.lstrip().startswith('linux')]
-    if not li: print('!! no linux line'); return False
-    # find first buffer row: first row after a blank/box top: use first non-empty row that starts a command
-    first = next(i for i, l in enumerate(rows) if l.strip() and not l.startswith('Minimal') and 'GNU GRUB' not in l and 'Press' not in l and 'ESC' not in l)
-    downs = li[0] - first
-    print('first row', first, 'linux row', li[0], 'downs', downs, flush=True)
-    for _ in range(downs): send('\x1b[B', 0.15)
-    send('\x05', 0.2); time.sleep(0.5)
-    send(' ' + extra, 0.06); time.sleep(1.0)
-    banner(label + ' / GRUB EDITOR (after)'); print(screen_text(), flush=True)
+    hmp('sendkey e'); time.sleep(2)
+    banner(label + ' / GRUB EDITOR before (OCR)'); print(shot(label + '_2_edit_before'), flush=True)
+    for _ in range(downs): hmp('sendkey down'); time.sleep(0.3)
+    hmp('sendkey ctrl-e'); time.sleep(0.5)
+    keys(' ' + extra)
+    time.sleep(1)
+    banner(label + ' / GRUB EDITOR after (OCR)'); print(shot(label + '_3_edit_after'), flush=True)
     return True
 
 print('waiting for ssh'); assert ssh_wait()
@@ -87,7 +100,7 @@ print(ssh('grep -i grub /etc/default/grub; uptime -p; cat /proc/cmdline').stdout
 ssh('sudo systemctl is-system-running --wait')
 # ---------- A: rd.break, reset root password ----------
 if grub_edit('rd.break', 'A'):
-    m = mark(); send('\x18')
+    m = mark(); hmp('sendkey ctrl-x')
     ok = wait(r'switch_root:/#', 240, m)
     banner('A / after Ctrl-X: kernel and initramfs output (tail)'); print('\n'.join(since(m).split('\n')[-25:]), flush=True)
     if ok:
@@ -116,7 +129,7 @@ if grub_edit('rd.break', 'A'):
     r = ssh('sudo passwd -S root; getenforce; ls -l /.autorelabel; sudo systemctl is-system-running --wait'); banner('A / after boot (ssh)'); print(r.stdout, r.stderr, flush=True)
 # ---------- B: rescue.target ----------
 if grub_edit('systemd.unit=rescue.target', 'B'):
-    m = mark(); send('\x18')
+    m = mark(); hmp('sendkey ctrl-x')
     ok = wait(r'(?i)password for maintenance|Press Enter for maintenance|root password', 240, m)
     banner('B / rescue prompt'); print('\n'.join(since(m).split('\n')[-20:]), flush=True)
     if ok:
