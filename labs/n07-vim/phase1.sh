@@ -1,6 +1,6 @@
 . /tmp/lab/lib.sh
 step "0. Install tools"
-run 'tmux -V'
+srun 'dnf install -y vim-enhanced tmux >/dev/null; rpm -q vim-enhanced tmux'
 step "1. Probe vim in tmux"
 run 'which vim'
 run 'export TERM=xterm-256color; setsid -f tmux new-session -d -s v -x 70 -y 12 "vim notes.txt"; sleep 1; echo started'
