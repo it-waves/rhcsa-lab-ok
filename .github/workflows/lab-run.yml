@@ -38,7 +38,7 @@ jobs:
           qemu-img resize Rocky-10-GenericCloud-Base.latest.x86_64.qcow2 20G
           qemu-img create -f qcow2 extra1.qcow2 5G
           qemu-img create -f qcow2 extra2.qcow2 5G
-          printf '#cloud-config\nhostname: node1\nusers:\n  - name: student\n    sudo: ALL=(ALL) NOPASSWD:ALL\n    shell: /bin/bash\n    ssh_authorized_keys:\n      - %s\n' "$(cat key.pub)" > user-data
+          printf '#cloud-config\nhostname: node1\nmanage_etc_hosts: localhost\nusers:\n  - name: student\n    sudo: ALL=(ALL) NOPASSWD:ALL\n    shell: /bin/bash\n    ssh_authorized_keys:\n      - %s\n' "$(cat key.pub)" > user-data
           cloud-localds seed.img user-data
       - name: Boot VM
         run: |
