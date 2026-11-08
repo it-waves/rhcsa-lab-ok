@@ -1,0 +1,263 @@
+1
+00:00:00,400 --> 00:00:05,185
+On the exam, you work with the documentation already installed on the machine.
+
+2
+00:00:05,205 --> 00:00:09,127
+Knowing how to find the right page, fast, is a skill of its own.
+
+3
+00:00:09,597 --> 00:00:10,738
+In this video:
+
+4
+00:00:10,758 --> 00:00:16,044
+locate, read, and use system documentation, including man, info,
+
+5
+00:00:16,064 --> 00:00:18,366
+and files in /usr/share/doc.
+
+6
+00:00:22,886 --> 00:00:25,469
+Here's the task, the way an exam would state it.
+
+7
+00:00:25,939 --> 00:00:31,369
+Locate, read, and use system documentation including man, info,
+
+8
+00:00:31,389 --> 00:00:33,791
+and files in /usr/share/doc.
+
+9
+00:00:34,261 --> 00:00:36,698
+We'll search for the right page, read it,
+
+10
+00:00:36,718 --> 00:00:39,395
+fix two things missing on this fresh machine,
+
+11
+00:00:39,415 --> 00:00:41,793
+and then find extra documentation files.
+
+12
+00:00:49,313 --> 00:00:53,381
+Say you need to change a file's owner, but you forget the command.
+
+13
+00:00:53,401 --> 00:00:58,274
+man -k searches page descriptions for a keyword. We search for owner and group.
+
+14
+00:01:03,744 --> 00:01:08,430
+Nothing appropriate. On a fresh machine, the search index is not built yet.
+
+15
+00:01:08,450 --> 00:01:12,258
+whatis, which looks up a command by name, fails the same way.
+
+16
+00:01:15,228 --> 00:01:16,905
+mandb builds the index.
+
+17
+00:01:16,925 --> 00:01:21,997
+It needs sudo, because it writes system files, and -q keeps it quiet.
+
+18
+00:01:22,017 --> 00:01:26,130
+Now the search finds chown: change file owner and group.
+
+19
+00:01:31,600 --> 00:01:36,276
+whatis shows the one-line summary, with the section number in brackets.
+
+20
+00:01:36,296 --> 00:01:37,532
+ls is in section 1.
+
+21
+00:01:42,052 --> 00:01:49,200
+Now read a page. man -w prints where the page file lives, under /usr/share/man.
+
+22
+00:01:54,720 --> 00:01:58,515
+man ls opens the page in a pager called less. At the top:
+
+23
+00:01:58,535 --> 00:02:03,937
+the NAME, the SYNOPSIS, and the DESCRIPTION. The bottom line shows where you are.
+
+24
+00:02:09,407 --> 00:02:11,118
+Space moves down one screen.
+
+25
+00:02:11,138 --> 00:02:15,382
+The options come next, alphabetically, each with a short explanation.
+
+26
+00:02:18,852 --> 00:02:20,520
+A slash starts a search.
+
+27
+00:02:20,540 --> 00:02:26,005
+We type /human and press Enter, and it jumps to the human-readable option, -h.
+
+28
+00:02:26,025 --> 00:02:27,131
+Press q to quit.
+
+29
+00:02:34,651 --> 00:02:37,774
+Pages are grouped into numbered sections.
+
+30
+00:02:37,794 --> 00:02:41,531
+Section 1 is commands, section 5 is file formats.
+
+31
+00:02:41,551 --> 00:02:47,587
+passwd is both a command and a file, /etc/passwd. man passwd gives the command.
+
+32
+00:02:47,607 --> 00:02:51,420
+For the file, put the section first: man 5 passwd.
+
+33
+00:02:57,890 --> 00:03:00,948
+Here, section 5 for passwd is missing,
+
+34
+00:03:00,968 --> 00:03:07,508
+because the man-pages package is not installed. dnf install -y man-pages adds it.
+
+35
+00:03:07,528 --> 00:03:10,585
+The download output is shortened here.
+
+36
+00:03:21,105 --> 00:03:24,957
+whatis still shows two entries, because the index is old.
+
+37
+00:03:24,977 --> 00:03:28,354
+We rebuild it with mandb, and now there are three:
+
+38
+00:03:28,374 --> 00:03:32,498
+the command in section 1, and the password file in section 5.
+
+39
+00:03:40,018 --> 00:03:45,065
+man -w with 5 finds the page file, and man 5 passwd opens it:
+
+40
+00:03:45,085 --> 00:03:49,385
+the password file, and a description of /etc/passwd.
+
+41
+00:03:55,905 --> 00:03:58,298
+info is the other manual format.
+
+42
+00:03:58,318 --> 00:04:03,425
+It isn't installed here either, so the shell says command not found.
+
+43
+00:04:03,445 --> 00:04:05,762
+dnf install -y info fixes that.
+
+44
+00:04:14,282 --> 00:04:17,060
+info ls opens the GNU manual for ls.
+
+45
+00:04:17,080 --> 00:04:22,035
+It reads more like a book, organized in sections you can follow.
+
+46
+00:04:22,055 --> 00:04:24,289
+Press q to quit, as with man.
+
+47
+00:04:30,809 --> 00:04:33,551
+The third place is /usr/share/doc:
+
+48
+00:04:33,571 --> 00:04:39,642
+one folder per installed package, holding extras like README and FAQ files.
+
+49
+00:04:41,112 --> 00:04:44,157
+ls on that folder, piped into head -n 15.
+
+50
+00:04:44,177 --> 00:04:50,138
+The pipe sends the output of ls to head, and head shows only the first 15 lines.
+
+51
+00:04:57,658 --> 00:05:01,414
+Inside the chrony folder there is a README, an FAQ, and more.
+
+52
+00:05:03,884 --> 00:05:10,179
+rpm -qd lists the documentation files of a package, including its man pages.
+
+53
+00:05:17,699 --> 00:05:21,263
+And head -n 8 shows the first eight lines of the README.
+
+54
+00:05:28,783 --> 00:05:32,219
+Our five steps: task, demo, check, reboot, and your turn.
+
+55
+00:05:33,739 --> 00:05:36,658
+The index lives on disk, so it survives a reboot.
+
+56
+00:05:36,678 --> 00:05:39,116
+We restart the lab, and it comes back up.
+
+57
+00:05:42,586 --> 00:05:45,660
+After a fresh boot, the same search still finds chown.
+
+58
+00:05:53,180 --> 00:05:55,661
+Your turn. Create a folder lab11.
+
+59
+00:05:55,681 --> 00:06:00,284
+Use the manual to find the ls option that sorts by file size,
+
+60
+00:06:00,304 --> 00:06:04,906
+and the section number for the format of the /etc/group file.
+
+61
+00:06:04,926 --> 00:06:08,620
+Write the option on line one of lab11/answer.txt,
+
+62
+00:06:08,640 --> 00:06:11,272
+and the section number on line two.
+
+63
+00:06:16,742 --> 00:06:20,669
+Check with cat. Run the checker, and try before you open the solution.
+
+64
+00:06:26,189 --> 00:06:30,068
+That finishes the Essential tools objectives. Next up:
+
+65
+00:06:30,088 --> 00:06:32,740
+Configure access to RPM repositories.
+
+66
+00:06:33,210 --> 00:06:36,112
+Subscribe to follow the series, and let's keep going.
