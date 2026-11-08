@@ -1,0 +1,111 @@
+waiting for ssh
+GRUB_DEFAULT=saved
+GRUB_CMDLINE_LINUX_DEFAULT="console=ttyS0,115200n8 no_timer_check crashkernel=1G-4G:192M,4G-64G:256M,64G-:512M"
+GRUB_ENABLE_BLSCFG=true
+GRUB_GFXMODE=auto
+GRUB_TERMINAL_INPUT="console"
+GRUB_TERMINAL_OUTPUT="gfxterm"
+GRUB_TIMEOUT=1
+GRUB_DISABLE_OS_PROBER=true
+up 0 minutes
+BOOT_IMAGE=(hd0,gpt3)/vmlinuz-6.12.0-211.16.1.el10_2.0.1.x86_64 console=ttyS0,115200n8 no_timer_check crashkernel=1G-4G:192M,4G-64G:256M,64G-:512M root=UUID=01582c00-2b49-4e9b-86ee-75f418a4b720
+
+Adding boot menu entry for UEFI Firmware Settings ...
+done
+GRUB_TIMEOUT=30
+
+
+##### A / GRUB MENU (OCR)
+GRUB version 2.12
+WRocky Linux (6.12.0-211.16.1.e110 2.0.1.%86 64) 10.2 (Red Quartz)
+Rocky Linux (@-rescue-BcbaS6dfab9f47ilashca%6ddb4b47c1) 19.2 (Red Quartz)
+Use the T and | keys to select which entry is highlighted.
+Press enter to boot the selected 0S, “e' to edit the commands before booting or *c'
+for a command-line.
+The highlighted entry will be executed automatically in 24s.
+
+
+##### A / GRUB EDITOR before (OCR)
+GRUB version 2.12
+
+Load_v ideo
+set gfxpayloadskeep
+insmod gzio
+linux ($root)/vmlinuz-6.12.0-211.16.1.e110_2.0.1.%86_64 console=tty89,115200n8 na_timer_chec\,
+k crashkernel=16-46: 192M, 46-646:256M,64G-:512M root=UUID=01582c00-2h49-4e9b-B6ee-754418adh72\
+8
+initrd (sroot)/initramfs-6.12.0-211.16.1.e110_2.0.1.x86_64. img
+
+Minimum Emacs-like screen editing is supported. TAB lists completions. Press Ctrl-x
+
+or F16 to boot, Ctrl-c or F2 for a command-line or ESC to discard edits and return
+
+to the GRUB menu.
+
+
+##### A / GRUB EDITOR after (OCR)
+GRUB version 2.12
+
+load_video
+set gfxpayloadskeep
+insmod gzio
+linux ($root)/vmlinuz-6.12.0-211.16.1.e110_2.0.1.%86_64 console=tty89,115200n8 na_timer_chec\,
+k crashkernel=16-46: 192M, 46-646: 256M, 64G-:512M root=UUID=01582c00-2h49-4e9b-B6ee-754418adh 72.
+@ rd. break
+initrd (sroot)/initramfs-6.12.0-211.16.1.e110_2.0.1.x86_64. img
+
+Minimum Emacs-like screen editing is supported. TAB lists completions. Press Ctrl-x
+
+or F16 to boot, Ctrl-c or F2 for a command-line or ESC to discard edits and return
+
+to the GRUB menu.
+
+
+##### A / after Ctrl-X: kernel and initramfs output (tail)
+[    8.175054] SGI XFS with ACLs, security attributes, scrub, quota, no debug enabled
+[    8.186268] XFS (vda4): Mounting V5 Filesystem 01582c00-2b49-4e9b-86ee-75f418a4b720
+[    8.200984] XFS (vda4): Ending clean mount
+[  OK  ] Mounted sysroot.mount - /sysroot.
+[  OK  ] Reached target initrd-root-fs.target - Initrd Root File System.
+         Starting initrd-parse-etc.service …ints Configured in the Real Root...
+[  OK  ] Finished initrd-parse-etc.service …points Configured in the Real Root.
+[  OK  ] Reached target initrd-fs.target - Initrd File Systems.
+[  OK  ] Reached target initrd.target - Initrd Default Target.
+         Starting dracut-pre-pivot.service …racut pre-pivot and cleanup hook...
+[    8.064545] dracut-pre-pivot[581]: Warning: Break before switch_root
+         Starting dracut-emergency.service - Dracut Emergency Shell...
+
+Generating "/run/initramfs/rdsosreport.txt"
+
+
+Entering emergency mode. Exit the shell to continue.
+Type "journalctl" to view system logs.
+You might want to save "/run/initramfs/rdsosreport.txt" to a USB stick or /boot
+after mounting them and attach it to a bug report.
+
+
+Press Enter for maintenance
+(or press Control-D to continue): 
+sh-5.2# 
+
+##### A / initramfs session transcript
+mount -o remount,rw /sysroot
+sh-5.2# chroot /sysroot
+sh-5.2# passwd root
+New password: 
+Retype new password: 
+passwd: password updated successfully
+sh-5.2# touch /.autorelabel
+sh-5.2# ls -l /.autorelabel
+-rw-r--r-- 1 root root 0 Nov  8 16:22 /.autorelabel
+sh-5.2# exit
+exit
+sh-5.2# 
+waiting for the relabel boot + ssh ...
+
+##### A / after boot (ssh)
+root P 2026-11-08 0 99999 7 -1
+Enforcing
+running
+ ls: cannot access '/.autorelabel': No such file or directory
+
