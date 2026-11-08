@@ -1,0 +1,155 @@
+1
+00:00:00,400 --> 00:00:03,575
+A script that always does the same thing is limited.
+
+2
+00:00:03,595 --> 00:00:08,551
+Give it arguments, and one script can serve every user, every file, every server.
+
+3
+00:00:09,021 --> 00:00:13,075
+In this video: process script inputs, like $1 and $2.
+
+4
+00:00:17,595 --> 00:00:20,178
+Here's the task, the way an exam would state it.
+
+5
+00:00:20,648 --> 00:00:24,233
+Process script inputs ($1, $2, etc.).
+
+6
+00:00:24,703 --> 00:00:29,290
+We'll read arguments with $1 and $2, see the script name and the count,
+
+7
+00:00:29,310 --> 00:00:34,027
+handle quotes, check that enough arguments were given, and set a default.
+
+8
+00:00:43,547 --> 00:00:46,633
+When you run a script with words after its name,
+
+9
+00:00:46,653 --> 00:00:50,321
+the shell hands them to the script as numbered variables.
+
+10
+00:00:50,341 --> 00:00:53,362
+$1 is the first word, $2 the second, and so on.
+
+11
+00:00:59,832 --> 00:01:05,087
+$0 is the script's own name. $# is how many arguments there are.
+
+12
+00:01:05,107 --> 00:01:07,065
+And "$@" is all of them.
+
+13
+00:01:16,585 --> 00:01:20,846
+Here is args.sh. Each echo prints one of the special variables.
+
+14
+00:01:20,866 --> 00:01:23,904
+We run it with three words: red, green, blue.
+
+15
+00:01:28,374 --> 00:01:33,491
+$0 is the script name, as we typed it. First is red, second is green.
+
+16
+00:01:33,511 --> 00:01:39,746
+The count is 3. And all of them together. A $3 exists too; we just did not print it.
+
+17
+00:01:47,266 --> 00:01:51,065
+With no arguments, the variables are empty, and the count is 0.
+
+18
+00:01:54,535 --> 00:01:58,075
+If one argument has a space in it, put quotes around it.
+
+19
+00:01:58,095 --> 00:02:00,999
+The shell then passes it as a single argument:
+
+20
+00:02:01,019 --> 00:02:03,987
+red green is the first one, and the count is 2.
+
+21
+00:02:10,507 --> 00:02:14,553
+Real scripts check their input. greet.sh tests the count:
+
+22
+00:02:14,573 --> 00:02:19,476
+if the number of arguments is less than 1, it prints a usage message,
+
+23
+00:02:19,496 --> 00:02:24,898
+and runs exit 1. The exit command stops the script and sets its exit status.
+
+24
+00:02:24,918 --> 00:02:26,039
+1 means failure.
+
+25
+00:02:30,509 --> 00:02:35,637
+Without a name: the usage message, and echo $? shows 1. With a name:
+
+26
+00:02:35,657 --> 00:02:38,212
+the greeting, and the status is 0.
+
+27
+00:02:45,732 --> 00:02:50,683
+A default value. Dollar, curly brace, 1, colon, dash, world, closing brace.
+
+28
+00:02:50,703 --> 00:02:55,653
+It means: use the first argument, and if there is none, use the word world.
+
+29
+00:03:00,123 --> 00:03:03,581
+Without an argument: Hello, world. With Ana: Hello, Ana.
+
+30
+00:03:09,101 --> 00:03:12,537
+Our five steps: task, demo, check, reboot, and your turn.
+
+31
+00:03:14,057 --> 00:03:17,115
+Scripts are files on disk, so they survive a reboot.
+
+32
+00:03:17,135 --> 00:03:19,541
+We restart the lab, and it comes back up.
+
+33
+00:03:23,011 --> 00:03:27,812
+After a fresh boot, ./args.sh with three words works the same way.
+
+34
+00:03:35,332 --> 00:03:41,089
+Your turn. Make a folder called lab18. In it, create an executable script, who.sh.
+
+35
+00:03:41,109 --> 00:03:45,880
+Given a name and a city, it prints the name, lives in, and the city.
+
+36
+00:03:45,900 --> 00:03:51,376
+With fewer than two arguments, it prints a Usage line and exits with status 1.
+
+37
+00:03:57,846 --> 00:04:00,663
+Run the checker, and try before you open the solution.
+
+38
+00:04:06,183 --> 00:04:09,640
+Next up: processing the output of shell commands within a script.
+
+39
+00:04:10,110 --> 00:04:13,013
+Subscribe to follow the series, and let's keep going.
