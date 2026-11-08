@@ -1,0 +1,211 @@
+1
+00:00:00,400 --> 00:00:04,138
+Every package on the exam machine comes from a repository.
+
+2
+00:00:04,158 --> 00:00:07,313
+If the system cannot reach one, nothing installs.
+
+3
+00:00:07,783 --> 00:00:11,795
+In this video: configure access to RPM repositories.
+
+4
+00:00:16,315 --> 00:00:18,898
+Here's the task, the way an exam would state it.
+
+5
+00:00:19,368 --> 00:00:22,377
+Configure access to RPM repositories.
+
+6
+00:00:22,847 --> 00:00:27,311
+We'll see where repositories are defined, build a small one of our own, add it,
+
+7
+00:00:27,331 --> 00:00:29,184
+check it, and turn it off and on.
+
+8
+00:00:36,704 --> 00:00:37,895
+First, the idea.
+
+9
+00:00:37,915 --> 00:00:43,120
+A repository is a folder or web address that holds RPM package files,
+
+10
+00:00:43,140 --> 00:00:47,436
+plus a catalog called repodata that lists what is inside.
+
+11
+00:00:49,906 --> 00:00:54,944
+A small text file ending in dot repo, in /etc/yum.repos.d,
+
+12
+00:00:54,964 --> 00:01:01,833
+tells dnf where that address is. dnf reads the catalog and offers the packages.
+
+13
+00:01:07,353 --> 00:01:14,153
+Repository definitions live in /etc/yum.repos.d. ls lists the files there.
+
+14
+00:01:14,173 --> 00:01:16,549
+Each one ends in dot repo.
+
+15
+00:01:22,069 --> 00:01:25,230
+head -n 12 shows the top of rocky.repo.
+
+16
+00:01:25,250 --> 00:01:30,369
+A name in square brackets starts each repository. Here, baseos.
+
+17
+00:01:36,889 --> 00:01:40,946
+dnf repolist shows the repositories that are turned on:
+
+18
+00:01:40,966 --> 00:01:47,024
+appstream, baseos, and extras. The id on the left is the name you use in commands.
+
+19
+00:01:53,544 --> 00:01:56,991
+Add --all, and the disabled repositories show too.
+
+20
+00:01:57,011 --> 00:02:00,457
+The list is long, so only the start is shown here.
+
+21
+00:02:07,977 --> 00:02:12,839
+Now we build our own. A tool called createrepo_c writes the catalog.
+
+22
+00:02:12,859 --> 00:02:18,368
+It isn't installed, so dnf install adds it. The download output is shortened.
+
+23
+00:02:26,888 --> 00:02:29,861
+mkdir makes a folder called localrepo.
+
+24
+00:02:29,881 --> 00:02:34,272
+dnf download saves a package file without installing it,
+
+25
+00:02:34,292 --> 00:02:38,132
+and --destdir picks the folder. We download tree.
+
+26
+00:02:45,652 --> 00:02:50,371
+createrepo_c on the folder builds the repodata catalog inside it.
+
+27
+00:02:50,391 --> 00:02:54,016
+ls shows the package file and the repodata folder.
+
+28
+00:03:00,536 --> 00:03:06,444
+dnf config-manager --add-repo writes the dot repo file for us.
+
+29
+00:03:06,464 --> 00:03:11,990
+The address starts with file://, a folder on this machine.
+
+30
+00:03:12,010 --> 00:03:16,580
+Web repositories use http or https the same way.
+
+31
+00:03:23,100 --> 00:03:25,385
+A new file appears. cat shows it:
+
+32
+00:03:25,405 --> 00:03:29,715
+the id in brackets, a name, the baseurl, and enabled equals 1.
+
+33
+00:03:30,185 --> 00:03:33,557
+And dnf repolist now lists four repositories.
+
+34
+00:03:41,077 --> 00:03:43,468
+dnf repoinfo shows the details:
+
+35
+00:03:43,488 --> 00:03:48,524
+enabled, one package, the base URL, and the file that defines it.
+
+36
+00:03:58,044 --> 00:04:04,445
+--repo limits dnf to one repository. list available shows its packages: tree.
+
+37
+00:04:10,965 --> 00:04:17,112
+To turn a repository off without deleting it, use --set-disabled with its id.
+
+38
+00:04:17,132 --> 00:04:21,036
+It leaves the list. --set-enabled brings it back.
+
+39
+00:04:29,556 --> 00:04:35,417
+Packages are normally checked against a signing key. The setting is gpgcheck.
+
+40
+00:04:35,437 --> 00:04:38,243
+Our local repository has no key file,
+
+41
+00:04:38,263 --> 00:04:43,360
+so --save and --setopt turn the check off for this repository only.
+
+42
+00:04:43,830 --> 00:04:47,282
+cat now shows gpgcheck=0 added to the file.
+
+43
+00:04:47,302 --> 00:04:51,319
+Never do this for a repository you do not control.
+
+44
+00:04:58,839 --> 00:05:02,275
+Our five steps: task, demo, check, reboot, and your turn.
+
+45
+00:05:03,795 --> 00:05:07,297
+The repository file is on disk, so it survives a reboot.
+
+46
+00:05:07,317 --> 00:05:09,876
+We restart the lab, and it comes back up.
+
+47
+00:05:13,346 --> 00:05:17,785
+After a fresh boot, dnf repolist still lists our repository.
+
+48
+00:05:25,305 --> 00:05:28,030
+Your turn. Create a folder lab12repo.
+
+49
+00:05:28,050 --> 00:05:33,741
+Download the package zip into it, build a repository there with createrepo_c,
+
+50
+00:05:33,761 --> 00:05:38,192
+and add it with dnf config-manager. Make sure it is enabled.
+
+51
+00:05:40,662 --> 00:05:43,479
+Run the checker, and try before you open the solution.
+
+52
+00:05:48,999 --> 00:05:52,883
+Next up: Install and remove RPM software packages.
+
+53
+00:05:53,353 --> 00:05:56,256
+Subscribe to follow the series, and let's keep going.
