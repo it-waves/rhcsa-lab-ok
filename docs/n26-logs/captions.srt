@@ -1,0 +1,207 @@
+1
+00:00:00,400 --> 00:00:02,728
+Something broke at three in the morning.
+
+2
+00:00:02,748 --> 00:00:05,722
+The answer is almost always written down, in a log.
+
+3
+00:00:05,742 --> 00:00:09,596
+The skill is knowing where to look, and how to read what you find.
+
+4
+00:00:10,066 --> 00:00:14,249
+In this video: locate and interpret system log files and journals.
+
+5
+00:00:18,769 --> 00:00:21,352
+Here's the task, the way an exam would state it.
+
+6
+00:00:21,822 --> 00:00:25,087
+Locate and interpret system log files and journals.
+
+7
+00:00:25,557 --> 00:00:30,166
+We'll find the log files, read the journal with journalctl, write our own message,
+
+8
+00:00:30,186 --> 00:00:31,916
+and read a line piece by piece.
+
+9
+00:00:41,436 --> 00:00:44,258
+A Linux system keeps logs in two places.
+
+10
+00:00:44,278 --> 00:00:47,952
+The journal is kept by the service systemd-journald,
+
+11
+00:00:47,972 --> 00:00:51,078
+and you read it with the command journalctl.
+
+12
+00:00:51,098 --> 00:00:56,264
+And rsyslog writes ordinary text files in the folder slash var slash log.
+
+13
+00:01:06,734 --> 00:01:10,046
+The file messages holds general system messages.
+
+14
+00:01:10,066 --> 00:01:15,183
+The file secure holds logins and sudo. The file cron holds scheduled jobs.
+
+15
+00:01:22,703 --> 00:01:26,593
+Let us look. ls shows the content of slash var slash log.
+
+16
+00:01:26,613 --> 00:01:30,708
+The pipe and head dash n twelve keep the first twelve lines.
+
+17
+00:01:30,728 --> 00:01:35,440
+We see boot dot log, cron, the dnf logs, and a folder called journal.
+
+18
+00:01:41,910 --> 00:01:47,343
+rpm dash q rsyslog says the package is installed, so the text files exist.
+
+19
+00:01:47,363 --> 00:01:51,912
+The journal folder exists too, so the journal is kept on disk.
+
+20
+00:01:51,932 --> 00:01:56,333
+And ls on messages and secure confirms both files are there.
+
+21
+00:02:07,853 --> 00:02:11,528
+Now the journal. journalctl dash u picks one unit.
+
+22
+00:02:11,548 --> 00:02:16,554
+Here the unit is kdump, and dash n three shows the last three lines.
+
+23
+00:02:16,574 --> 00:02:20,249
+The option no pager prints straight to the screen.
+
+24
+00:02:28,719 --> 00:02:30,832
+Dash k shows only kernel messages.
+
+25
+00:02:39,302 --> 00:02:44,716
+Dash p err keeps only errors, and dash b means this boot only. The answer here is:
+
+26
+00:02:44,736 --> 00:02:48,626
+no entries. A clean boot has no errors, which is good news.
+
+27
+00:02:58,146 --> 00:03:02,365
+Now we read one line, from the unit sshd, which handles logins.
+
+28
+00:03:02,385 --> 00:03:05,594
+First comes the time. Then the host name, node1.
+
+29
+00:03:05,614 --> 00:03:10,169
+Then the program that wrote it, with its process number in brackets.
+
+30
+00:03:10,189 --> 00:03:12,121
+And last, the message itself.
+
+31
+00:03:22,591 --> 00:03:26,887
+This line says: sshd accepted a public key for the user student.
+
+32
+00:03:26,907 --> 00:03:30,056
+So we know who logged in, from where, and when.
+
+33
+00:03:30,076 --> 00:03:32,619
+That is what interpreting a log means.
+
+34
+00:03:40,139 --> 00:03:46,267
+We can also write to the journal. logger dash t n26 adds a message with the tag n26.
+
+35
+00:03:46,287 --> 00:03:48,610
+It prints nothing when it works.
+
+36
+00:03:57,080 --> 00:03:59,358
+journalctl dash t n26 finds it.
+
+37
+00:03:59,378 --> 00:04:04,030
+And dash dash since five minutes ago limits the search by time.
+
+38
+00:04:04,050 --> 00:04:07,812
+This is how you find your own marker in a long log.
+
+39
+00:04:16,282 --> 00:04:20,730
+And wc dash l counts the lines of this boot: over fourteen hundred.
+
+40
+00:04:20,750 --> 00:04:23,131
+A real search always needs a filter.
+
+41
+00:04:30,651 --> 00:04:34,087
+Our five steps: task, demo, check, reboot, and your turn.
+
+42
+00:04:35,607 --> 00:04:40,202
+We reboot. Then journalctl dash dash list dash boots shows two boots:
+
+43
+00:04:40,222 --> 00:04:44,014
+the old one is number minus one, and the new one is zero.
+
+44
+00:04:52,484 --> 00:04:55,160
+And dash b minus one reads the previous boot.
+
+45
+00:04:55,180 --> 00:04:58,157
+Our message from before the reboot is still there,
+
+46
+00:04:58,177 --> 00:05:00,314
+because the journal is kept on disk.
+
+47
+00:05:09,834 --> 00:05:13,901
+Your turn. Write a message with logger and the tag ex200.
+
+48
+00:05:13,921 --> 00:05:18,634
+Save what journalctl finds for that tag in the file ex200 dot log.
+
+49
+00:05:18,654 --> 00:05:20,139
+Then run the checker.
+
+50
+00:05:26,609 --> 00:05:28,360
+Try before you open the solution.
+
+51
+00:05:33,880 --> 00:05:35,951
+Next up: preserve system journals.
+
+52
+00:05:36,421 --> 00:05:39,323
+Subscribe to follow the series, and let's keep going.
