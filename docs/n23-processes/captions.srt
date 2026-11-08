@@ -1,0 +1,247 @@
+1
+00:00:00,400 --> 00:00:02,154
+A server suddenly feels slow.
+
+2
+00:00:02,174 --> 00:00:05,579
+Something is using all the processor, or all the memory.
+
+3
+00:00:05,599 --> 00:00:08,209
+How do you find it, and how do you stop it?
+
+4
+00:00:08,679 --> 00:00:14,526
+In this video: identify CPU and memory intensive processes, and kill processes.
+
+5
+00:00:19,046 --> 00:00:21,629
+Here's the task, the way an exam would state it.
+
+6
+00:00:22,099 --> 00:00:26,879
+Identify CPU and memory intensive processes, and kill processes.
+
+7
+00:00:27,349 --> 00:00:31,745
+We'll start some busy processes, find the greediest ones, and stop them,
+
+8
+00:00:31,765 --> 00:00:34,198
+politely first, and by force if we must.
+
+9
+00:00:43,718 --> 00:00:48,448
+A process is a running program. Every process has a number, the PID.
+
+10
+00:00:48,468 --> 00:00:50,124
+Two columns matter here:
+
+11
+00:00:50,144 --> 00:00:54,664
+percent CPU, how busy it keeps the processor, and percent memory,
+
+12
+00:00:54,684 --> 00:00:56,690
+how much of the RAM it holds.
+
+13
+00:01:09,160 --> 00:01:11,730
+To stop a process we send it a signal.
+
+14
+00:01:11,750 --> 00:01:16,093
+The default signal, number 15, called TERM, is a polite request:
+
+15
+00:01:16,113 --> 00:01:20,660
+please finish and exit. A well-behaved program cleans up and quits.
+
+16
+00:01:25,130 --> 00:01:28,289
+Signal number 9, called KILL, cannot be refused.
+
+17
+00:01:28,309 --> 00:01:32,065
+The kernel removes the process at once, with no clean up.
+
+18
+00:01:32,085 --> 00:01:34,582
+Use it only when the polite way fails.
+
+19
+00:01:40,102 --> 00:01:44,980
+First we need some trouble. The file memhog.py is a tiny Python script.
+
+20
+00:01:44,999 --> 00:01:49,533
+It fills about three hundred megabytes of memory, and then sleeps.
+
+21
+00:01:55,003 --> 00:01:59,209
+The command yes prints the letter y again and again, without end,
+
+22
+00:01:59,229 --> 00:02:01,939
+so it keeps one processor core fully busy.
+
+23
+00:02:01,959 --> 00:02:05,320
+The greater-than sign sends its output to /dev/null,
+
+24
+00:02:05,340 --> 00:02:07,661
+the bin that throws everything away.
+
+25
+00:02:07,681 --> 00:02:12,732
+The ampersand at the end runs it in the background, so we get our prompt back.
+
+26
+00:02:29,202 --> 00:02:32,425
+We start a second yes, and the memory script, the same way.
+
+27
+00:02:40,945 --> 00:02:45,081
+Now we look. ps lists processes. The letters a, u, x mean:
+
+28
+00:02:45,101 --> 00:02:50,312
+all users, a user-friendly format, and also processes without a terminal.
+
+29
+00:02:56,782 --> 00:03:03,093
+The option --sort=-%cpu sorts by CPU. The minus sign means biggest first.
+
+30
+00:03:03,113 --> 00:03:09,946
+The pipe sends the list to head, and head -n 4 keeps only the first four lines.
+
+31
+00:03:18,416 --> 00:03:23,785
+There they are: two yes processes, each using almost one hundred percent of a core.
+
+32
+00:03:23,805 --> 00:03:25,862
+The PID is in the second column.
+
+33
+00:03:33,382 --> 00:03:35,064
+top shows the same live.
+
+34
+00:03:35,084 --> 00:03:39,744
+We use -b for batch mode, plain text, and -n 1 to print just once.
+
+35
+00:03:39,764 --> 00:03:43,218
+Normally you type only top, then press q to quit.
+
+36
+00:03:52,688 --> 00:03:55,824
+The top lines show the load and the memory.
+
+37
+00:03:55,844 --> 00:03:59,493
+The table below lists the busiest processes first.
+
+38
+00:03:59,513 --> 00:04:04,337
+Inside top, capital P sorts by CPU, and capital M sorts by memory.
+
+39
+00:04:15,857 --> 00:04:19,831
+For memory we sort by percent memory instead. At the top:
+
+40
+00:04:19,851 --> 00:04:24,316
+python3 memhog.py, holding ten and a half percent of the memory,
+
+41
+00:04:24,336 --> 00:04:26,418
+about three hundred megabytes.
+
+42
+00:04:33,888 --> 00:04:37,801
+With -e and -o you can choose the columns yourself.
+
+43
+00:04:37,821 --> 00:04:44,279
+-e means every process, and -o lists the columns: PID, command name, CPU and memory.
+
+44
+00:04:54,799 --> 00:05:00,693
+Now we stop them. pgrep finds processes by name, and -x means the exact name.
+
+45
+00:05:00,713 --> 00:05:02,459
+It prints the two PIDs.
+
+46
+00:05:08,929 --> 00:05:14,879
+kill followed by a PID sends the polite signal 15. No output means it worked.
+
+47
+00:05:14,899 --> 00:05:21,005
+ps -p asks about one PID, and it shows only the header, so the process is gone.
+
+48
+00:05:31,525 --> 00:05:36,244
+pkill works by name instead of number. It stops every process called yes.
+
+49
+00:05:36,264 --> 00:05:39,036
+And pgrep finds none, so they are all gone.
+
+50
+00:05:45,506 --> 00:05:48,050
+The memory script gets the hard way.
+
+51
+00:05:48,070 --> 00:05:51,896
+kill -9 sends signal nine, and ps -p shows it is gone.
+
+52
+00:05:51,916 --> 00:05:54,531
+We could have tried plain kill first.
+
+53
+00:06:02,051 --> 00:06:05,487
+Our five steps: task, demo, check, reboot, and your turn.
+
+54
+00:06:07,007 --> 00:06:11,851
+One more fact. We start a sleep process, and find it with pgrep. Then we reboot.
+
+55
+00:06:18,321 --> 00:06:20,763
+After the reboot, pgrep finds nothing.
+
+56
+00:06:20,783 --> 00:06:25,298
+A reboot ends every process, and uptime says the machine just started.
+
+57
+00:06:32,818 --> 00:06:38,446
+Your turn. Make a folder called lab twenty-three. Start yes in the background.
+
+58
+00:06:38,466 --> 00:06:42,645
+Find its PID with ps, and save the PID in a file, pid.txt.
+
+59
+00:06:42,665 --> 00:06:45,107
+Then kill it, and run the checker.
+
+60
+00:06:51,577 --> 00:06:53,328
+Try before you open the solution.
+
+61
+00:06:58,848 --> 00:07:01,132
+Next up: adjust process scheduling.
+
+62
+00:07:01,602 --> 00:07:04,505
+Subscribe to follow the series, and let's keep going.
