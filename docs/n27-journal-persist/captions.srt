@@ -1,0 +1,187 @@
+1
+00:00:00,400 --> 00:00:02,589
+You reboot a server to fix a problem.
+
+2
+00:00:02,609 --> 00:00:07,067
+And with it go the very logs that would have told you what the problem was.
+
+3
+00:00:07,087 --> 00:00:10,471
+By default, some systems keep the journal only in memory.
+
+4
+00:00:10,941 --> 00:00:13,225
+In this video: preserve system journals.
+
+5
+00:00:17,745 --> 00:00:20,328
+Here's the task, the way an exam would state it.
+
+6
+00:00:20,798 --> 00:00:22,292
+Preserve system journals.
+
+7
+00:00:22,762 --> 00:00:24,902
+We'll see where the journal is stored,
+
+8
+00:00:24,922 --> 00:00:27,800
+make it persistent with a small configuration file,
+
+9
+00:00:27,820 --> 00:00:29,846
+and check that it survives a reboot.
+
+10
+00:00:39,366 --> 00:00:41,714
+The journal can live in two places.
+
+11
+00:00:41,734 --> 00:00:46,856
+In memory, in slash run slash log slash journal, it is lost at every reboot.
+
+12
+00:00:46,876 --> 00:00:50,781
+On disk, in slash var slash log slash journal, it is kept.
+
+13
+00:00:59,251 --> 00:01:02,078
+The setting is called Storage. Auto means:
+
+14
+00:01:02,098 --> 00:01:07,231
+keep it on disk only if the folder slash var slash log slash journal exists.
+
+15
+00:01:07,251 --> 00:01:12,248
+Persistent means: always keep it on disk, and create the folder if needed.
+
+16
+00:01:12,268 --> 00:01:14,079
+Volatile means memory only.
+
+17
+00:01:28,549 --> 00:01:33,265
+The best way to be sure is to say persistent explicitly. That is what we will do.
+
+18
+00:01:38,785 --> 00:01:43,716
+First, where is our journal? ls dash d lists the two folders themselves.
+
+19
+00:01:43,736 --> 00:01:48,323
+Both exist here, so this machine already keeps the journal on disk.
+
+20
+00:01:48,343 --> 00:01:52,930
+journalctl dash dash disk dash usage shows how much space it takes:
+
+21
+00:01:52,950 --> 00:01:54,168
+sixteen megabytes.
+
+22
+00:02:02,638 --> 00:02:04,185
+Now the configuration.
+
+23
+00:02:04,205 --> 00:02:10,096
+On older systems you edit the file slash etc slash systemd slash journald dot conf.
+
+24
+00:02:10,116 --> 00:02:14,512
+On this system that file does not exist: ls says no such file.
+
+25
+00:02:14,532 --> 00:02:20,922
+The defaults live in slash usr slash lib, and there Storage is commented out, set to auto.
+
+26
+00:02:34,442 --> 00:02:36,566
+We do not edit the default file.
+
+27
+00:02:36,586 --> 00:02:41,190
+We add a small file of our own in the folder journald dot conf dot d.
+
+28
+00:02:41,210 --> 00:02:45,814
+mkdir dash p creates the folder, and it is fine if it already exists.
+
+29
+00:02:54,284 --> 00:02:56,092
+Then printf writes two lines:
+
+30
+00:02:56,112 --> 00:03:00,818
+the section name Journal in square brackets, and Storage equals persistent.
+
+31
+00:03:00,838 --> 00:03:02,898
+The backslash n means a new line.
+
+32
+00:03:02,918 --> 00:03:06,806
+The pipe sends the text to tee, which writes it into the file,
+
+33
+00:03:06,826 --> 00:03:10,776
+and also shows it on the screen. Sudo is needed to write there.
+
+34
+00:03:26,296 --> 00:03:32,026
+The service must read the new setting. systemctl restart systemd-journald does that.
+
+35
+00:03:32,046 --> 00:03:37,092
+And journalctl dash dash flush moves anything still in memory to the disk.
+
+36
+00:03:45,562 --> 00:03:48,685
+Now ls shows a folder named after the machine id:
+
+37
+00:03:48,705 --> 00:03:51,251
+that is where the journal lives on disk.
+
+38
+00:03:51,271 --> 00:03:54,651
+And dash dash list dash boots shows the current boot.
+
+39
+00:04:04,171 --> 00:04:07,607
+Our five steps: task, demo, check, reboot, and your turn.
+
+40
+00:04:09,127 --> 00:04:13,640
+We reboot. Now list dash boots shows two boots: the old one and the new one.
+
+41
+00:04:13,660 --> 00:04:17,278
+The old logs are still there. And our file is still in place.
+
+42
+00:04:28,798 --> 00:04:32,156
+Your turn. Create the folder journald dot conf dot d.
+
+43
+00:04:32,176 --> 00:04:35,279
+Add a file there that sets Storage to persistent.
+
+44
+00:04:35,299 --> 00:04:38,911
+Restart the journal service, reboot, and run the checker.
+
+45
+00:04:45,381 --> 00:04:47,132
+Try before you open the solution.
+
+46
+00:04:52,652 --> 00:04:56,664
+Next up: start, stop, and check the status of network services.
+
+47
+00:04:57,134 --> 00:05:00,037
+Subscribe to follow the series, and let's keep going.
