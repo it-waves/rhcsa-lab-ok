@@ -1,0 +1,163 @@
+1
+00:00:00,400 --> 00:00:05,005
+Flatpak is a second way to install software, next to RPM packages.
+
+2
+00:00:05,025 --> 00:00:09,980
+Each app comes from a Flatpak repository, which Flatpak calls a remote.
+
+3
+00:00:10,450 --> 00:00:14,035
+In this video: configure access to Flatpak repositories.
+
+4
+00:00:18,555 --> 00:00:21,138
+Here's the task, the way an exam would state it.
+
+5
+00:00:21,608 --> 00:00:24,361
+Configure access to Flatpak repositories.
+
+6
+00:00:24,831 --> 00:00:29,481
+We'll install Flatpak, add a repository, look inside it, turn it off and on,
+
+7
+00:00:29,501 --> 00:00:32,000
+add one for a single user, and remove it.
+
+8
+00:00:39,520 --> 00:00:45,255
+Flatpak apps do not come from the dnf repositories. They come from Flatpak remotes.
+
+9
+00:00:45,275 --> 00:00:47,543
+The best known remote is Flathub.
+
+10
+00:00:51,013 --> 00:00:55,523
+A remote can be system-wide, for every user, or per user, for just you.
+
+11
+00:00:55,543 --> 00:00:58,139
+Changing the system-wide list needs sudo.
+
+12
+00:01:04,659 --> 00:01:09,153
+Flatpak is not installed on this machine, so dnf installs it.
+
+13
+00:01:09,173 --> 00:01:15,370
+That is 108 packages, because Flatpak needs many libraries. The output is shortened.
+
+14
+00:01:20,840 --> 00:01:26,280
+flatpak --version confirms it. Then flatpak remotes lists the repositories.
+
+15
+00:01:26,300 --> 00:01:31,230
+With none added yet, it fails: the repository folder does not exist.
+
+16
+00:01:38,750 --> 00:01:41,398
+flatpak remote-add adds a repository.
+
+17
+00:01:41,418 --> 00:01:46,518
+First the name we choose, then the address of its dot flatpakrepo file.
+
+18
+00:01:46,538 --> 00:01:49,546
+We use sudo, so the remote is system-wide.
+
+19
+00:01:54,016 --> 00:01:56,919
+flatpak remotes now lists flathub, marked system.
+
+20
+00:02:00,389 --> 00:02:05,105
+Add --show-details for more: the title, the address, and the scope.
+
+21
+00:02:13,625 --> 00:02:19,713
+flatpak remote-ls lists what a remote offers. --app limits it to applications.
+
+22
+00:02:19,733 --> 00:02:23,159
+Piped into head -n 5, we see the first five:
+
+23
+00:02:23,179 --> 00:02:26,682
+the name, the application id, and the branch.
+
+24
+00:02:34,202 --> 00:02:39,574
+To turn a remote off without deleting it, use remote-modify with --disable.
+
+25
+00:02:39,594 --> 00:02:44,678
+Now flatpak remotes shows nothing, because disabled remotes are hidden.
+
+26
+00:02:49,148 --> 00:02:55,848
+--show-disabled brings it back, marked disabled. And --enable turns it on again.
+
+27
+00:03:03,368 --> 00:03:07,529
+--user adds a remote for your own account only, with no sudo.
+
+28
+00:03:07,549 --> 00:03:12,671
+Now flatpak remotes shows flathub twice: once for the system, once for you.
+
+29
+00:03:19,191 --> 00:03:21,835
+flatpak remote-delete removes a remote.
+
+30
+00:03:21,855 --> 00:03:26,342
+We delete our user one without sudo, and the system one with sudo.
+
+31
+00:03:26,362 --> 00:03:27,982
+The list is empty again.
+
+32
+00:03:33,452 --> 00:03:37,826
+We add the system remote back, so the next steps have a repository to use.
+
+33
+00:03:45,346 --> 00:03:48,782
+Our five steps: task, demo, check, reboot, and your turn.
+
+34
+00:03:50,302 --> 00:03:53,385
+Remotes are stored on disk, so they survive a reboot.
+
+35
+00:03:53,405 --> 00:03:55,786
+We restart the lab, and it comes back up.
+
+36
+00:03:59,256 --> 00:04:02,457
+After a fresh boot, flatpak remotes still lists flathub.
+
+37
+00:04:09,977 --> 00:04:14,671
+Your turn. Add the Flathub repository system-wide, under the name labhub,
+
+38
+00:04:14,691 --> 00:04:17,189
+with the same address. Then disable it.
+
+39
+00:04:20,659 --> 00:04:23,476
+Run the checker, and try before you open the solution.
+
+40
+00:04:28,996 --> 00:04:32,496
+Next up: Install and remove Flatpak software packages.
+
+41
+00:04:32,966 --> 00:04:35,869
+Subscribe to follow the series, and let's keep going.
