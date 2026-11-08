@@ -1,0 +1,243 @@
+1
+00:00:00,400 --> 00:00:04,466
+Imagine nobody knows the root password of a server. You are locked out.
+
+2
+00:00:04,486 --> 00:00:07,458
+But if you can reach the console, you are not stuck:
+
+3
+00:00:07,478 --> 00:00:09,703
+you can interrupt the boot, and get in.
+
+4
+00:00:10,173 --> 00:00:14,739
+In this video: interrupt the boot process in order to gain access to a system.
+
+5
+00:00:19,259 --> 00:00:21,842
+Here's the task, the way an exam would state it.
+
+6
+00:00:22,312 --> 00:00:25,940
+Interrupt the boot process in order to gain access to a system.
+
+7
+00:00:26,410 --> 00:00:29,629
+We'll stop the boot early, reset the root password,
+
+8
+00:00:29,649 --> 00:00:31,915
+and let SELinux fix the file labels.
+
+9
+00:00:41,435 --> 00:00:45,889
+A Linux boot goes in stages. The firmware starts GRUB, the boot menu.
+
+10
+00:00:45,909 --> 00:00:50,557
+GRUB loads the kernel and a small temporary system called the initramfs.
+
+11
+00:00:50,577 --> 00:00:52,956
+Only then does the real system start.
+
+12
+00:01:07,426 --> 00:01:10,956
+The option rd.break stops the boot inside the initramfs,
+
+13
+00:01:10,976 --> 00:01:13,617
+just before the switch to the real system.
+
+14
+00:01:13,637 --> 00:01:16,533
+There you get a root shell without a password,
+
+15
+00:01:16,553 --> 00:01:20,462
+and the real root file system waits under the folder /sysroot.
+
+16
+00:01:28,932 --> 00:01:31,792
+Anyone who can reach the console can do this.
+
+17
+00:01:31,812 --> 00:01:35,440
+That is why console access to a server must be protected.
+
+18
+00:01:40,960 --> 00:01:45,318
+This is the real boot menu of our lab machine, captured from its screen.
+
+19
+00:01:45,338 --> 00:01:47,447
+We press e to edit the first entry.
+
+20
+00:01:56,967 --> 00:01:59,212
+The editor shows the boot commands.
+
+21
+00:01:59,232 --> 00:02:02,512
+The line that starts with linux is the kernel line.
+
+22
+00:02:02,532 --> 00:02:08,595
+We go down to it, press Ctrl+E to jump to the end of the line, and type a space, and rd.break.
+
+23
+00:02:22,115 --> 00:02:26,137
+Here is the result: rd.break at the end of the linux line.
+
+24
+00:02:26,157 --> 00:02:30,458
+This edit is for this one boot only. Now press Ctrl+X to boot.
+
+25
+00:02:41,978 --> 00:02:46,234
+The kernel and the initramfs start. The initramfs prints a warning:
+
+26
+00:02:46,254 --> 00:02:49,745
+break before switch root. That is our rd.break at work.
+
+27
+00:02:53,215 --> 00:02:59,148
+Then it says: press Enter for maintenance. We press Enter, and we have a root shell.
+
+28
+00:02:59,168 --> 00:03:01,771
+The prompt is sh-5.2 and a hash sign.
+
+29
+00:03:08,291 --> 00:03:13,330
+The real root file system is mounted under /sysroot, but read-only.
+
+30
+00:03:13,350 --> 00:03:16,578
+mount with -o remount,rw makes it writable.
+
+31
+00:03:16,598 --> 00:03:21,033
+The -o option gives mount a list of options. remount means:
+
+32
+00:03:21,053 --> 00:03:26,319
+change a file system that is already mounted. rw means read and write.
+
+33
+00:03:35,789 --> 00:03:39,032
+chroot changes the root of the shell to /sysroot.
+
+34
+00:03:39,052 --> 00:03:41,895
+From now on, a slash means the real system,
+
+35
+00:03:41,915 --> 00:03:45,092
+and commands like passwd work on the real files.
+
+36
+00:03:52,612 --> 00:03:55,125
+passwd root sets a new password for root.
+
+37
+00:03:55,145 --> 00:03:58,091
+It asks twice, and shows nothing while you type.
+
+38
+00:03:58,111 --> 00:04:00,933
+Password updated successfully means it worked.
+
+39
+00:04:06,403 --> 00:04:10,471
+Now touch /.autorelabel. touch creates an empty file.
+
+40
+00:04:10,491 --> 00:04:13,864
+We changed a file that has no SELinux label,
+
+41
+00:04:13,884 --> 00:04:18,260
+and this flag file tells the next boot to fix all labels.
+
+42
+00:04:18,280 --> 00:04:20,805
+ls -l shows that the file exists.
+
+43
+00:04:29,275 --> 00:04:33,088
+Type exit to leave the chroot, and exit again to leave the shell.
+
+44
+00:04:33,108 --> 00:04:37,276
+The boot continues, and the relabel runs, so this first boot is slower.
+
+45
+00:04:42,796 --> 00:04:46,232
+Our five steps: task, demo, check, reboot, and your turn.
+
+46
+00:04:47,752 --> 00:04:53,279
+The machine relabels, and starts normally. We log in over ssh, and check.
+
+47
+00:04:53,299 --> 00:04:56,927
+passwd -S root shows P: root has a password now.
+
+48
+00:05:00,397 --> 00:05:03,984
+getenforce says Enforcing, so SELinux is still on.
+
+49
+00:05:04,004 --> 00:05:09,466
+ls says there is no /.autorelabel any more, because the relabel is finished.
+
+50
+00:05:09,486 --> 00:05:11,342
+And the system is running.
+
+51
+00:05:18,862 --> 00:05:20,455
+Two things to remember.
+
+52
+00:05:20,475 --> 00:05:25,084
+If you forget touch /.autorelabel, SELinux can block logins later,
+
+53
+00:05:25,104 --> 00:05:28,591
+because the new password file has the wrong label.
+
+54
+00:05:34,061 --> 00:05:36,921
+And the boot menu edit lives for one boot only.
+
+55
+00:05:36,941 --> 00:05:41,700
+Your own machine may show a slightly different menu, but the idea is the same.
+
+56
+00:05:47,220 --> 00:05:53,213
+Your turn. On a practice machine where you have the console, edit the boot entry, add rd.break,
+
+57
+00:05:53,233 --> 00:05:58,024
+and boot. Reset the root password, set the autorelabel flag, and exit twice.
+
+58
+00:05:58,044 --> 00:06:00,683
+When the machine is back, run the checker.
+
+59
+00:06:07,153 --> 00:06:08,903
+Try before you open the solution.
+
+60
+00:06:14,423 --> 00:06:19,992
+Next up: identify CPU and memory intensive processes, and kill processes.
+
+61
+00:06:20,462 --> 00:06:23,365
+Subscribe to follow the series, and let's keep going.
