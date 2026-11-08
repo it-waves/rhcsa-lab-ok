@@ -160,7 +160,7 @@ cat shows all three lines.
 
 41
 00:04:14,911 --> 00:04:18,508
-A slash starts a search. Type slash three, and press Enter.
+A / starts a search. Type /three, and press Enter.
 
 42
 00:04:18,528 --> 00:04:21,206
