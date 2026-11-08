@@ -14,4 +14,4 @@ Run each one, read the message and the exit status (`echo $?`), then fix it.
 2. `touch ~/lab1/my notes.txt`
 3. `ls -z ~/lab1`
 
-Hint: the video shows the same kinds of mistake (a missing space, an unquoted space, an invalid option). After each attempt, `ls -l ~/lab1` shows what actually happened. Clean up so `~/lab1` ends with only `notes.txt`.
+Hint: the video shows the same kinds of mistake (a missing space, an unquoted space, an invalid option). After each attempt, `ls -l ~/lab1` and `ls -l` in your current directory show what actually happened. Clean up so `~/lab1` ends with only `notes.txt`.
