@@ -3,7 +3,7 @@
 run() {  # run as student
   printf '[%s@%s ~]$ %s\n' "$(id -un)" "$(hostname -s)" "$*"
   local out rc; out=$(bash -ic "$*" 2>&1); rc=$?
-  printf '%s\n' "$out" | grep -v -e 'cannot set terminal process group' -e 'no job control in this shell'
+  printf '%s\n' "$out" | grep -v -e 'cannot set terminal process group' -e 'no job control in this shell' -e 'tcsetattr'
   echo "# exit=$rc"
 }
 srun() { # run as root through sudo
