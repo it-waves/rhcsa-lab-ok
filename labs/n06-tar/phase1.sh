@@ -13,6 +13,7 @@ run 'mkdir restore'
 run 'tar -xf project.tar -C restore'
 run 'ls restore/project'
 step "4. gzip and bzip2 with tar"
+srun 'dnf install -y bzip2'
 run 'tar -czf project.tar.gz project'
 run 'tar -cjf project.tar.bz2 project'
 run 'ls -l project.tar project.tar.gz project.tar.bz2'
