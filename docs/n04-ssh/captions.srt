@@ -4,11 +4,11 @@ Servers live in data centers, not on your desk.
 
 2
 00:00:03,392 --> 00:00:08,273
-To manage one, you reach it over the network, and the tool for that is S S H.
+To manage one, you reach it over the network, and the tool for that is SSH.
 
 3
 00:00:08,743 --> 00:00:12,307
-In this video: access remote systems using S S H.
+In this video: access remote systems using SSH.
 
 4
 00:00:16,327 --> 00:00:18,910
@@ -16,7 +16,7 @@ Here's the task, the way an exam would state it.
 
 5
 00:00:19,380 --> 00:00:22,026
-Access remote systems using S S H.
+Access remote systems using SSH.
 
 6
 00:00:22,496 --> 00:00:26,224
@@ -28,7 +28,7 @@ and read the errors when it fails.
 
 8
 00:00:35,735 --> 00:00:37,561
-S S H stands for secure shell.
+SSH stands for secure shell.
 
 9
 00:00:37,581 --> 00:00:41,684
@@ -44,7 +44,7 @@ The shape is always the same.
 
 12
 00:00:49,129 --> 00:00:52,864
-The word S S H, then the user you log in as, an at sign,
+The word SSH, then the user you log in as, an at sign,
 
 13
 00:00:52,884 --> 00:00:55,144
@@ -76,7 +76,7 @@ Also, the first time you connect to a new machine,
 
 20
 00:01:28,966 --> 00:01:33,523
-S S H asks you to confirm its fingerprint, and then asks for the password.
+SSH asks you to confirm its fingerprint, and then asks for the password.
 
 21
 00:01:33,543 --> 00:01:36,739
@@ -92,7 +92,7 @@ The kit lists those steps, and keys get their own video later.
 
 24
 00:01:48,242 --> 00:01:53,588
-Here is the full form. S S H, student at localhost, then the command hostname.
+Here is the full form. SSH, student at localhost, then the command hostname.
 
 25
 00:01:53,608 --> 00:01:57,715
@@ -100,7 +100,7 @@ It runs on the remote machine and prints its name: node one.
 
 26
 00:02:04,185 --> 00:02:09,989
-If you leave out the user, S S H uses the name you are logged in as right now. Same result.
+If you leave out the user, SSH uses the name you are logged in as right now. Same result.
 
 27
 00:02:12,959 --> 00:02:17,889
@@ -112,7 +112,7 @@ Remote servers listen on a port, like a numbered door.
 
 29
 00:02:25,184 --> 00:02:29,228
-For S S H the default is twenty-two, so you normally never type it.
+For SSH the default is twenty-two, so you normally never type it.
 
 30
 00:02:29,248 --> 00:02:33,473
@@ -128,7 +128,7 @@ It holds one line of text.
 
 33
 00:02:49,066 --> 00:02:53,086
-S C P means secure copy. It copies files over S S H.
+scp means secure copy. It copies files over SSH.
 
 34
 00:02:53,106 --> 00:02:56,583
@@ -144,7 +144,7 @@ Nothing is printed when it works.
 
 37
 00:03:07,866 --> 00:03:12,924
-Let's prove it arrived. S S H runs cat on the remote side, and there's our line.
+Let's prove it arrived. SSH runs cat on the remote side, and there's our line.
 
 38
 00:03:15,894 --> 00:03:21,013
@@ -204,7 +204,7 @@ Your turn. Make a directory called lab five.
 
 52
 00:04:24,613 --> 00:04:27,707
-Then use S S H to run hostname on localhost.
+Then use SSH to run hostname on localhost.
 
 53
 00:04:30,677 --> 00:04:34,834
