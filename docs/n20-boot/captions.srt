@@ -1,0 +1,151 @@
+1
+00:00:00,400 --> 00:00:05,350
+Rebooting a server sounds simple, until it is a production box with users on it.
+
+2
+00:00:05,370 --> 00:00:10,257
+The right way to restart, or power off, is calm, planned, and can be cancelled.
+
+3
+00:00:10,727 --> 00:00:14,227
+In this video: boot, reboot, and shut down a system normally.
+
+4
+00:00:18,747 --> 00:00:21,330
+Here's the task, the way an exam would state it.
+
+5
+00:00:21,800 --> 00:00:24,510
+Boot, reboot, and shut down a system normally.
+
+6
+00:00:24,980 --> 00:00:29,416
+We'll see how long a machine has been up, schedule a shutdown and cancel it,
+
+7
+00:00:29,436 --> 00:00:33,110
+reboot for real, and confirm that the system came back healthy.
+
+8
+00:00:42,630 --> 00:00:46,045
+Three actions. Boot: the machine starts up. Reboot:
+
+9
+00:00:46,065 --> 00:00:49,547
+it shuts down cleanly, then starts again. Power off:
+
+10
+00:00:49,567 --> 00:00:52,039
+it shuts down cleanly, and stays off.
+
+11
+00:01:02,509 --> 00:01:06,518
+Normally, you use systemctl reboot, or systemctl poweroff.
+
+12
+00:01:06,538 --> 00:01:10,268
+The shutdown command does the same, and can also wait:
+
+13
+00:01:10,288 --> 00:01:14,713
+shutdown -r for reboot, shutdown -h for power off, then a delay.
+
+14
+00:01:26,233 --> 00:01:31,568
+Start by looking. uptime -p prints how long the machine has been up, in plain words.
+
+15
+00:01:36,038 --> 00:01:38,898
+who -b shows the date and time of the last boot.
+
+16
+00:01:44,418 --> 00:01:49,491
+Now a planned shutdown. shutdown -h +10 means: power off in ten minutes.
+
+17
+00:01:49,511 --> 00:01:53,876
+The system prints the exact time, and tells you how to cancel.
+
+18
+00:01:53,896 --> 00:01:56,281
+Everyone logged in gets a warning.
+
+19
+00:02:02,751 --> 00:02:07,445
+Changed your mind? shutdown -c cancels it. Nothing happens to the machine.
+
+20
+00:02:12,965 --> 00:02:16,523
+systemctl is-system-running tells you the overall state.
+
+21
+00:02:16,543 --> 00:02:19,014
+Right after a boot it can say starting.
+
+22
+00:02:19,034 --> 00:02:23,998
+The --wait option waits until startup has finished, and then prints the state,
+
+23
+00:02:24,018 --> 00:02:25,084
+normally running.
+
+24
+00:02:29,554 --> 00:02:34,386
+We do not power off in this lab, because that would end the virtual machine.
+
+25
+00:02:34,406 --> 00:02:38,728
+But the idea is the same, as systemctl poweroff, or shutdown -h now.
+
+26
+00:02:46,248 --> 00:02:49,684
+Our five steps: task, demo, check, reboot, and your turn.
+
+27
+00:02:51,204 --> 00:02:52,536
+Now the real reboot.
+
+28
+00:02:52,556 --> 00:02:57,269
+systemctl reboot stops the services cleanly, and restarts the machine.
+
+29
+00:02:57,289 --> 00:02:59,568
+The connection drops, as expected.
+
+30
+00:03:03,038 --> 00:03:07,882
+After the boot, uptime is back to almost zero, who -b shows a new boot time,
+
+31
+00:03:07,902 --> 00:03:09,546
+and the system is running.
+
+32
+00:03:20,066 --> 00:03:24,638
+Your turn. Schedule a power off in twenty minutes, then cancel it.
+
+33
+00:03:24,658 --> 00:03:26,586
+Reboot the machine normally.
+
+34
+00:03:26,606 --> 00:03:29,718
+After it is back, make a folder called lab20,
+
+35
+00:03:29,738 --> 00:03:33,614
+and save the output of who -b in a file called boot.txt.
+
+36
+00:03:40,084 --> 00:03:42,901
+Run the checker, and try before you open the solution.
+
+37
+00:03:48,421 --> 00:03:51,622
+Next up: boot systems into different targets manually.
+
+38
+00:03:52,092 --> 00:03:54,995
+Subscribe to follow the series, and let's keep going.
