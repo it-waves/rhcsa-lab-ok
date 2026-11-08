@@ -1,0 +1,163 @@
+1
+00:00:00,400 --> 00:00:05,439
+Two disks, each prepared as a physical volume. But LVM cannot use them yet.
+
+2
+00:00:05,459 --> 00:00:10,364
+First, they have to be put into a volume group: one shared pool of space.
+
+3
+00:00:10,834 --> 00:00:14,270
+In this video: assign physical volumes to volume groups.
+
+4
+00:00:18,790 --> 00:00:21,373
+Here's the task, the way an exam would state it.
+
+5
+00:00:21,843 --> 00:00:24,319
+Assign physical volumes to volume groups.
+
+6
+00:00:24,789 --> 00:00:28,640
+We'll start with two physical volumes, create a volume group with one,
+
+7
+00:00:28,660 --> 00:00:30,742
+add the second, and take it out again.
+
+8
+00:00:40,262 --> 00:00:41,878
+Remember the three layers.
+
+9
+00:00:41,898 --> 00:00:45,653
+Physical volumes at the bottom, volume groups in the middle.
+
+10
+00:00:45,673 --> 00:00:51,442
+A volume group takes one or more physical volumes and pools their space into one big bucket.
+
+11
+00:00:59,912 --> 00:01:02,903
+Here, vdb and vdc are five gigabytes each.
+
+12
+00:01:02,923 --> 00:01:06,702
+Together in one group, they give about ten gigabytes.
+
+13
+00:01:06,722 --> 00:01:10,644
+Later, logical volumes will be carved out of that pool.
+
+14
+00:01:19,114 --> 00:01:22,298
+The group needs a name. We will use vgdata.
+
+15
+00:01:22,318 --> 00:01:26,544
+The lab already prepared vdb and vdc as physical volumes,
+
+16
+00:01:26,564 --> 00:01:28,630
+just like in the last video.
+
+17
+00:01:36,150 --> 00:01:41,418
+First, pvs. Both disks are physical volumes, and the VG column is empty:
+
+18
+00:01:41,438 --> 00:01:47,513
+neither belongs to a group. Then vgs, which lists volume groups. It prints nothing:
+
+19
+00:01:47,533 --> 00:01:48,909
+there are none yet.
+
+20
+00:01:58,429 --> 00:02:02,340
+Now vgcreate, the name of the new group, and a disk. It says:
+
+21
+00:02:02,360 --> 00:02:04,532
+volume group successfully created.
+
+22
+00:02:10,002 --> 00:02:15,118
+vgs lists it: the name, one physical volume, no logical volumes yet,
+
+23
+00:02:15,138 --> 00:02:18,366
+and about five gigabytes of size, all free.
+
+24
+00:02:23,836 --> 00:02:30,450
+And pvs now shows vgdata in the VG column of vdb. The other disk is still free.
+
+25
+00:02:37,970 --> 00:02:42,609
+To add more space, vgextend, the group, and the second disk. It says:
+
+26
+00:02:42,629 --> 00:02:44,094
+successfully extended.
+
+27
+00:02:49,564 --> 00:02:55,460
+vgs: two physical volumes, and the size doubled to about ten gigabytes.
+
+28
+00:02:55,480 --> 00:02:58,376
+pvs shows both disks inside vgdata.
+
+29
+00:03:08,896 --> 00:03:12,332
+Our five steps: task, demo, check, reboot, and your turn.
+
+30
+00:03:13,852 --> 00:03:17,566
+We reboot. Then vgs shows the group again, with both disks:
+
+31
+00:03:17,586 --> 00:03:21,363
+the group is stored on the disks themselves, so it survives.
+
+32
+00:03:30,883 --> 00:03:34,996
+To take a disk out, vgreduce, the group, and the disk. It says:
+
+33
+00:03:35,016 --> 00:03:36,701
+removed from volume group.
+
+34
+00:03:36,721 --> 00:03:40,506
+This works only while the disk holds no data of the group.
+
+35
+00:03:47,976 --> 00:03:54,550
+vgs shows one physical volume and five gigabytes again, and pvs shows vdc free,
+
+36
+00:03:54,570 --> 00:03:56,553
+with an empty VG column.
+
+37
+00:04:06,073 --> 00:04:10,599
+Your turn. The disks vdb and vdc are physical volumes.
+
+38
+00:04:10,619 --> 00:04:17,082
+Create a volume group called examvg with vdb. Add vdc to it. Run the checker.
+
+39
+00:04:23,552 --> 00:04:25,303
+Try before you open the solution.
+
+40
+00:04:30,823 --> 00:04:33,790
+Next up: create and delete logical volumes.
+
+41
+00:04:34,260 --> 00:04:37,162
+Subscribe to follow the series, and let's keep going.
