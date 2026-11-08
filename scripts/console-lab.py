@@ -101,9 +101,9 @@ ssh('sudo systemctl is-system-running --wait')
 # ---------- A: rd.break, reset root password ----------
 if grub_edit('rd.break', 'A'):
     m = mark(); hmp('sendkey ctrl-x')
-    ok = wait(r'Press Enter for maintenance|switch_root:/#', 240, m)
-    if ok and not re.search(r'switch_root:/#', since(m)):
-        time.sleep(1); shot('A_4_emergency_prompt'); send('\n', 0.04); ok = wait(r'switch_root:/#', 40, m); time.sleep(1); shot('A_5_shell')
+    ok = wait(r'Press Enter for maintenance|sh-5\.2#|switch_root:/#', 240, m)
+    if ok and not re.search(r'sh-5\.2#|switch_root:/#', since(m)):
+        time.sleep(1); shot('A_4_emergency_prompt'); send('\n', 0.04); ok = wait(r'sh-5\.2#|switch_root:/#', 40, m); time.sleep(1); shot('A_5_shell')
     banner('A / after Ctrl-X: kernel and initramfs output (tail)'); print('\n'.join(since(m).split('\n')[-25:]), flush=True)
     if ok:
         m = mark()
