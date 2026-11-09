@@ -1,0 +1,235 @@
+1
+00:00:00,400 --> 00:00:04,440
+You mount a network share by hand, and then it is gone after a reboot,
+
+2
+00:00:04,460 --> 00:00:06,064
+or you forget to unmount it.
+
+3
+00:00:06,084 --> 00:00:10,065
+What if the share just mounted itself, only when you open the folder?
+
+4
+00:00:10,535 --> 00:00:12,926
+In this video: configure auto F S.
+
+5
+00:00:17,446 --> 00:00:20,029
+Here's the task, the way an exam would state it.
+
+6
+00:00:20,499 --> 00:00:22,015
+Configure autofs.
+
+7
+00:00:22,485 --> 00:00:25,163
+We'll write two small files, start the service,
+
+8
+00:00:25,183 --> 00:00:28,665
+and watch a share mount itself the moment we open the folder,
+
+9
+00:00:28,685 --> 00:00:31,019
+and unmount itself when we stop using it.
+
+10
+00:00:39,539 --> 00:00:44,163
+Auto F S mounts a file system on demand. It does not mount at boot.
+
+11
+00:00:44,183 --> 00:00:49,083
+It waits. The first time anything opens the folder, auto F S mounts it.
+
+12
+00:00:49,103 --> 00:00:53,450
+After a while with nobody using it, auto F S unmounts it again.
+
+13
+00:00:57,920 --> 00:00:59,178
+It needs two files.
+
+14
+00:00:59,198 --> 00:01:04,765
+The master map says which folder auto F S watches, and which map file describes it.
+
+15
+00:01:04,785 --> 00:01:08,198
+The map file says what to mount inside that folder:
+
+16
+00:01:08,218 --> 00:01:11,361
+a name, the options, and the server colon path.
+
+17
+00:01:16,831 --> 00:01:21,835
+Before the demo, silently, the lab installs the packages and sets up an N F S
+
+18
+00:01:21,855 --> 00:01:24,837
+server with one shared folder. One lab detail:
+
+19
+00:01:24,857 --> 00:01:27,121
+if the server is this same machine,
+
+20
+00:01:27,141 --> 00:01:31,036
+auto F S shortcuts with a local bind mount instead of N F S.
+
+21
+00:01:31,056 --> 00:01:35,995
+So our lab server is the address one twenty seven dot zero dot zero dot two,
+
+22
+00:01:36,015 --> 00:01:41,280
+a second address of this machine. On the exam, you will use the real server name.
+
+23
+00:01:51,800 --> 00:01:55,409
+The master map is a file ending in dot auto F S,
+
+24
+00:01:55,429 --> 00:01:58,963
+inside slash E T C slash auto dot master dot D.
+
+25
+00:01:58,983 --> 00:02:04,028
+Each line has the folder to watch, the map file, and options. Here:
+
+26
+00:02:04,048 --> 00:02:09,321
+slash M N T slash auto, the map file slash E T C slash auto dot N F S,
+
+27
+00:02:09,341 --> 00:02:11,513
+and a timeout of ten seconds.
+
+28
+00:02:15,983 --> 00:02:20,233
+To write the file, echo prints the line. The pipe symbol hands it to tee.
+
+29
+00:02:20,253 --> 00:02:24,795
+Sudo tee writes it into the file with root rights, and shows us what it wrote.
+
+30
+00:02:31,315 --> 00:02:37,474
+The map file has one line: a name, data, then the options, then server colon path.
+
+31
+00:02:37,494 --> 00:02:42,900
+Dash fstype equals N F S four is the type, and R W means read and write.
+
+32
+00:02:47,370 --> 00:02:51,616
+The name, data, becomes a folder inside slash M N T slash auto.
+
+33
+00:02:51,636 --> 00:02:53,580
+We never create it ourselves.
+
+34
+00:02:58,100 --> 00:03:02,648
+Now we start the service. Systemctl enable dash dash now auto F S.
+
+35
+00:03:02,668 --> 00:03:06,869
+Enable starts it at every boot, and now starts it right away.
+
+36
+00:03:11,339 --> 00:03:13,894
+Ls on the watched folder prints nothing,
+
+37
+00:03:13,914 --> 00:03:18,658
+and findmnt on the data folder prints nothing too. Nothing is mounted yet.
+
+38
+00:03:25,178 --> 00:03:27,062
+Now we just look inside.
+
+39
+00:03:27,082 --> 00:03:32,376
+Ls on slash M N T slash auto slash data, and hello dot txt appears.
+
+40
+00:03:32,396 --> 00:03:33,883
+We never ran mount.
+
+41
+00:03:38,353 --> 00:03:42,819
+Cat prints the file from the server. And findmnt shows what happened:
+
+42
+00:03:42,839 --> 00:03:44,574
+auto F S mounted it for us.
+
+43
+00:03:44,594 --> 00:03:49,320
+The type is N F S four, and the source is the server and the shared path.
+
+44
+00:03:58,840 --> 00:04:00,157
+Now we leave it alone.
+
+45
+00:04:00,177 --> 00:04:04,409
+Sleep twenty waits twenty seconds, longer than our ten second timeout.
+
+46
+00:04:08,879 --> 00:04:12,663
+Findmnt prints nothing. Auto F S unmounted it by itself.
+
+47
+00:04:12,683 --> 00:04:15,515
+Touch the folder again, and it comes back.
+
+48
+00:04:22,035 --> 00:04:25,471
+Our five steps: task, demo, check, reboot, and your turn.
+
+49
+00:04:26,991 --> 00:04:31,944
+We reboot. Auto F S is still enabled, so nothing needs mounting by hand.
+
+50
+00:04:31,964 --> 00:04:35,605
+Findmnt shows nothing, because nobody has looked yet.
+
+51
+00:04:35,625 --> 00:04:40,233
+Then cat reads the file, and findmnt shows the share mounted again.
+
+52
+00:04:40,253 --> 00:04:44,102
+This is why we use auto F S instead of mounting by hand.
+
+53
+00:04:57,622 --> 00:05:04,925
+Your turn. A server at one twenty seven dot zero dot zero dot two shares slash S R V slash exam.
+
+54
+00:05:04,945 --> 00:05:10,799
+Configure auto F S so that slash remote slash exam mounts it with N F S four,
+
+55
+00:05:10,819 --> 00:05:15,987
+and hello dot txt can be read. Auto F S must be enabled and running.
+
+56
+00:05:16,007 --> 00:05:17,207
+Run the checker.
+
+57
+00:05:24,677 --> 00:05:26,428
+Try before you open the solution.
+
+58
+00:05:31,948 --> 00:05:34,979
+Next up: extend existing logical volumes.
+
+59
+00:05:35,449 --> 00:05:38,351
+Subscribe to follow the series, and let's keep going.
