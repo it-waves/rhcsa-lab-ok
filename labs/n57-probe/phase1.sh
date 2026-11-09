@@ -8,7 +8,7 @@ run 'sudo cat /etc/ssh/sshd_config.d/*.conf'
 run 'ssh -V'
 run 'which ssh-copy-id ssh-keygen ssh-agent ssh-add'
 run 'getenforce'
-run 'tty'
+run 'timeout 5 tty'
 sudo useradd olga >/dev/null 2>&1
 echo 'olga:LabPass-57' | sudo chpasswd
 cat > /tmp/askpass.sh <<'EOS'
@@ -19,7 +19,7 @@ chmod +x /tmp/askpass.sh
 step "copy-id test"
 run "ssh-keygen -q -t ed25519 -N '' -f ~/.ssh/lab_key"
 run 'ls -l ~/.ssh'
-run 'SSH_ASKPASS=/tmp/askpass.sh SSH_ASKPASS_REQUIRE=force ssh-copy-id -i ~/.ssh/lab_key.pub olga@localhost'
-run 'ssh -i ~/.ssh/lab_key -o StrictHostKeyChecking=accept-new olga@localhost id'
+run 'timeout 30 env SSH_ASKPASS=/tmp/askpass.sh SSH_ASKPASS_REQUIRE=force ssh-copy-id -i ~/.ssh/lab_key.pub olga@localhost'
+run 'timeout 30 ssh -i ~/.ssh/lab_key -o StrictHostKeyChecking=accept-new -o BatchMode=yes olga@localhost id'
 run 'sudo ls -la /home/olga/.ssh'
 run 'sudo cat /home/olga/.ssh/authorized_keys'
