@@ -1,0 +1,215 @@
+1
+00:00:00,400 --> 00:00:03,845
+Your disk is almost full, and the application cannot stop.
+
+2
+00:00:03,865 --> 00:00:06,712
+You do not copy anything, and you do not reboot.
+
+3
+00:00:06,732 --> 00:00:10,535
+You just make the volume bigger, while it is mounted and in use.
+
+4
+00:00:11,005 --> 00:00:14,334
+In this video: extend existing logical volumes.
+
+5
+00:00:18,854 --> 00:00:21,437
+Here's the task, the way an exam would state it.
+
+6
+00:00:21,907 --> 00:00:24,169
+Extend existing logical volumes.
+
+7
+00:00:24,639 --> 00:00:27,490
+We'll grow a logical volume and its file system,
+
+8
+00:00:27,510 --> 00:00:32,513
+hit the case where the volume group has no room left, and fix that by adding a disk.
+
+9
+00:00:41,033 --> 00:00:43,577
+A logical volume lives in a volume group,
+
+10
+00:00:43,597 --> 00:00:46,828
+and the group draws its space from physical volumes.
+
+11
+00:00:46,848 --> 00:00:50,080
+To make a volume bigger, the group needs free space.
+
+12
+00:00:54,550 --> 00:01:00,058
+There are two things to grow: the logical volume, and the file system inside it.
+
+13
+00:01:00,078 --> 00:01:04,343
+Grow only the volume, and the file system stays the same size.
+
+14
+00:01:04,363 --> 00:01:07,522
+Lvextend with dash r does both in one command.
+
+15
+00:01:12,992 --> 00:01:17,060
+If the group has no free space, you first add a disk to it,
+
+16
+00:01:17,080 --> 00:01:19,208
+with P V create and V G extend.
+
+17
+00:01:19,228 --> 00:01:24,751
+Before the demo, silently, the lab builds a one gigabyte X F S volume mounted on
+
+18
+00:01:24,771 --> 00:01:28,493
+slash M N T slash app, with a blank second disk ready.
+
+19
+00:01:28,513 --> 00:01:30,572
+These steps change the system.
+
+20
+00:01:41,092 --> 00:01:45,246
+First, look at the group. Vgs shows the group and its free space:
+
+21
+00:01:45,266 --> 00:01:47,237
+just under four gigabytes free.
+
+22
+00:01:51,707 --> 00:01:54,383
+D F with dash h shows the file system:
+
+23
+00:01:54,403 --> 00:01:58,143
+about one gigabyte, mounted on slash M N T slash app.
+
+24
+00:01:58,163 --> 00:02:00,413
+This is the volume we will grow.
+
+25
+00:02:06,933 --> 00:02:11,892
+Lvextend, dash capital L, plus five twelve M, and the path of the volume.
+
+26
+00:02:11,912 --> 00:02:16,257
+The plus matters: it means add this much, not make it this size.
+
+27
+00:02:20,727 --> 00:02:23,952
+The volume went from one gigabyte to one and a half.
+
+28
+00:02:23,972 --> 00:02:28,195
+But D F still shows the old size. The file system has not grown yet.
+
+29
+00:02:34,715 --> 00:02:40,223
+For X F S, the grow command is X F S underscore grow F S, with the mount point.
+
+30
+00:02:40,243 --> 00:02:45,191
+It prints a long report, so we show only the first line and the result.
+
+31
+00:02:51,661 --> 00:02:57,368
+Now D F shows one point five gigabytes, and the volume was extended while mounted.
+
+32
+00:02:57,388 --> 00:03:01,070
+For ext four, the matching command is resize two F S.
+
+33
+00:03:07,590 --> 00:03:12,701
+Now we want six gigabytes more, with dash r, which also grows the file system.
+
+34
+00:03:12,721 --> 00:03:15,662
+It fails. We need fifteen thirty six extents,
+
+35
+00:03:15,682 --> 00:03:20,135
+and only eight ninety five are available. The group is out of space.
+
+36
+00:03:25,605 --> 00:03:27,462
+So we add the second disk.
+
+37
+00:03:27,482 --> 00:03:31,793
+P V create marks slash dev slash V D C as a physical volume.
+
+38
+00:03:35,263 --> 00:03:38,806
+V G extend adds it to the group. Now the group has room.
+
+39
+00:03:45,326 --> 00:03:49,530
+We run the same lvextend command again. This time it works.
+
+40
+00:03:49,550 --> 00:03:55,472
+It finds X F S, grows the volume from one and a half to seven and a half gigabytes,
+
+41
+00:03:55,492 --> 00:04:00,197
+and grows the file system too. Dash r saved us the second command.
+
+42
+00:04:07,717 --> 00:04:12,402
+D F shows seven and a half gigabytes, and cat shows the data is untouched.
+
+43
+00:04:12,422 --> 00:04:14,182
+We never unmounted anything.
+
+44
+00:04:20,702 --> 00:04:24,138
+Our five steps: task, demo, check, reboot, and your turn.
+
+45
+00:04:25,658 --> 00:04:31,394
+We reboot. L V S shows seven and a half gigabytes, D F agrees, and the data is there.
+
+46
+00:04:31,414 --> 00:04:37,286
+The change is permanent, because it lives in the L V M metadata and in the file system.
+
+47
+00:04:48,806 --> 00:04:52,799
+Your turn. The volume group vgexam has one small disk,
+
+48
+00:04:52,819 --> 00:04:56,886
+and the logical volume lvexam is six hundred megabytes,
+
+49
+00:04:56,906 --> 00:04:59,413
+mounted on slash M N T slash exam.
+
+50
+00:04:59,433 --> 00:05:03,426
+Add the blank disk slash dev slash V D C to the group,
+
+51
+00:05:03,446 --> 00:05:08,925
+and extend lvexam to two gigabytes, file system included. Run the checker.
+
+52
+00:05:16,395 --> 00:05:18,145
+Try before you open the solution.
+
+53
+00:05:23,665 --> 00:05:27,080
+Next up: diagnose and correct file permission problems.
+
+54
+00:05:27,550 --> 00:05:30,452
+Subscribe to follow the series, and let's keep going.
