@@ -1,0 +1,199 @@
+1
+00:00:00,400 --> 00:00:04,981
+Backups at night. Logs cleaned every week. A report every Monday morning.
+
+2
+00:00:05,001 --> 00:00:10,087
+Nobody wants to do these by hand, and Linux has three tools that do them for you.
+
+3
+00:00:10,557 --> 00:00:15,593
+In this video: schedule tasks using at, cron, and systemd timer units.
+
+4
+00:00:20,113 --> 00:00:22,696
+Here's the task, the way an exam would state it.
+
+5
+00:00:23,166 --> 00:00:27,071
+Schedule tasks using at, cron and systemd timer units.
+
+6
+00:00:27,541 --> 00:00:31,916
+We'll schedule one task with each tool, wait a minute, and watch all three run.
+
+7
+00:00:40,436 --> 00:00:44,256
+Three tools, three jobs. At runs a command once, later.
+
+8
+00:00:44,276 --> 00:00:47,817
+Cron runs a command again and again, on a schedule.
+
+9
+00:00:47,837 --> 00:00:53,472
+A systemd timer starts a systemd service on a schedule, and it is the modern way.
+
+10
+00:00:57,942 --> 00:01:00,022
+A cron schedule has five fields:
+
+11
+00:01:00,042 --> 00:01:05,207
+minute, hour, day of the month, month, and day of the week. A star means every.
+
+12
+00:01:05,227 --> 00:01:07,373
+So five stars means every minute.
+
+13
+00:01:12,843 --> 00:01:17,879
+Before the demo, silently, the lab installs the at and cron packages and starts
+
+14
+00:01:17,899 --> 00:01:20,823
+their services. These steps change the system.
+
+15
+00:01:30,343 --> 00:01:34,139
+First, at. Echo prints the command, the pipe hands it to at,
+
+16
+00:01:34,159 --> 00:01:36,429
+and the time is now plus one minute.
+
+17
+00:01:36,449 --> 00:01:40,627
+At prints a warning, then the job number and the time it will run.
+
+18
+00:01:46,097 --> 00:01:50,450
+Atq lists the waiting jobs: the number, the time, the queue, and the user.
+
+19
+00:01:55,970 --> 00:01:59,423
+Second, cron. One line: five stars, then the command.
+
+20
+00:01:59,443 --> 00:02:02,961
+The pipe hands it to crontab with a dash, which means:
+
+21
+00:02:02,981 --> 00:02:05,713
+read the new table from the pipe. Careful:
+
+22
+00:02:05,733 --> 00:02:08,793
+this replaces the whole cron table of the user.
+
+23
+00:02:14,263 --> 00:02:15,940
+Crontab dash L lists it.
+
+24
+00:02:15,960 --> 00:02:20,184
+In daily life you edit with crontab dash E, which opens vim.
+
+25
+00:02:20,204 --> 00:02:22,093
+This job runs every minute.
+
+26
+00:02:28,613 --> 00:02:34,378
+Third, a systemd timer, which needs two files. First, the service: what to run.
+
+27
+00:02:34,398 --> 00:02:38,991
+Type oneshot means: run, then finish. ExecStart is the command.
+
+28
+00:02:39,011 --> 00:02:42,725
+Printf writes the lines, backslash N is a new line,
+
+29
+00:02:42,745 --> 00:02:48,070
+and sudo tee writes the file into slash E T C slash systemd slash system.
+
+30
+00:02:57,590 --> 00:03:02,480
+Second, the timer: when to run. On calendar, minutely, means every minute.
+
+31
+00:03:02,500 --> 00:03:07,787
+Wanted by timers dot target means: start this timer at boot, once it is enabled.
+
+32
+00:03:07,807 --> 00:03:10,839
+The timer and the service share a name: hello.
+
+33
+00:03:20,359 --> 00:03:24,445
+Systemctl daemon dash reload makes systemd read the new files.
+
+34
+00:03:24,465 --> 00:03:29,214
+Then enable dash dash now starts the timer, and starts it at every boot.
+
+35
+00:03:33,684 --> 00:03:38,058
+List dash timers shows when the timer runs next, and which service it starts.
+
+36
+00:03:44,578 --> 00:03:47,694
+Now we wait a little more than a minute. Sleep seventy five.
+
+37
+00:03:51,164 --> 00:03:57,256
+The at job ran, and wrote the time. Cron ran, and wrote the time. The timer ran too.
+
+38
+00:03:57,276 --> 00:04:00,385
+Three tools, same result. And atq is empty:
+
+39
+00:04:00,405 --> 00:04:03,368
+an at job runs once, and then it is gone.
+
+40
+00:04:12,888 --> 00:04:16,324
+Our five steps: task, demo, check, reboot, and your turn.
+
+41
+00:04:17,844 --> 00:04:23,897
+We reboot. Cron is still scheduled, the timer is still enabled, and it shows its next run.
+
+42
+00:04:23,917 --> 00:04:27,339
+The at job ran already, so nothing is left to show.
+
+43
+00:04:36,859 --> 00:04:38,474
+Your turn. Three things.
+
+44
+00:04:38,494 --> 00:04:43,718
+A cron job for student that runs touch slash T M P slash exam dash cron every
+
+45
+00:04:43,738 --> 00:04:47,123
+fifteen minutes. An at job that runs in two hours.
+
+46
+00:04:47,143 --> 00:04:51,754
+And a timer called exam dot timer for the existing exam dot service,
+
+47
+00:04:51,774 --> 00:04:56,658
+every day at three in the morning, enabled and running. Run the checker.
+
+48
+00:05:04,128 --> 00:05:05,878
+Try before you open the solution.
+
+49
+00:05:11,398 --> 00:05:16,882
+Next up: start and stop services and configure services to start automatically at boot.
+
+50
+00:05:17,352 --> 00:05:20,255
+Subscribe to follow the series, and let's keep going.
