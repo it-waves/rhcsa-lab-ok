@@ -1,0 +1,147 @@
+1
+00:00:00,400 --> 00:00:03,262
+You install a web server. It works, you go home.
+
+2
+00:00:03,282 --> 00:00:07,344
+The server reboots at night, and in the morning the website is gone.
+
+3
+00:00:07,364 --> 00:00:09,745
+One missing command. Today you learn it.
+
+4
+00:00:10,215 --> 00:00:11,046
+In this video:
+
+5
+00:00:11,066 --> 00:00:15,849
+start and stop services, and configure services to start automatically at boot.
+
+6
+00:00:20,369 --> 00:00:22,952
+Here's the task, the way an exam would state it.
+
+7
+00:00:23,422 --> 00:00:28,287
+Start and stop services and configure services to start automatically at boot.
+
+8
+00:00:28,757 --> 00:00:32,300
+We'll start and stop a web server, then make it survive a reboot.
+
+9
+00:00:38,820 --> 00:00:44,951
+On Linux, a service is a program that runs in the background, like a web server.
+
+10
+00:00:44,971 --> 00:00:49,488
+System D manages it, and the tool you talk to is systemctl.
+
+11
+00:00:53,958 --> 00:00:57,999
+Two separate questions. Is it running now? That is start and stop.
+
+12
+00:00:58,019 --> 00:01:01,384
+Will it run after a reboot? That is enable and disable.
+
+13
+00:01:01,404 --> 00:01:04,583
+They do not affect each other, and that is the trap.
+
+14
+00:01:11,053 --> 00:01:16,450
+Before the demo, silently, the lab installs the Apache web server package,
+
+15
+00:01:16,470 --> 00:01:19,524
+named httpd. This step changes the system.
+
+16
+00:01:28,044 --> 00:01:31,234
+First, look. Systemctl status shows the service.
+
+17
+00:01:31,254 --> 00:01:36,651
+Loaded says where its unit file is, and disabled means it will not start at boot.
+
+18
+00:01:36,671 --> 00:01:39,928
+Active inactive dead means it is not running now.
+
+19
+00:01:49,448 --> 00:01:53,374
+Now start it. Sudo, because starting services needs root.
+
+20
+00:01:53,394 --> 00:01:59,119
+Is dash active answers with one word: active. Restart stops it and starts it again.
+
+21
+00:01:59,139 --> 00:02:02,719
+Stop stops it, and is dash active now says inactive.
+
+22
+00:02:14,239 --> 00:02:17,918
+Now the boot question. Is dash enabled says disabled.
+
+23
+00:02:17,938 --> 00:02:23,500
+Enable creates a link, a symlink, that makes system D start the service at boot.
+
+24
+00:02:23,520 --> 00:02:25,803
+Is dash enabled now says enabled.
+
+25
+00:02:33,273 --> 00:02:37,821
+But look: is dash active still says inactive. Enable did not start it.
+
+26
+00:02:37,841 --> 00:02:42,128
+Remember the two questions: enable changes the next boot, not now.
+
+27
+00:02:49,648 --> 00:02:51,981
+The fast way: enable dash dash now.
+
+28
+00:02:52,001 --> 00:02:56,753
+It enables the service and starts it, in one command. Now it is active.
+
+29
+00:03:04,273 --> 00:03:07,709
+Our five steps: task, demo, check, reboot, and your turn.
+
+30
+00:03:09,229 --> 00:03:14,046
+We reboot. Enabled, and active. Nobody started the web server this time.
+
+31
+00:03:14,066 --> 00:03:15,524
+System D did, at boot.
+
+32
+00:03:25,044 --> 00:03:29,295
+Your turn. Two services. Make httpd run now and at every boot.
+
+33
+00:03:29,315 --> 00:03:34,461
+And the at daemon, A T D: stop it, and make sure it does not start at boot.
+
+34
+00:03:34,481 --> 00:03:35,563
+Run the checker.
+
+35
+00:03:43,033 --> 00:03:44,783
+Try before you open the solution.
+
+36
+00:03:50,303 --> 00:03:54,763
+Next up: configure systems to boot into a specific target automatically.
+
+37
+00:03:55,233 --> 00:03:58,136
+Subscribe to follow the series, and let's keep going.
