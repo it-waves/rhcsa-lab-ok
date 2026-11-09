@@ -1,0 +1,195 @@
+1
+00:00:00,400 --> 00:00:05,998
+Every service on a server is a door. The firewall decides which doors are open.
+
+2
+00:00:06,018 --> 00:00:09,838
+On Red Hat Enterprise Linux the firewall is firewalld,
+
+3
+00:00:09,858 --> 00:00:13,393
+and you control it with one command: firewall-cmd.
+
+4
+00:00:13,863 --> 00:00:19,774
+In this video: configure firewall settings using firewall-cmd and firewalld.
+
+5
+00:00:24,294 --> 00:00:26,877
+Here's the task, the way an exam would state it.
+
+6
+00:00:27,347 --> 00:00:32,447
+Configure firewall settings using firewall-cmd/firewalld.
+
+7
+00:00:32,917 --> 00:00:37,808
+We'll look at zones, add a rule that is lost on reload, save a rule permanently,
+
+8
+00:00:37,828 --> 00:00:40,939
+open a port in a zone, and change the default zone.
+
+9
+00:00:48,459 --> 00:00:51,156
+Firewalld sorts traffic into zones.
+
+10
+00:00:51,176 --> 00:00:56,822
+A zone is a set of rules, and each network interface belongs to one zone.
+
+11
+00:00:56,842 --> 00:00:58,918
+The default zone is public.
+
+12
+00:00:58,938 --> 00:01:04,119
+A rule allows a service, like http, or a port, like 8080 slash tcp.
+
+13
+00:01:14,589 --> 00:01:16,988
+There are two copies of the rules.
+
+14
+00:01:17,008 --> 00:01:21,970
+The runtime copy is active right now, and is lost on reload or reboot.
+
+15
+00:01:21,990 --> 00:01:24,531
+The permanent copy is saved on disk.
+
+16
+00:01:24,551 --> 00:01:28,445
+By default, firewall-cmd changes only the runtime copy.
+
+17
+00:01:28,465 --> 00:01:33,213
+Before this demo, the lab silently installed and started firewalld,
+
+18
+00:01:33,233 --> 00:01:35,774
+because this image does not have it.
+
+19
+00:01:51,294 --> 00:01:55,825
+First, zones. get-default-zone shows the default zone:
+
+20
+00:01:55,845 --> 00:01:59,871
+public. get-active-zones shows the zones in use:
+
+21
+00:01:59,891 --> 00:02:03,242
+public, with the network interface ens3.
+
+22
+00:02:06,762 --> 00:02:09,580
+list-all shows everything in a zone.
+
+23
+00:02:09,600 --> 00:02:15,493
+The allowed services are cockpit, dhcpv6-client and ssh. No ports are open.
+
+24
+00:02:15,513 --> 00:02:19,435
+The other fields are empty, so they are not shown.
+
+25
+00:02:23,955 --> 00:02:31,121
+Now a runtime rule. add-service=http opens the web service. Success means it worked.
+
+26
+00:02:31,141 --> 00:02:37,366
+list-services shows http. Then reload, which reads the saved files again.
+
+27
+00:02:37,386 --> 00:02:41,130
+And http is gone, because we never saved it.
+
+28
+00:02:45,650 --> 00:02:48,007
+Again we add http at runtime.
+
+29
+00:02:48,027 --> 00:02:52,842
+Now --runtime-to-permanent saves the running rules to disk.
+
+30
+00:02:52,862 --> 00:02:56,530
+After a reload, http is still there. Careful:
+
+31
+00:02:56,550 --> 00:03:00,627
+it replaces the saved rules with the running ones.
+
+32
+00:03:05,147 --> 00:03:11,702
+Now a port in a named zone. --permanent saves the rule only on disk.
+
+33
+00:03:11,722 --> 00:03:18,953
+--zone=public picks the zone. add-port=8080/tcp is port 8080, protocol TCP.
+
+34
+00:03:18,973 --> 00:03:24,754
+A permanent rule is not active until a reload, so we reload,
+
+35
+00:03:24,774 --> 00:03:27,655
+and list-ports shows 8080/tcp.
+
+36
+00:03:32,175 --> 00:03:38,450
+Last, the default zone. --set-default-zone=work changes it, and it is saved at once.
+
+37
+00:03:38,470 --> 00:03:44,595
+The default zone is now work, and the active zone is work, for the interface ens3.
+
+38
+00:03:44,615 --> 00:03:49,092
+The zone public keeps its rules, but it is no longer in use.
+
+39
+00:03:49,112 --> 00:03:52,464
+To undo, set the default zone back to public.
+
+40
+00:03:57,984 --> 00:04:01,420
+Our five steps: task, demo, check, reboot, and your turn.
+
+41
+00:04:02,940 --> 00:04:05,840
+We reboot. The default zone is still work.
+
+42
+00:04:05,860 --> 00:04:10,984
+And the zone public still has http and port 8080, because they were saved.
+
+43
+00:04:18,504 --> 00:04:22,899
+Your turn. The lab silently installs firewalld first.
+
+44
+00:04:22,919 --> 00:04:29,230
+In the zone public, add the port 9090/tcp and the service https, at runtime.
+
+45
+00:04:29,250 --> 00:04:34,812
+Save them with --runtime-to-permanent. Set the default zone to dmz.
+
+46
+00:04:34,832 --> 00:04:38,644
+Run the checker, then reboot and run it again.
+
+47
+00:04:49,114 --> 00:04:50,865
+Try before you open the solution.
+
+48
+00:04:56,385 --> 00:04:59,053
+Next up: manage default file permissions.
+
+49
+00:04:59,523 --> 00:05:02,426
+Subscribe to follow the series, and let's keep going.
