@@ -1,0 +1,159 @@
+1
+00:00:00,400 --> 00:00:02,876
+A server reboots at three in the morning.
+
+2
+00:00:02,896 --> 00:00:06,469
+When it comes back, the website is down, nobody can log in,
+
+3
+00:00:06,489 --> 00:00:08,478
+and the cause is one small thing:
+
+4
+00:00:08,498 --> 00:00:12,071
+a service that was running, but never set to start at boot.
+
+5
+00:00:12,541 --> 00:00:16,958
+In this video: configure network services to start automatically at boot.
+
+6
+00:00:21,478 --> 00:00:24,061
+Here's the task, the way an exam would state it.
+
+7
+00:00:24,531 --> 00:00:28,031
+Configure network services to start automatically at boot.
+
+8
+00:00:28,501 --> 00:00:32,723
+We'll check a service, enable it so it starts at boot, start it right now,
+
+9
+00:00:32,743 --> 00:00:35,990
+and prove it listens on the network, even after a reboot.
+
+10
+00:00:43,510 --> 00:00:47,555
+A network service is a program that waits for connections, on a port.
+
+11
+00:00:47,575 --> 00:00:51,738
+Two different questions: is it enabled, meaning, will it start at boot?
+
+12
+00:00:51,758 --> 00:00:56,098
+And is it active, meaning, is it running right now? Both can be different.
+
+13
+00:01:03,568 --> 00:01:08,249
+Enable creates the link that starts it at boot. Start runs it now.
+
+14
+00:01:08,269 --> 00:01:12,737
+The option dash dash now does both in one command. Our example:
+
+15
+00:01:12,757 --> 00:01:16,369
+rpcbind, a service that listens on port one eleven.
+
+16
+00:01:23,839 --> 00:01:29,278
+Before the demo, silently, the lab makes sure rpcbind is disabled and stopped.
+
+17
+00:01:29,298 --> 00:01:31,307
+This step changes the system.
+
+18
+00:01:39,827 --> 00:01:44,819
+First, three services. Systemctl is enabled, Network Manager:
+
+19
+00:01:44,839 --> 00:01:49,585
+enabled. Sshd, the remote login service: enabled. Rpcbind:
+
+20
+00:01:49,605 --> 00:01:52,543
+disabled. It will not start at boot.
+
+21
+00:02:03,063 --> 00:02:05,817
+Is it running now? Systemctl is active:
+
+22
+00:02:05,837 --> 00:02:10,939
+inactive. And does anything listen on port one eleven? Ss shows sockets.
+
+23
+00:02:10,959 --> 00:02:14,496
+Dash t, T C P. Dash l, listening. Dash n, numbers.
+
+24
+00:02:14,516 --> 00:02:20,330
+The pipe passes the result to grep, which keeps only lines with colon one one one.
+
+25
+00:02:20,350 --> 00:02:21,326
+Nothing found.
+
+26
+00:02:32,846 --> 00:02:36,912
+Now fix it. Sudo systemctl enable, dash dash now, rpcbind.
+
+27
+00:02:36,932 --> 00:02:42,477
+It prints the link it created, from the multi user target, to the service file.
+
+28
+00:02:42,497 --> 00:02:45,647
+That link is what starts the service at boot.
+
+29
+00:02:56,167 --> 00:03:00,185
+Check both questions. Is enabled: enabled. Is active:
+
+30
+00:03:00,205 --> 00:03:06,204
+active. And now the socket check shows two listening lines, one for I P v four,
+
+31
+00:03:06,224 --> 00:03:09,480
+one for I P v six, both on port one eleven.
+
+32
+00:03:20,000 --> 00:03:23,436
+Our five steps: task, demo, check, reboot, and your turn.
+
+33
+00:03:24,956 --> 00:03:30,330
+We reboot. Rpcbind is enabled, and it is active again. Nobody started it:
+
+34
+00:03:30,350 --> 00:03:32,104
+the system did, at boot.
+
+35
+00:03:40,624 --> 00:03:44,584
+Your turn. Enable the service N F S server, and start it now.
+
+36
+00:03:44,604 --> 00:03:49,021
+And do the opposite for cockpit dot socket: disable it, and stop it.
+
+37
+00:03:49,041 --> 00:03:51,761
+Run the checker, reboot, and run it again.
+
+38
+00:04:00,231 --> 00:04:01,982
+Try before you open the solution.
+
+39
+00:04:07,502 --> 00:04:12,474
+Next up: restrict network access using firewalld and firewall-cmd.
+
+40
+00:04:12,944 --> 00:04:15,847
+Subscribe to follow the series, and let's keep going.
