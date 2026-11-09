@@ -1,0 +1,159 @@
+1
+00:00:00,400 --> 00:00:03,575
+SELinux has hundreds of switches, called booleans.
+
+2
+00:00:03,595 --> 00:00:07,919
+Need a web server to read home directories? You do not write policy.
+
+3
+00:00:07,939 --> 00:00:12,775
+You flip one switch. Today we read booleans, and change them, the right way.
+
+4
+00:00:13,245 --> 00:00:18,046
+In this video: use Boolean settings to modify system SELinux settings.
+
+5
+00:00:22,566 --> 00:00:25,149
+Here's the task, the way an exam would state it.
+
+6
+00:00:25,619 --> 00:00:29,439
+Use Boolean settings to modify system SELinux settings.
+
+7
+00:00:29,909 --> 00:00:33,928
+We'll read a boolean, change it until the next reboot, change it for good,
+
+8
+00:00:33,948 --> 00:00:35,457
+and check it after a reboot.
+
+9
+00:00:42,977 --> 00:00:46,812
+A boolean is an on or off switch inside the SELinux policy.
+
+10
+00:00:46,832 --> 00:00:50,667
+One boolean allows the web server to read home directories.
+
+11
+00:00:50,687 --> 00:00:53,215
+Another lets it connect to the network.
+
+12
+00:00:53,235 --> 00:00:57,528
+Each switch is a rule you can turn on, without writing any policy.
+
+13
+00:01:02,998 --> 00:01:06,135
+Three commands. getsebool reads a boolean.
+
+14
+00:01:06,155 --> 00:01:10,120
+setsebool changes it, but only until the next reboot.
+
+15
+00:01:10,140 --> 00:01:14,405
+And setsebool with dash capital P changes it permanently:
+
+16
+00:01:14,425 --> 00:01:17,036
+it is saved, and survives a reboot.
+
+17
+00:01:24,556 --> 00:01:30,480
+First, read. getsebool with a name prints one boolean: httpd enable homedirs is off.
+
+18
+00:01:30,500 --> 00:01:32,957
+With dash a, it prints all of them,
+
+19
+00:01:32,977 --> 00:01:37,556
+so we filter with grep for the ones that start with httpd enable.
+
+20
+00:01:37,576 --> 00:01:43,288
+Then semanage boolean with dash l adds a description, and two values in brackets:
+
+21
+00:01:43,308 --> 00:01:46,189
+the current value, and the default value.
+
+22
+00:01:50,709 --> 00:01:55,444
+Now change it, until the next reboot. setsebool, the name, and on.
+
+23
+00:01:55,464 --> 00:02:01,424
+getsebool confirms: on. And in the list, the brackets say: current on, default off.
+
+24
+00:02:01,444 --> 00:02:03,873
+The change is live, but not saved.
+
+25
+00:02:08,393 --> 00:02:13,459
+Now make it permanent. The same command, with dash capital P, for permanent.
+
+26
+00:02:13,479 --> 00:02:18,611
+It takes a few seconds, because it rebuilds the policy. Now the brackets say:
+
+27
+00:02:18,631 --> 00:02:23,831
+on, on. And semanage with dash l and dash capital C lists only the booleans we
+
+28
+00:02:23,851 --> 00:02:25,504
+changed from the default.
+
+29
+00:02:30,024 --> 00:02:34,825
+Our five steps: task, demo, check, reboot when the task needs one, and your turn.
+
+30
+00:02:36,345 --> 00:02:41,271
+We reboot, and getsebool says: on. The permanent change survived. Compare:
+
+31
+00:02:41,291 --> 00:02:44,346
+without dash capital P, it would be off again.
+
+32
+00:02:48,866 --> 00:02:54,201
+Back to the default. setsebool with dash capital P and off. getsebool says off.
+
+33
+00:02:54,221 --> 00:02:59,081
+The list of local changes still shows the boolean, now with off and off:
+
+34
+00:02:59,101 --> 00:03:03,758
+the same as the default. Always put back what you changed for a demo.
+
+35
+00:03:08,278 --> 00:03:13,136
+Your turn. Turn on the boolean httpd can network connect, permanently.
+
+36
+00:03:13,156 --> 00:03:17,943
+Run the checker, then reboot and run it again: both checks must pass.
+
+37
+00:03:28,413 --> 00:03:30,164
+Try before you open the solution.
+
+38
+00:03:35,684 --> 00:03:37,305
+That was the last objective.
+
+39
+00:03:37,325 --> 00:03:42,171
+Go back through the playlist, redo every practice task, and good luck on your exam.
+
+40
+00:03:42,641 --> 00:03:44,839
+Subscribe, and see you in the next series.
