@@ -1,0 +1,155 @@
+1
+00:00:00,400 --> 00:00:07,184
+A web server will not start on port 8888, and nothing in its config is wrong. The reason:
+
+2
+00:00:07,204 --> 00:00:13,605
+SELinux gives ports labels too, and a service may only use the ports with its label.
+
+3
+00:00:13,625 --> 00:00:16,892
+Today we manage those labels with semanage.
+
+4
+00:00:17,362 --> 00:00:20,350
+In this video: manage SELinux port labels.
+
+5
+00:00:24,870 --> 00:00:27,453
+Here's the task, the way an exam would state it.
+
+6
+00:00:27,923 --> 00:00:29,972
+Manage SELinux port labels.
+
+7
+00:00:30,442 --> 00:00:33,250
+We'll list the port labels, add a port to a label,
+
+8
+00:00:33,270 --> 00:00:36,587
+change a port that already has one, and remove our changes.
+
+9
+00:00:44,107 --> 00:00:47,221
+Every network service runs with a type.
+
+10
+00:00:47,241 --> 00:00:53,568
+The web server runs as httpd t, and SELinux lets it use only the ports with the
+
+11
+00:00:53,588 --> 00:00:56,862
+type http port t: for example 80 and 443.
+
+12
+00:00:56,882 --> 00:01:02,165
+Port 8888 is not in that list, so the web server is blocked there,
+
+13
+00:01:02,185 --> 00:01:05,058
+even when the config says to use it.
+
+14
+00:01:10,528 --> 00:01:12,557
+The tool is semanage port.
+
+15
+00:01:12,577 --> 00:01:17,522
+Dash l lists, dash a adds, dash m modifies, and dash d deletes.
+
+16
+00:01:17,542 --> 00:01:22,646
+Dash t gives the type, and dash p gives the protocol: tcp or udp.
+
+17
+00:01:22,666 --> 00:01:26,508
+The changes are permanent: they survive a reboot.
+
+18
+00:01:34,028 --> 00:01:36,392
+First, list the labels.
+
+19
+00:01:36,412 --> 00:01:43,544
+semanage port with dash l prints all of them, so we filter with grep.
+
+20
+00:01:43,564 --> 00:01:52,147
+The type http port t has the tcp ports 80, 81, 443, 488, 8008, 8009, 8443 and 9000,
+
+21
+00:01:52,167 --> 00:01:59,506
+and the udp ports 80 and 443. The option dash w means: whole word only.
+
+22
+00:01:59,526 --> 00:02:04,999
+Port 8080 belongs to another type: http cache port t.
+
+23
+00:02:09,519 --> 00:02:17,260
+Now add port 8888 to the web labels. Dash a adds. Dash t is the type, http port t.
+
+24
+00:02:17,280 --> 00:02:24,170
+Dash p is the protocol, tcp. And the port, 8888. No output means success.
+
+25
+00:02:24,190 --> 00:02:31,079
+The list now shows 8888. And dash capital C shows only the local changes:
+
+26
+00:02:31,099 --> 00:02:32,688
+the ones we made.
+
+27
+00:02:37,208 --> 00:02:43,326
+What if the port already has a label? Port 8080 belongs to http cache port t.
+
+28
+00:02:43,346 --> 00:02:49,066
+We try to add it, and semanage says: already defined, modifying instead.
+
+29
+00:02:49,086 --> 00:02:55,125
+So adding works too, in this version. The option dash m modifies explicitly.
+
+30
+00:02:55,145 --> 00:02:58,393
+And now port 8080 belongs to http port t.
+
+31
+00:03:02,913 --> 00:03:08,682
+Last, remove our changes with dash d. First 8888, then 8080.
+
+32
+00:03:08,702 --> 00:03:15,919
+The local list is now empty. And port 8080 is back with its original label:
+
+33
+00:03:15,939 --> 00:03:17,656
+http cache port t.
+
+34
+00:03:22,176 --> 00:03:26,977
+Our five steps: task, demo, check, reboot when the task needs one, and your turn.
+
+35
+00:03:28,497 --> 00:03:32,727
+Your turn. Label tcp port 8899 as http port t.
+
+36
+00:03:32,747 --> 00:03:40,210
+Run the checker, then reboot and run it again: the label must survive the reboot.
+
+37
+00:03:50,680 --> 00:03:52,431
+Try before you open the solution.
+
+38
+00:03:57,951 --> 00:04:02,475
+Next up: use Boolean settings to modify system SELinux settings.
+
+39
+00:04:02,945 --> 00:04:05,848
+Subscribe to follow the series, and let's keep going.
