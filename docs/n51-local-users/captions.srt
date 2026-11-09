@@ -31,91 +31,91 @@ We'll create a user, create one with options, change an existing user,
 and delete users, with and without their home directory.
 
 9
-00:00:40,374 --> 00:00:43,867
-Every local user is one line in the file etc passwd.
+00:00:40,374 --> 00:00:43,949
+Every local user is one line in the file /etc/passwd.
 
 10
-00:00:43,887 --> 00:00:48,934
+00:00:43,969 --> 00:00:49,037
 You see a line with getent passwd. It has seven parts, separated by colons:
 
 11
-00:00:48,954 --> 00:00:53,865
-the name, a password placeholder, the user I D, the group I D, a comment,
+00:00:49,057 --> 00:00:53,854
+the name, a password placeholder, the user ID, the group ID, a comment,
 
 12
-00:00:53,885 --> 00:00:56,567
+00:00:53,874 --> 00:00:56,567
 the home directory, and the login shell.
 
 13
-00:01:06,037 --> 00:01:11,759
-Three commands do the job. User add creates. User mod modifies. User del deletes.
+00:01:06,037 --> 00:01:11,634
+Three commands do the job. useradd creates. usermod modifies. userdel deletes.
 
 14
-00:01:11,779 --> 00:01:16,296
+00:01:11,654 --> 00:01:16,243
 We use sudo, because only the administrator can change accounts.
 
 15
-00:01:16,316 --> 00:01:19,628
+00:01:16,263 --> 00:01:19,628
 In this demo, the lab changes nothing silently.
 
 16
-00:01:27,148 --> 00:01:31,512
-Create a user: sudo user add alice. No output means it worked.
+00:01:27,148 --> 00:01:31,966
+Create a user: sudo useradd alice. No output means it worked.
 
 17
-00:01:31,532 --> 00:01:36,533
-The command id shows her user I D and group I D, both one thousand one.
+00:01:31,986 --> 00:01:36,487
+The command id shows her user ID and group ID, both 1001.
 
 18
-00:01:36,553 --> 00:01:42,402
-Getent passwd alice shows her line, with the home directory slash home slash alice.
+00:01:36,507 --> 00:01:42,197
+getent passwd alice shows her line, with the home directory /home/alice.
 
 19
-00:01:42,422 --> 00:01:47,352
-And ls dash d lists that directory itself: user add created it for us.
+00:01:42,217 --> 00:01:47,352
+And ls -d lists that directory itself: useradd created it for us.
 
 20
-00:02:00,872 --> 00:02:05,078
-Options let you decide the details. Dash u sets the user I D.
+00:02:00,872 --> 00:02:05,235
+Options let you decide the details. -u sets the user ID.
 
 21
-00:02:05,098 --> 00:02:10,344
-Dash c sets the comment, usually the full name. Dash s sets the login shell.
+00:02:05,255 --> 00:02:10,556
+-c sets the comment, usually the full name. -s sets the login shell.
 
 22
-00:02:10,364 --> 00:02:15,956
-The line shows user I D fifteen hundred, the comment Bob Lee, and the shell bash.
+00:02:10,576 --> 00:02:15,956
+The line shows user ID 1500, the comment Bob Lee, and the shell bash.
 
 23
-00:02:26,476 --> 00:02:31,014
-To change an existing user, use user mod, with the same options.
+00:02:26,476 --> 00:02:31,633
+To change an existing user, use usermod, with the same options.
 
 24
-00:02:31,034 --> 00:02:36,853
-Dash s with slash user slash sbin slash no login means this user can no longer log
+00:02:31,653 --> 00:02:36,809
+-s with /usr/sbin/nologin means this user can no longer log in.
 
 25
-00:02:36,873 --> 00:02:41,411
-in. Dash c changes the comment. The line now shows both changes.
+00:02:36,829 --> 00:02:41,411
+-c changes the comment. The line now shows both changes.
 
 26
 00:02:50,931 --> 00:02:56,295
-To delete a user: user del bob. Getent now finds nothing: the account is gone.
+To delete a user: userdel bob. getent now finds nothing: the account is gone.
 
 27
 00:02:56,315 --> 00:03:01,748
-But ls shows the home directory is still there. User del alone keeps the files.
+But ls shows the home directory is still there. userdel alone keeps the files.
 
 28
-00:03:10,268 --> 00:03:13,452
-To remove the home directory too, add dash r.
+00:03:10,268 --> 00:03:13,341
+To remove the home directory too, add -r.
 
 29
-00:03:13,472 --> 00:03:18,222
-We create carol, then delete her with user del dash r. Now ls says:
+00:03:13,361 --> 00:03:18,019
+We create carol, then delete her with userdel -r. Now ls says:
 
 30
-00:03:18,242 --> 00:03:21,640
+00:03:18,039 --> 00:03:21,640
 no such file or directory. The home is gone too.
 
 31
@@ -131,23 +131,23 @@ We reboot. Alice is still there, with her changes. Bob is still gone.
 Account changes are saved in a file, so they survive a reboot.
 
 34
-00:03:52,021 --> 00:03:57,785
-Your turn. Create the user sam, with user I D three thousand one and the comment Sam Smith.
+00:03:52,021 --> 00:03:57,111
+Your turn. Create the user sam, with user ID 3001 and the comment Sam Smith.
 
 35
-00:03:57,805 --> 00:04:00,074
-Change the shell of sam to no login.
+00:03:57,131 --> 00:03:59,464
+Change the shell of sam to nologin.
 
 36
-00:04:00,094 --> 00:04:03,315
+00:03:59,484 --> 00:04:02,893
 Delete the user temp, including the home directory.
 
 37
-00:04:03,335 --> 00:04:07,701
+00:04:02,913 --> 00:04:07,532
 The lab silently creates temp first, so you have something to delete.
 
 38
-00:04:07,721 --> 00:04:10,625
+00:04:07,552 --> 00:04:10,625
 Run the checker, then reboot and run it again.
 
 39
