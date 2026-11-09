@@ -1,0 +1,159 @@
+1
+00:00:00,400 --> 00:00:04,365
+On a shared server, nobody should get access one person at a time.
+
+2
+00:00:04,385 --> 00:00:07,868
+You put people into groups, and give the group the access.
+
+3
+00:00:07,888 --> 00:00:11,431
+Add a person, remove a person, and the rules stay the same.
+
+4
+00:00:11,901 --> 00:00:16,489
+In this video: create, delete, and modify local groups and group memberships.
+
+5
+00:00:21,009 --> 00:00:23,592
+Here's the task, the way an exam would state it.
+
+6
+00:00:24,062 --> 00:00:27,690
+Create, delete, and modify local groups and group memberships.
+
+7
+00:00:28,160 --> 00:00:32,242
+We'll create groups, add users to a group, rename a group, remove a member,
+
+8
+00:00:32,262 --> 00:00:33,281
+and delete a group.
+
+9
+00:00:39,801 --> 00:00:45,262
+Every local group is one line in the file /etc/group. You see it with getent group.
+
+10
+00:00:45,282 --> 00:00:47,837
+It has four parts, separated by colons:
+
+11
+00:00:47,857 --> 00:00:52,988
+the group name, a password placeholder, the group ID, and the list of members,
+
+12
+00:00:53,008 --> 00:00:54,309
+separated by commas.
+
+13
+00:01:04,779 --> 00:01:10,081
+groupadd creates a group. groupmod changes it. groupdel deletes it.
+
+14
+00:01:10,101 --> 00:01:13,179
+And usermod -aG adds a user to a group.
+
+15
+00:01:13,199 --> 00:01:16,834
+In this demo the lab changes nothing silently.
+
+16
+00:01:25,354 --> 00:01:30,791
+Create a group: sudo groupadd devs. getent group devs shows its line:
+
+17
+00:01:30,811 --> 00:01:35,061
+the name, an x, the group ID 1001, and no members yet.
+
+18
+00:01:35,081 --> 00:01:40,993
+With -g, you choose the group ID yourself. Here, the group audit gets 3000.
+
+19
+00:01:52,513 --> 00:01:57,747
+Now two users, alice and bob. We create them first, as in the last video.
+
+20
+00:01:57,767 --> 00:02:02,642
+To add a user to a group: usermod -aG, then the group, and the user.
+
+21
+00:02:02,662 --> 00:02:06,097
+-G is the list of extra groups. -a means append:
+
+22
+00:02:06,117 --> 00:02:11,639
+keep the groups the user already has. Without -a, usermod would replace them.
+
+23
+00:02:11,659 --> 00:02:16,246
+We run it for each user. The group line now lists alice and bob.
+
+24
+00:02:16,266 --> 00:02:18,406
+And id alice shows her groups:
+
+25
+00:02:18,426 --> 00:02:22,652
+her own private group, which every new user gets, and devs.
+
+26
+00:02:38,172 --> 00:02:43,545
+To change a group, use groupmod. -n sets a new name. Devs becomes developers.
+
+27
+00:02:43,565 --> 00:02:46,557
+The group ID and the members stay the same.
+
+28
+00:02:55,077 --> 00:03:00,593
+To remove one member, use gpasswd, -d, the user, and the group. It tells us:
+
+29
+00:03:00,613 --> 00:03:05,254
+removing user bob from group developers. Now only alice is left.
+
+30
+00:03:13,774 --> 00:03:18,151
+To delete a group: groupdel. We create a group called temp, then delete it.
+
+31
+00:03:18,171 --> 00:03:20,495
+getent finds nothing: the group is gone.
+
+32
+00:03:29,015 --> 00:03:32,451
+Our five steps: task, demo, check, reboot, and your turn.
+
+33
+00:03:33,971 --> 00:03:36,909
+We reboot. The group developers still has alice.
+
+34
+00:03:36,929 --> 00:03:40,607
+Group changes are saved in a file, so they survive a reboot.
+
+35
+00:03:48,127 --> 00:03:54,267
+Your turn. The lab silently creates the users erin and frank, and a group called temp, first.
+
+36
+00:03:54,287 --> 00:03:58,705
+Create the group ops with group ID 4000. Add erin and frank to ops.
+
+37
+00:03:58,725 --> 00:04:03,275
+Delete the group temp. Run the checker, then reboot and run it again.
+
+38
+00:04:12,745 --> 00:04:14,496
+Try before you open the solution.
+
+39
+00:04:20,016 --> 00:04:22,407
+Next up: configure privileged access.
+
+40
+00:04:22,877 --> 00:04:25,779
+Subscribe to follow the series, and let's keep going.
