@@ -1,0 +1,171 @@
+1
+00:00:00,400 --> 00:00:04,671
+You move a file into place, and the service still cannot read it.
+
+2
+00:00:04,691 --> 00:00:10,151
+The file carried its old SELinux label with it. The fix is one command: restorecon.
+
+3
+00:00:10,621 --> 00:00:13,438
+In this video: restore default file contexts.
+
+4
+00:00:17,958 --> 00:00:20,541
+Here's the task, the way an exam would state it.
+
+5
+00:00:21,011 --> 00:00:22,953
+Restore default file contexts.
+
+6
+00:00:23,423 --> 00:00:27,623
+We'll make a file with a wrong label, look up the default, and restore it:
+
+7
+00:00:27,643 --> 00:00:29,505
+one file, then a whole directory.
+
+8
+00:00:37,025 --> 00:00:38,573
+Why does a label go wrong?
+
+9
+00:00:38,593 --> 00:00:42,130
+A new file gets the label of the place where it is created.
+
+10
+00:00:42,150 --> 00:00:45,567
+But when you move a file with mv, it keeps its old label,
+
+11
+00:00:45,587 --> 00:00:48,099
+even in a place where that label is wrong.
+
+12
+00:00:48,119 --> 00:00:51,234
+The same happens with a file restored from a backup.
+
+13
+00:00:56,704 --> 00:00:58,247
+The cure is restorecon.
+
+14
+00:00:58,267 --> 00:01:02,459
+It looks up the default context in the policy, and applies it.
+
+15
+00:01:02,479 --> 00:01:05,176
+The option dash v shows what it changes.
+
+16
+00:01:05,196 --> 00:01:08,844
+The option dash capital R does a whole directory tree.
+
+17
+00:01:17,364 --> 00:01:19,666
+First, a file with a wrong label.
+
+18
+00:01:19,686 --> 00:01:23,747
+We write a line into note dot t x t in the home directory.
+
+19
+00:01:23,767 --> 00:01:28,039
+The greater-than sign sends the output of echo into the file.
+
+20
+00:01:28,059 --> 00:01:31,839
+Its type is user home t, correct for a home directory.
+
+21
+00:01:31,859 --> 00:01:37,186
+Now mv moves it into slash etc. And the label came along: still user home t.
+
+22
+00:01:37,206 --> 00:01:41,408
+In slash etc, the default is etc t. This file is mislabeled.
+
+23
+00:01:45,928 --> 00:01:50,389
+How do we know the default? matchpathcon prints it, from the policy:
+
+24
+00:01:50,409 --> 00:01:54,079
+for this path, etc t. It only shows, it changes nothing.
+
+25
+00:01:57,599 --> 00:02:01,990
+Now restore it. restorecon with dash v says what it did:
+
+26
+00:02:02,010 --> 00:02:07,819
+relabeled, from user home t, to etc t. And ls confirms: the type is etc t.
+
+27
+00:02:11,339 --> 00:02:12,999
+Now a whole directory.
+
+28
+00:02:13,019 --> 00:02:18,956
+mkdir makes the directory site, and touch creates an empty file index dot html
+
+29
+00:02:18,976 --> 00:02:22,621
+inside it. We move the directory into slash srv.
+
+30
+00:02:22,641 --> 00:02:27,127
+Both the directory and the file keep the label user home t.
+
+31
+00:02:30,647 --> 00:02:35,845
+restorecon with dash capital R and dash v goes through the whole tree.
+
+32
+00:02:35,865 --> 00:02:41,435
+It relabels the directory and the file. The default for slash srv is var t.
+
+33
+00:02:41,455 --> 00:02:43,000
+And ls confirms both.
+
+34
+00:02:47,520 --> 00:02:53,040
+Clean up. rm removes the file, and rm with dash r removes the directory and
+
+35
+00:02:53,060 --> 00:02:56,439
+everything inside it. The system is as it was.
+
+36
+00:03:00,959 --> 00:03:05,760
+Our five steps: task, demo, check, reboot when the task needs one, and your turn.
+
+37
+00:03:07,280 --> 00:03:12,530
+Your turn. The setup script puts a file named practice dot conf in slash etc,
+
+38
+00:03:12,550 --> 00:03:13,830
+with a wrong label.
+
+39
+00:03:13,850 --> 00:03:17,183
+Run it, look at the label with ls dash capital Z,
+
+40
+00:03:17,203 --> 00:03:21,084
+restore the default with restorecon, and run the checker.
+
+41
+00:03:31,554 --> 00:03:33,305
+Try before you open the solution.
+
+42
+00:03:38,825 --> 00:03:41,536
+Next up: manage SELinux port labels.
+
+43
+00:03:42,006 --> 00:03:44,908
+Subscribe to follow the series, and let's keep going.
