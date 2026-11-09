@@ -1,0 +1,179 @@
+1
+00:00:00,400 --> 00:00:03,250
+Passwords can be guessed, shared and stolen.
+
+2
+00:00:03,270 --> 00:00:07,620
+An SSH key can't be guessed, and it never travels over the network.
+
+3
+00:00:07,640 --> 00:00:12,839
+That is why servers use key-based authentication. And it takes only three steps.
+
+4
+00:00:13,309 --> 00:00:17,449
+In this video: configure key-based authentication for SSH.
+
+5
+00:00:21,969 --> 00:00:24,552
+Here's the task, the way an exam would state it.
+
+6
+00:00:25,022 --> 00:00:28,202
+Configure key-based authentication for SSH.
+
+7
+00:00:28,672 --> 00:00:31,930
+We'll create a key pair, copy the public key to a server,
+
+8
+00:00:31,950 --> 00:00:35,265
+check what the server stores, and log in with no password.
+
+9
+00:00:42,785 --> 00:00:44,508
+A key pair has two parts.
+
+10
+00:00:44,528 --> 00:00:48,831
+The private key stays on your machine, and you never share it.
+
+11
+00:00:48,851 --> 00:00:51,202
+The public key goes to the server:
+
+12
+00:00:51,222 --> 00:00:57,058
+into the file authorized_keys, in the folder .ssh of the user you want to log in as.
+
+13
+00:01:07,528 --> 00:01:13,666
+When you connect, the server checks that you own the private key that matches.
+
+14
+00:01:13,686 --> 00:01:17,139
+No password is sent. The permissions matter:
+
+15
+00:01:17,159 --> 00:01:22,034
+the folder .ssh must be 700, and the file authorized_keys 600,
+
+16
+00:01:22,054 --> 00:01:23,850
+or SSH refuses the key.
+
+17
+00:01:30,370 --> 00:01:37,742
+Step one: create the key pair, on the client. ssh-keygen makes it. -q is quiet.
+
+18
+00:01:37,762 --> 00:01:42,701
+-t picks the type: ed25519, a modern and strong type.
+
+19
+00:01:42,721 --> 00:01:48,689
+-N with two quotes means an empty passphrase, only for this lab.
+
+20
+00:01:48,709 --> 00:01:53,929
+On a real system, set a passphrase. -f is the file name:
+
+21
+00:01:53,949 --> 00:01:59,262
+id_ed25519, in the .ssh folder. Now ls -l: two new files.
+
+22
+00:01:59,282 --> 00:02:05,063
+id_ed25519 is the private key, mode 600: only you can read it.
+
+23
+00:02:05,083 --> 00:02:10,771
+And id_ed25519.pub is the public key, which is safe to share.
+
+24
+00:02:15,291 --> 00:02:19,449
+Step two: copy the public key to the server. ssh-copy-id does it.
+
+25
+00:02:19,469 --> 00:02:23,948
+It logs in with a password, once, and adds the key to authorized_keys.
+
+26
+00:02:23,968 --> 00:02:28,447
+The server here is this same machine, localhost, and the user is olga.
+
+27
+00:02:28,467 --> 00:02:32,946
+The lab silently turned on password login, which is off in this image,
+
+28
+00:02:32,966 --> 00:02:38,088
+and it answers the password prompt for us. You would type the password yourself.
+
+29
+00:02:38,108 --> 00:02:40,402
+The result: Number of keys added: 1.
+
+30
+00:02:44,922 --> 00:02:50,616
+On the server side, the folder .ssh of olga has mode 700, drwx------,
+
+31
+00:02:50,636 --> 00:02:56,165
+and belongs to olga. Inside, the file authorized_keys has mode 600.
+
+32
+00:02:56,185 --> 00:02:58,981
+And its content is our public key:
+
+33
+00:02:59,001 --> 00:03:05,275
+one line with the key type, the key itself, and a comment: student at node1.
+
+34
+00:03:09,795 --> 00:03:15,267
+Step three: log in. ssh -o BatchMode=yes means: never ask for a password.
+
+35
+00:03:15,287 --> 00:03:20,685
+If it works, the key works. We run the command id as olga on the server.
+
+36
+00:03:20,705 --> 00:03:26,628
+It works, with no password. And hostname answers node1: it is the same machine.
+
+37
+00:03:31,148 --> 00:03:34,584
+Our five steps: task, demo, check, reboot, and your turn.
+
+38
+00:03:36,104 --> 00:03:39,540
+We reboot. The key still works, because it is a file on disk.
+
+39
+00:03:47,060 --> 00:03:50,475
+Your turn. The lab silently creates the user pat,
+
+40
+00:03:50,495 --> 00:03:54,400
+turns on password login and answers the password prompt.
+
+41
+00:03:54,420 --> 00:03:59,517
+Create a key pair named pat_key. Copy its public key to pat at localhost.
+
+42
+00:03:59,537 --> 00:04:02,741
+Run the checker, then reboot and run it again.
+
+43
+00:04:13,211 --> 00:04:14,962
+Try before you open the solution.
+
+44
+00:04:20,482 --> 00:04:24,217
+Next up: set enforcing and permissive modes for SELinux.
+
+45
+00:04:24,687 --> 00:04:27,589
+Subscribe to follow the series, and let's keep going.
