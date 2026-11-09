@@ -2,7 +2,7 @@
 
 Companion notes for the video. Not affiliated with or endorsed by Red Hat.
 
-**On-screen captures are from Rocky Linux 10.2, a RHEL-compatible rebuild. It is not Red Hat Enterprise Linux.** The prompt line is printed by the lab script in the default RHEL format; the commands and their output are real. The `systemctl status` output is shown without its log lines.
+**On-screen captures are from Rocky Linux 10.2, a RHEL-compatible rebuild. It is not Red Hat Enterprise Linux.** The prompt line is printed by the lab script in the default RHEL format; the commands and their output are real.
 
 **Important lab note:** before the demo, the lab (not shown) installs the `httpd` package with `dnf`. This step changes the system.
 
