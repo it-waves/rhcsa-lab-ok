@@ -1,0 +1,183 @@
+1
+00:00:00,400 --> 00:00:02,719
+Every Linux machine starts the same way.
+
+2
+00:00:02,739 --> 00:00:04,942
+Before the system, before any service,
+
+3
+00:00:04,962 --> 00:00:09,737
+a small program called the bootloader wakes up, and decides which kernel to start,
+
+4
+00:00:09,757 --> 00:00:13,948
+and with which options. Change it, and you change how the machine boots.
+
+5
+00:00:14,418 --> 00:00:17,065
+In this video: modify the system bootloader.
+
+6
+00:00:21,585 --> 00:00:24,168
+Here's the task, the way an exam would state it.
+
+7
+00:00:24,638 --> 00:00:26,367
+Modify the system bootloader.
+
+8
+00:00:26,837 --> 00:00:31,041
+We'll change how long the boot menu waits, and add an argument for the kernel.
+
+9
+00:00:37,561 --> 00:00:40,097
+The bootloader on RHEL is G R U B two.
+
+10
+00:00:40,117 --> 00:00:43,998
+Its settings live in slash E T C slash default slash grub.
+
+11
+00:00:44,018 --> 00:00:47,226
+But the machine does not read that file at boot.
+
+12
+00:00:47,246 --> 00:00:52,069
+It reads a generated file, slash boot slash grub two slash grub dot cfg.
+
+13
+00:00:52,089 --> 00:00:56,037
+So there are two steps: edit the settings, then regenerate.
+
+14
+00:01:03,507 --> 00:01:05,326
+Kernel arguments are different.
+
+15
+00:01:05,346 --> 00:01:08,766
+The tool grubby changes them in the boot entries directly,
+
+16
+00:01:08,786 --> 00:01:10,783
+for one kernel or for all of them.
+
+17
+00:01:16,253 --> 00:01:21,993
+This lab is a U E F I virtual machine. Nothing is changed silently before the demo.
+
+18
+00:01:28,513 --> 00:01:30,986
+First, look. Grep prints matching lines.
+
+19
+00:01:31,006 --> 00:01:36,096
+We look for the grub timeout, and the kernel arguments. The timeout is one second:
+
+20
+00:01:36,116 --> 00:01:38,402
+that is how long the boot menu waits.
+
+21
+00:01:38,422 --> 00:01:42,765
+The kernel arguments include the console, and the crash kernel memory.
+
+22
+00:01:51,235 --> 00:01:56,015
+Grubby dash dash default dash kernel prints which kernel starts by default.
+
+23
+00:01:56,035 --> 00:01:58,831
+Sudo, because the boot files belong to root.
+
+24
+00:02:05,351 --> 00:02:09,586
+Now change the timeout. Sed dash i edits the file in place.
+
+25
+00:02:09,606 --> 00:02:13,769
+S, slash, pattern, slash, new, slash, replaces text. Here:
+
+26
+00:02:13,789 --> 00:02:18,889
+the line that starts with GRUB timeout becomes GRUB timeout equals ten.
+
+27
+00:02:18,909 --> 00:02:20,115
+Grep confirms it.
+
+28
+00:02:29,585 --> 00:02:32,351
+But the machine does not use this file yet.
+
+29
+00:02:32,371 --> 00:02:36,562
+Grub two dash mkconfig dash o writes the real configuration file.
+
+30
+00:02:44,082 --> 00:02:45,451
+Now a kernel argument.
+
+31
+00:02:45,471 --> 00:02:48,420
+Grubby dash dash update dash kernel equals all,
+
+32
+00:02:48,440 --> 00:02:53,345
+dash dash args equals audit equals one. Update all kernels, add this argument.
+
+33
+00:02:53,365 --> 00:02:54,545
+Nothing is printed.
+
+34
+00:02:54,565 --> 00:02:58,713
+Grubby dash dash info equals default shows the default boot entry:
+
+35
+00:02:58,733 --> 00:03:01,555
+the args line now ends with audit equals one.
+
+36
+00:03:13,075 --> 00:03:16,511
+Our five steps: task, demo, check, reboot, and your turn.
+
+37
+00:03:18,031 --> 00:03:23,602
+We reboot. Slash proc slash cmdline shows the arguments the running kernel received:
+
+38
+00:03:23,622 --> 00:03:29,059
+audit equals one is there. And the generated file now says set timeout equals ten.
+
+39
+00:03:29,079 --> 00:03:32,454
+We show only those two lines of the timeout output.
+
+40
+00:03:42,974 --> 00:03:47,899
+Your turn. Three things. Set the grub timeout to seven in the settings file.
+
+41
+00:03:47,919 --> 00:03:50,111
+Regenerate the grub configuration.
+
+42
+00:03:50,131 --> 00:03:54,341
+And add the kernel argument log level equals five to all kernels.
+
+43
+00:03:54,361 --> 00:03:57,269
+Run the checker, then reboot and check again.
+
+44
+00:04:05,739 --> 00:04:07,489
+Try before you open the solution.
+
+45
+00:04:13,009 --> 00:04:17,405
+Next up: configure I P v four and I P v six addresses.
+
+46
+00:04:17,875 --> 00:04:20,778
+Subscribe to follow the series, and let's keep going.
