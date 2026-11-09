@@ -1,0 +1,187 @@
+1
+00:00:00,400 --> 00:00:04,439
+You type a name, and the computer needs a number. Who tells it which number?
+
+2
+00:00:04,459 --> 00:00:08,231
+Get that wrong, and the server is right there, but nothing can find it.
+
+3
+00:00:08,701 --> 00:00:11,497
+In this video: configure hostname resolution.
+
+4
+00:00:16,017 --> 00:00:18,600
+Here's the task, the way an exam would state it.
+
+5
+00:00:19,070 --> 00:00:20,970
+Configure hostname resolution.
+
+6
+00:00:21,440 --> 00:00:24,819
+We'll see where a name gets looked up, add a name by hand,
+
+7
+00:00:24,839 --> 00:00:27,222
+and point a connection at a D N S server.
+
+8
+00:00:34,742 --> 00:00:40,484
+Resolution turns a name into an I P address. The system asks its sources in order.
+
+9
+00:00:40,504 --> 00:00:46,316
+The file slash e t c slash hosts comes first: names you write yourself. Then D N S:
+
+10
+00:00:46,336 --> 00:00:49,549
+a server on the network that knows many names.
+
+11
+00:00:57,019 --> 00:01:00,298
+The order is written in the file nsswitch dot conf,
+
+12
+00:01:00,318 --> 00:01:02,562
+on the line that starts with hosts.
+
+13
+00:01:02,582 --> 00:01:06,637
+And the D N S server comes from the Network Manager connection,
+
+14
+00:01:06,657 --> 00:01:09,031
+which writes it into resolv dot conf.
+
+15
+00:01:16,501 --> 00:01:21,940
+Before the demo, silently, the lab removes any old web one line from the hosts file,
+
+16
+00:01:21,960 --> 00:01:26,294
+and any old connection named lab one. This step changes the system.
+
+17
+00:01:34,814 --> 00:01:40,353
+First, where are names looked up? Grep caret hosts, on the file nsswitch dot conf.
+
+18
+00:01:40,373 --> 00:01:43,403
+The caret means: lines that start with hosts.
+
+19
+00:01:43,423 --> 00:01:46,250
+Files first, then D N S, then my hostname.
+
+20
+00:01:56,770 --> 00:01:59,808
+The local file. Cat slash e t c slash hosts.
+
+21
+00:01:59,828 --> 00:02:03,144
+Each line is an address, then one or more names.
+
+22
+00:02:03,164 --> 00:02:05,923
+Lines starting with a hash are comments.
+
+23
+00:02:13,393 --> 00:02:19,101
+Now ask: get ent hosts, web one. Get ent asks the system the same way programs do.
+
+24
+00:02:19,121 --> 00:02:21,267
+No output: the name is unknown.
+
+25
+00:02:29,787 --> 00:02:33,650
+Add a name. Echo prints a line, and the pipe sends it to tee.
+
+26
+00:02:33,670 --> 00:02:38,424
+Tee dash a appends it to the file. Sudo, because only root can write there.
+
+27
+00:02:38,444 --> 00:02:41,479
+The line: an address, a full name, a short name.
+
+28
+00:02:50,949 --> 00:02:54,278
+Ask again. Now the name resolves, to the address we wrote.
+
+29
+00:03:00,798 --> 00:03:05,950
+Now D N S. The file resolv dot conf says which server the system asks.
+
+30
+00:03:05,970 --> 00:03:11,786
+Network Manager generates it. Here: one server, ten dot zero dot two dot three.
+
+31
+00:03:21,306 --> 00:03:26,707
+To set a D N S server, we use a connection. A virtual one again, called lab one.
+
+32
+00:03:26,727 --> 00:03:29,689
+Then an address for it. And now the setting:
+
+33
+00:03:29,709 --> 00:03:32,806
+I P v four dot D N S, with the server address.
+
+34
+00:03:45,326 --> 00:03:50,170
+Connection up applies it. And nmcli can show the saved D N S setting.
+
+35
+00:03:59,690 --> 00:04:03,126
+Our five steps: task, demo, check, reboot, and your turn.
+
+36
+00:04:04,646 --> 00:04:09,219
+We reboot. The name still resolves, and the D N S setting is still saved.
+
+37
+00:04:09,239 --> 00:04:13,561
+The hosts file is a plain file, and the connection setting is stored,
+
+38
+00:04:13,581 --> 00:04:14,567
+so both survive.
+
+39
+00:04:23,087 --> 00:04:28,374
+Your turn. Make the name d b one resolve to ten dot ninety nine dot zero dot five,
+
+40
+00:04:28,394 --> 00:04:29,733
+using the hosts file.
+
+41
+00:04:29,753 --> 00:04:35,040
+Then create a connection called exam one, on a dummy interface called dummy three,
+
+42
+00:04:35,060 --> 00:04:39,764
+with the address ten dot ninety nine dot zero dot ten, slash twenty four,
+
+43
+00:04:39,784 --> 00:04:44,035
+and the D N S server ten dot ninety nine dot zero dot fifty three.
+
+44
+00:04:44,055 --> 00:04:46,171
+Activate it, and run the checker.
+
+45
+00:04:55,641 --> 00:04:57,392
+Try before you open the solution.
+
+46
+00:05:02,912 --> 00:05:06,967
+Next up: configure network services to start automatically at boot.
+
+47
+00:05:07,437 --> 00:05:10,339
+Subscribe to follow the series, and let's keep going.
