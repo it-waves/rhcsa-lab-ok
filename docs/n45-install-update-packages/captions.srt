@@ -1,0 +1,179 @@
+1
+00:00:00,400 --> 00:00:04,432
+You need a tool that is not on the server. Where does it come from?
+
+2
+00:00:04,452 --> 00:00:07,880
+On Linux you do not download an installer from a website.
+
+3
+00:00:07,900 --> 00:00:11,025
+You ask a repository, and one command does the rest.
+
+4
+00:00:11,495 --> 00:00:12,414
+In this video:
+
+5
+00:00:12,434 --> 00:00:17,443
+install and update software packages from Red Hat Content Delivery Network,
+
+6
+00:00:17,463 --> 00:00:20,862
+a remote repository, or from the local file system.
+
+7
+00:00:26,382 --> 00:00:28,965
+Here's the task, the way an exam would state it.
+
+8
+00:00:29,435 --> 00:00:34,431
+Install and update software packages from Red Hat Content Delivery Network,
+
+9
+00:00:34,451 --> 00:00:37,841
+a remote repository, or from the local file system.
+
+10
+00:00:41,311 --> 00:00:46,411
+We'll install and update from a remote repository, then install from a file on disk.
+
+11
+00:00:52,931 --> 00:00:57,699
+Software comes as R P M packages, and D N F installs them.
+
+12
+00:00:57,719 --> 00:01:00,835
+D N F gets packages from repositories,
+
+13
+00:01:00,855 --> 00:01:05,540
+listed in files in slash E T C slash yum dot repos dot d.
+
+14
+00:01:11,010 --> 00:01:16,259
+On real RHEL, the main repositories live on the Red Hat Content Delivery Network,
+
+15
+00:01:16,279 --> 00:01:21,072
+and a system gets access after it is registered with subscription manager.
+
+16
+00:01:21,092 --> 00:01:26,016
+Our lab is Rocky Linux and has no subscription, so we cannot show that step.
+
+17
+00:01:26,036 --> 00:01:30,894
+Rocky has its own public repositories, and the D N F commands are the same.
+
+18
+00:01:39,364 --> 00:01:44,278
+Before the demo, silently, the lab installs the D N F plugins package,
+
+19
+00:01:44,298 --> 00:01:48,366
+which provides dnf download, and removes the tree package.
+
+20
+00:01:48,386 --> 00:01:50,480
+These steps change the system.
+
+21
+00:01:59,000 --> 00:02:05,287
+First, which repositories are enabled? Dnf repolist lists them: an ID and a name.
+
+22
+00:02:05,307 --> 00:02:08,324
+Here: app stream, base O S, and extras.
+
+23
+00:02:17,844 --> 00:02:22,420
+Install from a remote repository: sudo dnf install dash y tree.
+
+24
+00:02:22,440 --> 00:02:24,973
+Dash y answers yes to the question.
+
+25
+00:02:24,993 --> 00:02:30,299
+D N F lists what it will install and from which repository, downloads it,
+
+26
+00:02:30,319 --> 00:02:34,165
+and installs it. We trimmed the middle of the output.
+
+27
+00:02:43,635 --> 00:02:48,885
+Rpm dash q asks: is this package installed? It prints the exact version.
+
+28
+00:02:55,405 --> 00:02:59,488
+Update with dnf upgrade, and a package name. Nothing to do:
+
+29
+00:02:59,508 --> 00:03:01,921
+tree is already the newest version.
+
+30
+00:03:01,941 --> 00:03:06,372
+Without a name, dnf upgrade updates every package on the system.
+
+31
+00:03:15,892 --> 00:03:22,143
+Third source: a file on disk. First we remove tree with dnf remove, to start clean.
+
+32
+00:03:22,163 --> 00:03:28,112
+Then dnf download tree saves the R P M file in the current folder. Ls lists it:
+
+33
+00:03:28,132 --> 00:03:30,379
+the star means any characters.
+
+34
+00:03:41,899 --> 00:03:47,877
+Now install from that file. Dnf install, then dot slash, which means: this folder.
+
+35
+00:03:47,897 --> 00:03:53,362
+Dot slash tree star dot R P M. The repository column says: at command line.
+
+36
+00:03:53,382 --> 00:03:57,312
+The package came from the file, not from a repository.
+
+37
+00:03:57,332 --> 00:04:00,823
+D N F still checks and installs it the same way.
+
+38
+00:04:12,343 --> 00:04:15,779
+Our five steps: task, demo, check, reboot, and your turn.
+
+39
+00:04:17,299 --> 00:04:22,036
+We reboot. The package is still installed: packages stay until you remove them.
+
+40
+00:04:29,556 --> 00:04:32,587
+Your turn. Install tree from the repository.
+
+41
+00:04:32,607 --> 00:04:38,133
+Download the l s o f R P M into your home folder, and install it from that file.
+
+42
+00:04:38,153 --> 00:04:39,243
+Run the checker.
+
+43
+00:04:47,713 --> 00:04:49,463
+Try before you open the solution.
+
+44
+00:04:54,983 --> 00:04:57,459
+Next up: modify the system bootloader.
+
+45
+00:04:57,929 --> 00:05:00,832
+Subscribe to follow the series, and let's keep going.
