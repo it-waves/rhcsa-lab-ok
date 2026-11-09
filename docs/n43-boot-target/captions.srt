@@ -1,0 +1,131 @@
+1
+00:00:00,400 --> 00:00:03,324
+A server in a rack has no screen and no mouse.
+
+2
+00:00:03,344 --> 00:00:07,612
+Yet by default it may start a full graphical desktop at every boot,
+
+3
+00:00:07,632 --> 00:00:12,092
+and waste memory on it. One command decides what a machine boots into.
+
+4
+00:00:12,562 --> 00:00:17,299
+In this video: configure systems to boot into a specific target automatically.
+
+5
+00:00:21,819 --> 00:00:24,402
+Here's the task, the way an exam would state it.
+
+6
+00:00:24,872 --> 00:00:28,670
+Configure systems to boot into a specific target automatically.
+
+7
+00:00:29,140 --> 00:00:32,982
+We'll read the default target, change it, and prove it after a reboot.
+
+8
+00:00:39,502 --> 00:00:42,566
+A target is a goal that system D boots toward.
+
+9
+00:00:42,586 --> 00:00:46,722
+It groups the services needed for that state. Two matter here.
+
+10
+00:00:46,742 --> 00:00:51,884
+Multi dash user dot target is a full text system, with networking and logins,
+
+11
+00:00:51,904 --> 00:00:56,911
+but no graphical desktop. Graphical dot target is the same, plus a desktop.
+
+12
+00:01:03,381 --> 00:01:07,217
+The default target is the one a machine reaches at every boot.
+
+13
+00:01:07,237 --> 00:01:09,953
+It is just a link, named default dot target.
+
+14
+00:01:15,423 --> 00:01:20,137
+Before the demo, silently, the lab sets the default to graphical dot target,
+
+15
+00:01:20,157 --> 00:01:23,937
+so we have something to change. This step changes the system.
+
+16
+00:01:32,457 --> 00:01:37,954
+First, read it. Systemctl get dash default prints the default target. Here:
+
+17
+00:01:37,974 --> 00:01:39,498
+graphical dot target.
+
+18
+00:01:48,018 --> 00:01:53,681
+Now change it. Sudo systemctl set dash default, multi dash user dot target.
+
+19
+00:01:53,701 --> 00:01:57,167
+It removes the old link and creates a new one.
+
+20
+00:01:57,187 --> 00:02:00,350
+Get dash default now says multi dash user.
+
+21
+00:02:08,820 --> 00:02:11,297
+And ls dash l shows the link itself:
+
+22
+00:02:11,317 --> 00:02:15,182
+default dot target points to multi dash user dot target.
+
+23
+00:02:15,202 --> 00:02:18,997
+Set dash default does nothing more than move this link.
+
+24
+00:02:27,517 --> 00:02:30,953
+Our five steps: task, demo, check, reboot, and your turn.
+
+25
+00:02:32,473 --> 00:02:38,128
+We reboot. Get dash default still says multi dash user. Multi dash user is active.
+
+26
+00:02:38,148 --> 00:02:39,927
+And graphical is inactive:
+
+27
+00:02:39,947 --> 00:02:44,080
+the machine booted into the target we chose, and no desktop.
+
+28
+00:02:54,600 --> 00:02:57,902
+Your turn. The lab has set the default to graphical.
+
+29
+00:02:57,922 --> 00:03:02,564
+Make multi dash user dot target the default, so it applies at every boot.
+
+30
+00:03:02,584 --> 00:03:05,503
+Run the checker, then reboot and run it again.
+
+31
+00:03:12,973 --> 00:03:14,723
+Try before you open the solution.
+
+32
+00:03:20,243 --> 00:03:22,804
+Next up: configure time service clients.
+
+33
+00:03:23,274 --> 00:03:26,177
+Subscribe to follow the series, and let's keep going.
