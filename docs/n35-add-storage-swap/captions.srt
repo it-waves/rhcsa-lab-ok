@@ -1,0 +1,199 @@
+1
+00:00:00,400 --> 00:00:03,592
+Your server is running, and it holds data that matters.
+
+2
+00:00:03,612 --> 00:00:05,870
+Now it needs more space, and some swap.
+
+3
+00:00:05,890 --> 00:00:09,959
+And you must add them without breaking anything that is already there.
+
+4
+00:00:10,429 --> 00:00:15,401
+In this video: add partitions, logical volumes, and swap, non-destructively.
+
+5
+00:00:19,921 --> 00:00:22,504
+Here's the task, the way an exam would state it.
+
+6
+00:00:22,974 --> 00:00:27,967
+Add new partitions and logical volumes, and swap to a system non-destructively.
+
+7
+00:00:28,437 --> 00:00:33,539
+We'll add a partition, grow a volume group, make a new logical volume, and add swap,
+
+8
+00:00:33,559 --> 00:00:36,161
+while a file on the system stays untouched.
+
+9
+00:00:45,681 --> 00:00:49,672
+Non-destructively means: nothing that already exists is erased.
+
+10
+00:00:49,692 --> 00:00:53,810
+You only use space that is free, or a disk that is new and blank.
+
+11
+00:01:00,280 --> 00:01:05,964
+The dangerous commands are the ones that write a new table or a new file system on
+
+12
+00:01:05,984 --> 00:01:11,738
+something that is in use. Before every step, check with lsblk and vgs what is free.
+
+13
+00:01:19,208 --> 00:01:24,389
+Today we have a volume group in use, with a mounted volume and a file in it.
+
+14
+00:01:24,409 --> 00:01:27,949
+And a new blank disk, vdc. We will add three things:
+
+15
+00:01:27,969 --> 00:01:32,329
+a partition for LVM, a new logical volume, and a swap partition.
+
+16
+00:01:40,849 --> 00:01:45,660
+First we look. The file in our mounted volume says customer data:
+
+17
+00:01:45,680 --> 00:01:48,187
+this is the data we must not lose.
+
+18
+00:01:48,207 --> 00:01:52,052
+vgs shows one volume group with four gigabytes free.
+
+19
+00:01:52,072 --> 00:01:57,106
+And lsblk on vdc shows a disk of five gigabytes, with nothing on it.
+
+20
+00:02:06,626 --> 00:02:09,382
+On the blank disk, we create a GPT label.
+
+21
+00:02:09,402 --> 00:02:12,701
+This is safe here only because the disk is empty:
+
+22
+00:02:12,721 --> 00:02:15,545
+it would erase the table of a disk in use.
+
+23
+00:02:21,015 --> 00:02:23,723
+Then two partitions, with mkpart.
+
+24
+00:02:23,743 --> 00:02:29,179
+The first, called pv, from one megabyte to two gigabytes, for LVM.
+
+25
+00:02:29,199 --> 00:02:35,379
+The second, called swap, for swap space, five hundred and twelve megabytes.
+
+26
+00:02:35,399 --> 00:02:37,528
+lsblk shows vdc1 and vdc2.
+
+27
+00:02:48,048 --> 00:02:52,230
+The first partition becomes a physical volume with pvcreate,
+
+28
+00:02:52,250 --> 00:02:54,612
+and vgextend adds it to our group.
+
+29
+00:02:54,632 --> 00:02:59,234
+vgs now shows two physical volumes, and nearly six gigabytes free.
+
+30
+00:02:59,254 --> 00:03:02,876
+The old volume was never touched, and stays mounted.
+
+31
+00:03:13,396 --> 00:03:18,886
+Now a new logical volume, one gigabyte, called lvnew, from the free space.
+
+32
+00:03:18,906 --> 00:03:24,991
+lvs lists both volumes. The Attr column of lvapp has an o, which means it is open:
+
+33
+00:03:25,011 --> 00:03:28,416
+it is mounted and in use. We did not touch it.
+
+34
+00:03:37,936 --> 00:03:44,146
+Now swap. Mkswap prepares the second partition as swap space, and prints its UUID.
+
+35
+00:03:44,166 --> 00:03:46,577
+Swapon switches it on right now.
+
+36
+00:03:53,047 --> 00:03:55,626
+Swapon dash dash show lists active swap:
+
+37
+00:03:55,646 --> 00:03:58,809
+our partition, five hundred and twelve megabytes.
+
+38
+00:04:05,279 --> 00:04:08,282
+To keep it after a reboot, a line in fstab:
+
+39
+00:04:08,302 --> 00:04:12,219
+the UUID, the word none, the type swap, and the options.
+
+40
+00:04:12,239 --> 00:04:16,437
+Swap has no folder to mount on, so the second field is none.
+
+41
+00:04:25,957 --> 00:04:29,393
+Our five steps: task, demo, check, reboot, and your turn.
+
+42
+00:04:30,913 --> 00:04:34,572
+We reboot. Swap is active again, the new volume is there,
+
+43
+00:04:34,592 --> 00:04:38,445
+and the old file still says customer data. Nothing was lost.
+
+44
+00:04:47,965 --> 00:04:54,191
+Your turn. A volume group called vgexam is in use, with data in slash mnt slash keep.
+
+45
+00:04:54,211 --> 00:04:59,996
+Create a GPT label on vdc and a partition of five hundred and twelve megabytes.
+
+46
+00:05:00,016 --> 00:05:03,523
+Make it swap, switch it on, and add it to fstab.
+
+47
+00:05:03,543 --> 00:05:09,108
+Add a logical volume called examnew, two hundred megabytes. Run the checker.
+
+48
+00:05:16,578 --> 00:05:18,328
+Try before you open the solution.
+
+49
+00:05:23,848 --> 00:05:30,335
+Next up: create, mount, unmount, and use VFAT, ext4, and XFS file systems.
+
+50
+00:05:30,805 --> 00:05:33,707
+Subscribe to follow the series, and let's keep going.
