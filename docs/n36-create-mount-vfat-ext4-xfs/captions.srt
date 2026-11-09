@@ -1,0 +1,219 @@
+1
+00:00:00,400 --> 00:00:05,229
+A new disk is blank. It cannot hold a single file, until you give it a file system.
+
+2
+00:00:05,249 --> 00:00:07,975
+And there are three you must know for the exam.
+
+3
+00:00:08,445 --> 00:00:14,291
+In this video: create, mount, unmount, and use V F A T, E X T four, and X F S.
+
+4
+00:00:18,811 --> 00:00:21,394
+Here's the task, the way an exam would state it.
+
+5
+00:00:21,864 --> 00:00:27,689
+Create, mount, unmount, and use VFAT, ext4, and XFS file systems.
+
+6
+00:00:28,159 --> 00:00:32,872
+We'll make three partitions, put one file system of each type on them, mount them,
+
+7
+00:00:32,892 --> 00:00:35,008
+write a file, and unmount them again.
+
+8
+00:00:43,528 --> 00:00:47,965
+A file system is the structure that lets a disk store files and folders.
+
+9
+00:00:47,985 --> 00:00:51,679
+A blank partition has none, so the system cannot use it yet.
+
+10
+00:00:56,149 --> 00:00:57,897
+Three types matter today.
+
+11
+00:00:57,917 --> 00:01:02,423
+V F A T works on almost every system, but it has no permissions.
+
+12
+00:01:02,443 --> 00:01:05,394
+Ext four is the classic Linux file system.
+
+13
+00:01:05,414 --> 00:01:09,142
+And X F S is the default on Red Hat Enterprise Linux.
+
+14
+00:01:15,612 --> 00:01:17,596
+The cycle is always the same:
+
+15
+00:01:17,616 --> 00:01:22,293
+make the file system with mkfs, mount it on an empty folder, use it,
+
+16
+00:01:22,313 --> 00:01:24,573
+and unmount it when you are done.
+
+17
+00:01:32,093 --> 00:01:37,106
+We start with a blank disk, vdb, five gigabytes, with nothing on it.
+
+18
+00:01:37,126 --> 00:01:39,326
+L S B L K shows no partitions.
+
+19
+00:01:46,846 --> 00:01:51,988
+First a G P T label, then three partitions of three hundred megabytes each.
+
+20
+00:01:52,008 --> 00:01:56,255
+We name them fat, ext, and xfs, so we remember which is which.
+
+21
+00:02:01,725 --> 00:02:06,548
+L S B L K shows vdb one, vdb two, and vdb three.
+
+22
+00:02:13,068 --> 00:02:14,850
+Now the file systems.
+
+23
+00:02:14,870 --> 00:02:20,428
+Mkfs dot vfat makes a V F A T file system on the first partition.
+
+24
+00:02:20,448 --> 00:02:24,461
+Mkfs dot ext four makes ext four on the second.
+
+25
+00:02:24,481 --> 00:02:28,065
+And mkfs dot xfs makes X F S on the third.
+
+26
+00:02:28,085 --> 00:02:32,184
+We show only the first lines of the long output.
+
+27
+00:02:55,704 --> 00:03:01,040
+L S B L K with dash f lists the file system on every partition.
+
+28
+00:03:01,060 --> 00:03:05,206
+V F A T, ext four, and X F S. Each has a U U I D.
+
+29
+00:03:05,226 --> 00:03:08,777
+Notice that this V F A T says FAT sixteen:
+
+30
+00:03:08,797 --> 00:03:12,943
+for a small partition, mkfs picks that by itself.
+
+31
+00:03:23,463 --> 00:03:26,693
+To use a file system, you mount it on a folder.
+
+32
+00:03:26,713 --> 00:03:31,742
+We create three empty folders under slash M N T with mkdir, one per type.
+
+33
+00:03:40,212 --> 00:03:43,051
+Then mount, the device first, then the folder.
+
+34
+00:03:43,071 --> 00:03:48,149
+After the three mounts, D F with dash h T shows the type and the size of each one,
+
+35
+00:03:48,169 --> 00:03:49,578
+mounted where we asked.
+
+36
+00:04:05,098 --> 00:04:06,086
+Now we use one.
+
+37
+00:04:06,106 --> 00:04:11,529
+We write the word hello into a file on the ext four file system, and ls shows it,
+
+38
+00:04:11,549 --> 00:04:15,830
+next to lost and found, a folder every ext four file system has.
+
+39
+00:04:25,300 --> 00:04:30,635
+Findmnt shows how the X F S one is mounted: the device, the type, and its options.
+
+40
+00:04:40,155 --> 00:04:44,489
+When we are done, we unmount. Umount takes the folder. Note the spelling:
+
+41
+00:04:44,509 --> 00:04:46,279
+umount, with no N after the U.
+
+42
+00:04:53,749 --> 00:04:58,378
+Findmnt on the ext folder now prints nothing, which means: not mounted.
+
+43
+00:04:58,398 --> 00:05:01,390
+D F on that folder shows the root file system,
+
+44
+00:05:01,410 --> 00:05:04,140
+because the folder is just a folder again.
+
+45
+00:05:15,660 --> 00:05:19,096
+Our five steps: task, demo, check, reboot, and your turn.
+
+46
+00:05:20,616 --> 00:05:25,227
+We reboot. The three file systems are still there, with the same U U I Ds.
+
+47
+00:05:25,247 --> 00:05:28,856
+They are not mounted any more, because we mounted by hand.
+
+48
+00:05:28,876 --> 00:05:32,799
+We mount the ext four one again, and our file still says hello.
+
+49
+00:05:44,319 --> 00:05:48,272
+Your turn. Partitions vdb one and vdb two exist.
+
+50
+00:05:48,292 --> 00:05:53,322
+Make an X F S file system on vdb one, and V F A T on vdb two.
+
+51
+00:05:53,342 --> 00:05:59,034
+Mount vdb one on slash M N T slash data one, and vdb two on data two.
+
+52
+00:05:59,054 --> 00:06:05,739
+Write a file called ok dot txt on the first. Unmount the second. Run the checker.
+
+53
+00:06:13,209 --> 00:06:14,960
+Try before you open the solution.
+
+54
+00:06:20,480 --> 00:06:24,876
+Next up: mount and unmount network file systems using N F S.
+
+55
+00:06:25,346 --> 00:06:28,249
+Subscribe to follow the series, and let's keep going.
