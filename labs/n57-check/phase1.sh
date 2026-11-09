@@ -2,7 +2,7 @@
 sudo systemctl is-system-running --wait >/dev/null 2>&1
 sudo useradd pat >/dev/null 2>&1
 echo "pat:LabPass-57" | sudo chpasswd
-printf "PasswordAuthentication yes\n" | sudo tee /etc/ssh/sshd_config.d/50-lab-password.conf >/dev/null
+printf "PasswordAuthentication yes\n" | sudo tee /etc/ssh/sshd_config.d/10-lab-password.conf >/dev/null
 sudo systemctl reload sshd >/dev/null 2>&1
 cat > /tmp/askpass.sh <<EOS
 #!/bin/sh
