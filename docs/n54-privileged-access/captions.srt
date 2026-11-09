@@ -1,0 +1,203 @@
+1
+00:00:00,400 --> 00:00:04,235
+Root can do anything. So you never hand out the root password.
+
+2
+00:00:04,255 --> 00:00:08,961
+Instead, you give each person exactly the power they need, and nothing more.
+
+3
+00:00:08,981 --> 00:00:12,753
+That is privileged access, and on Linux it is done with sudo.
+
+4
+00:00:13,223 --> 00:00:15,806
+In this video: configure privileged access.
+
+5
+00:00:20,326 --> 00:00:22,909
+Here's the task, the way an exam would state it.
+
+6
+00:00:23,379 --> 00:00:25,023
+Configure privileged access.
+
+7
+00:00:25,493 --> 00:00:29,625
+We'll see who can use sudo, give a user full sudo with the wheel group,
+
+8
+00:00:29,645 --> 00:00:32,491
+write a rule for one single command, and test it.
+
+9
+00:00:40,011 --> 00:00:43,228
+Sudo reads its rules from the file /etc/sudoers,
+
+10
+00:00:43,248 --> 00:00:48,152
+and from small files in the folder /etc/sudoers.d. A rule has parts. Who:
+
+11
+00:00:48,172 --> 00:00:51,996
+a user, or a percent sign (%) and a group. On which host:
+
+12
+00:00:52,016 --> 00:00:56,515
+all. As which user, in parentheses: all. Options, like no password.
+
+13
+00:00:56,535 --> 00:00:59,212
+And last, the commands that are allowed.
+
+14
+00:01:09,682 --> 00:01:15,068
+Never edit the sudoers file with a normal editor: one typo can lock everyone out.
+
+15
+00:01:15,088 --> 00:01:17,471
+Use visudo, which checks the syntax.
+
+16
+00:01:17,491 --> 00:01:21,875
+In this video the lab writes the file with tee, so we can show it,
+
+17
+00:01:21,895 --> 00:01:27,348
+and then checks it with visudo -c. In this demo, the lab changes nothing silently.
+
+18
+00:01:36,868 --> 00:01:40,878
+First, who can use sudo? sudo -l lists what the current user may run.
+
+19
+00:01:40,898 --> 00:01:44,383
+Our lab user student may run everything, without a password.
+
+20
+00:01:44,403 --> 00:01:46,661
+That is how the lab image was prepared,
+
+21
+00:01:46,681 --> 00:01:50,166
+so on your own system sudo will probably ask for a password.
+
+22
+00:01:50,186 --> 00:01:54,547
+The long list of default settings is not shown here. Next, the group wheel:
+
+23
+00:01:54,567 --> 00:01:58,578
+it is empty. And in the sudoers file, one rule: %wheel ALL=(ALL) ALL.
+
+24
+00:01:58,598 --> 00:02:01,381
+Everyone in the group wheel may run any command.
+
+25
+00:02:14,901 --> 00:02:19,705
+So, to give a user full sudo, put the user in the group wheel.
+
+26
+00:02:19,725 --> 00:02:25,619
+We create alice, then usermod -aG wheel alice. The group line now has alice.
+
+27
+00:02:25,639 --> 00:02:29,665
+sudo -l -U alice shows what alice may run: all, all.
+
+28
+00:02:41,185 --> 00:02:43,973
+Now a smaller power. We create bob.
+
+29
+00:02:43,993 --> 00:02:48,226
+Then one rule, written into a file in /etc/sudoers.d:
+
+30
+00:02:48,246 --> 00:02:52,720
+bob may run only /usr/bin/systemctl, without a password.
+
+31
+00:02:52,740 --> 00:02:57,855
+The echo command prints the rule, and tee writes it to the file.
+
+32
+00:02:57,875 --> 00:03:02,349
+Sudo files must be readable only: mode 0440, with chmod.
+
+33
+00:03:13,869 --> 00:03:18,909
+Now check. visudo -c checks the syntax of all sudo files.
+
+34
+00:03:18,929 --> 00:03:22,016
+Parsed OK, for each, including bob.
+
+35
+00:03:22,036 --> 00:03:26,899
+The file 90-cloud-init-users is part of this lab image.
+
+36
+00:03:26,919 --> 00:03:33,113
+sudo -l -U bob lists his rights: only /usr/bin/systemctl, no password.
+
+37
+00:03:42,633 --> 00:03:48,495
+And a real test. sudo -u bob runs a command as bob. Inside it, sudo -n means:
+
+38
+00:03:48,515 --> 00:03:53,689
+never ask for a password. First, systemctl is-active sshd. It works:
+
+39
+00:03:53,709 --> 00:03:58,884
+the answer is active. Then the command id, which is not in the rule:
+
+40
+00:03:58,904 --> 00:04:04,842
+sudo says a password is required. So bob can do his one job, and nothing else.
+
+41
+00:04:14,362 --> 00:04:17,798
+Our five steps: task, demo, check, reboot, and your turn.
+
+42
+00:04:19,318 --> 00:04:23,651
+We reboot. Alice is still in the group wheel, and bob still has his rule.
+
+43
+00:04:23,671 --> 00:04:26,573
+The rules are in files, so they survive a reboot.
+
+44
+00:04:34,093 --> 00:04:39,171
+Your turn. The lab silently creates the users gina and hank first.
+
+45
+00:04:39,191 --> 00:04:41,333
+Put gina in the group wheel.
+
+46
+00:04:41,353 --> 00:04:46,354
+Give hank the right to run /usr/bin/systemctl without a password,
+
+47
+00:04:46,374 --> 00:04:50,061
+in the file /etc/sudoers.d/hank, with mode 0440.
+
+48
+00:04:50,081 --> 00:04:53,614
+Run the checker, then reboot and run it again.
+
+49
+00:05:04,084 --> 00:05:05,835
+Try before you open the solution.
+
+50
+00:05:11,355 --> 00:05:17,031
+Next up: configure firewall settings using firewall-cmd and firewalld.
+
+51
+00:05:17,501 --> 00:05:20,404
+Subscribe to follow the series, and let's keep going.
