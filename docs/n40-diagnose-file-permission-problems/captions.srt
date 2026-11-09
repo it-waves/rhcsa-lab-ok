@@ -1,0 +1,215 @@
+1
+00:00:00,400 --> 00:00:01,411
+Permission denied.
+
+2
+00:00:01,431 --> 00:00:05,305
+The most common error in Linux, and the message never tells you why.
+
+3
+00:00:05,325 --> 00:00:09,084
+But there is a method to find out, and in this video you learn it.
+
+4
+00:00:09,554 --> 00:00:13,289
+In this video: diagnose and correct file permission problems.
+
+5
+00:00:17,809 --> 00:00:20,392
+Here's the task, the way an exam would state it.
+
+6
+00:00:20,862 --> 00:00:23,615
+Diagnose and correct file permission problems.
+
+7
+00:00:24,085 --> 00:00:25,592
+We'll fix two real cases:
+
+8
+00:00:25,612 --> 00:00:28,952
+a script that will not run, and a file nobody can read,
+
+9
+00:00:28,972 --> 00:00:31,212
+where there is more than one problem.
+
+10
+00:00:39,732 --> 00:00:42,922
+When access is denied, ask three questions. Who am I?
+
+11
+00:00:42,942 --> 00:00:45,830
+Who owns the file, and what are its permissions?
+
+12
+00:00:45,850 --> 00:00:51,403
+And can I even reach the file, because every folder on the way needs the execute permission?
+
+13
+00:00:55,873 --> 00:00:58,371
+Remember what the bits mean. On a file:
+
+14
+00:00:58,391 --> 00:01:02,181
+read is read, write is change, execute is run. On a folder:
+
+15
+00:01:02,201 --> 00:01:06,250
+execute means you may enter it, and read means you may list it.
+
+16
+00:01:06,270 --> 00:01:10,125
+Without execute on a folder, nothing inside it is reachable.
+
+17
+00:01:15,595 --> 00:01:20,622
+Two commands do the diagnosis. L S dash L shows owner, group and permissions.
+
+18
+00:01:20,642 --> 00:01:22,850
+Namei dash L walks the whole path,
+
+19
+00:01:22,870 --> 00:01:26,521
+and shows the permissions of every folder along the way.
+
+20
+00:01:26,541 --> 00:01:31,764
+Before the demo, silently, the lab creates a script and a report file with wrong
+
+21
+00:01:31,784 --> 00:01:34,583
+permissions. These steps change the system.
+
+22
+00:01:45,103 --> 00:01:48,797
+First case. We run the script, and bash says: permission denied.
+
+23
+00:01:48,817 --> 00:01:51,931
+The file was found, so the problem is its permissions.
+
+24
+00:01:56,401 --> 00:02:01,680
+L S dash L shows the permissions: R W dash, R dash dash, R dash dash.
+
+25
+00:02:01,700 --> 00:02:05,443
+Nobody has the execute bit, so nobody can run it.
+
+26
+00:02:05,463 --> 00:02:09,821
+The dot at the end is an S E Linux marker, a later topic.
+
+27
+00:02:16,291 --> 00:02:21,626
+Chmod U plus X gives the owner the execute bit. Run it again, and it works.
+
+28
+00:02:27,146 --> 00:02:31,643
+Second case. Cat says permission denied, and the file is four levels deep.
+
+29
+00:02:31,663 --> 00:02:33,291
+Which level is the problem?
+
+30
+00:02:37,761 --> 00:02:42,496
+Namei dash L walks the path one level at a time, and prints owner,
+
+31
+00:02:42,516 --> 00:02:47,900
+group and permissions for each. Slash, S R V and proj are open to everyone.
+
+32
+00:02:47,920 --> 00:02:52,943
+But reports is D R W X followed by six dashes: only root can enter it.
+
+33
+00:02:52,963 --> 00:02:57,987
+And namei says it on the last line: permission denied on q3 dot T X T.
+
+34
+00:03:07,507 --> 00:03:10,813
+We fix the folder first. Chmod seven five five:
+
+35
+00:03:10,833 --> 00:03:16,192
+the owner gets read, write and execute, everyone else gets read and execute.
+
+36
+00:03:16,212 --> 00:03:17,962
+So everyone can enter it.
+
+37
+00:03:23,432 --> 00:03:27,392
+But cat still says permission denied. There is a second problem.
+
+38
+00:03:27,412 --> 00:03:29,382
+L S dash L on the file shows it:
+
+39
+00:03:29,402 --> 00:03:32,926
+owner root, group root, and read and write for root only.
+
+40
+00:03:40,446 --> 00:03:45,617
+Nobody but root has any access to this file. Chown student makes student the owner.
+
+41
+00:03:45,637 --> 00:03:47,743
+Chown changes the owner of a file.
+
+42
+00:03:52,213 --> 00:03:54,397
+Now cat works. Remember the method:
+
+43
+00:03:54,417 --> 00:03:59,120
+read the error, look at the file with L S dash L, walk the path with namei,
+
+44
+00:03:59,140 --> 00:04:02,647
+and fix one thing at a time, checking after each change.
+
+45
+00:04:10,167 --> 00:04:13,603
+Our five steps: task, demo, check, reboot, and your turn.
+
+46
+00:04:15,123 --> 00:04:19,211
+We reboot. Permissions are stored in the file system, so they stay.
+
+47
+00:04:19,231 --> 00:04:23,380
+The script is still executable and runs, and the report still reads.
+
+48
+00:04:34,900 --> 00:04:39,544
+Your turn. The script run dot S H in your home folder will not run.
+
+49
+00:04:39,564 --> 00:04:45,044
+The file plan dot T X T in slash S R V slash data slash private cannot be read.
+
+50
+00:04:45,064 --> 00:04:48,804
+Find out why, with L S dash L and namei, and fix both.
+
+51
+00:04:48,824 --> 00:04:53,120
+Do not make the folder writable for everyone. Run the checker.
+
+52
+00:05:00,590 --> 00:05:02,341
+Try before you open the solution.
+
+53
+00:05:07,861 --> 00:05:12,364
+Next up: schedule tasks using at, cron, and systemd timer units.
+
+54
+00:05:12,834 --> 00:05:15,736
+Subscribe to follow the series, and let's keep going.
