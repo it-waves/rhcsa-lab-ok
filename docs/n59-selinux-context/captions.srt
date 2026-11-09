@@ -1,0 +1,147 @@
+1
+00:00:00,400 --> 00:00:05,899
+Why can one program read a file, and another cannot? Often the answer is a label.
+
+2
+00:00:05,919 --> 00:00:09,511
+SELinux puts a label on every file and every process.
+
+3
+00:00:09,531 --> 00:00:11,964
+Today we learn to read those labels.
+
+4
+00:00:12,434 --> 00:00:17,299
+In this video: list and identify SELinux file and process context.
+
+5
+00:00:21,819 --> 00:00:24,402
+Here's the task, the way an exam would state it.
+
+6
+00:00:24,872 --> 00:00:28,649
+List and identify SELinux file and process context.
+
+7
+00:00:29,119 --> 00:00:34,240
+We'll read the context of files, of directories, of processes, and of our own login.
+
+8
+00:00:41,760 --> 00:00:45,595
+Every file and every process has an SELinux context:
+
+9
+00:00:45,615 --> 00:00:49,969
+a label. SELinux compares labels to decide what is allowed.
+
+10
+00:00:49,989 --> 00:00:55,603
+A context has four fields, separated by colons: user, role, type, and level.
+
+11
+00:00:55,623 --> 00:00:59,532
+For the exam, the third field matters most: the type.
+
+12
+00:01:07,002 --> 00:01:11,673
+Three commands show it, and they share one option: a capital Z.
+
+13
+00:01:11,693 --> 00:01:16,364
+ls with capital Z, for files. ps with capital Z, for processes.
+
+14
+00:01:16,384 --> 00:01:18,673
+And id with capital Z, for you.
+
+15
+00:01:27,193 --> 00:01:31,648
+Start with files. ls with capital Z adds the context to the listing.
+
+16
+00:01:31,668 --> 00:01:36,386
+For passwd, the type is passwd file t. For shadow, the type is shadow t.
+
+17
+00:01:36,406 --> 00:01:41,914
+Different files, different types: that is how the policy can treat them differently.
+
+18
+00:01:47,434 --> 00:01:51,277
+Directories work the same way. The option dash d means:
+
+19
+00:01:51,297 --> 00:01:54,368
+the directory itself, not what is inside it.
+
+20
+00:01:54,388 --> 00:01:57,389
+Slash var slash log has the type var log t.
+
+21
+00:01:57,409 --> 00:02:01,814
+And the home directory of student has the type user home dir t.
+
+22
+00:02:06,334 --> 00:02:11,549
+Processes have a context too. ps with capital Z adds the label in front.
+
+23
+00:02:11,569 --> 00:02:16,201
+The option dash capital C selects a process by its command name.
+
+24
+00:02:16,221 --> 00:02:19,255
+The ssh service runs with the type sshd t.
+
+25
+00:02:19,275 --> 00:02:22,454
+The cron service runs with the type crond t.
+
+26
+00:02:22,474 --> 00:02:28,415
+Each service has its own type, and that is how SELinux limits it to what it needs.
+
+27
+00:02:32,935 --> 00:02:36,701
+And you? id with capital Z shows your own context:
+
+28
+00:02:36,721 --> 00:02:39,805
+unconfined u, unconfined r, unconfined t.
+
+29
+00:02:39,825 --> 00:02:44,652
+Unconfined means the policy puts almost no limits on this login.
+
+30
+00:02:44,672 --> 00:02:50,558
+ps with capital Z alone lists your own processes, and they share your context.
+
+31
+00:02:55,078 --> 00:02:59,879
+Our five steps: task, demo, check, reboot when the task needs one, and your turn.
+
+32
+00:03:01,399 --> 00:03:07,762
+Your turn. In your home directory, write a file named context dot t x t, with two lines.
+
+33
+00:03:07,782 --> 00:03:12,404
+Line one: the type of the file slash etc slash shadow. Line two:
+
+34
+00:03:12,424 --> 00:03:18,062
+the type of the sshd process. Only the type, the third field. Run the checker.
+
+35
+00:03:28,532 --> 00:03:30,282
+Try before you open the solution.
+
+36
+00:03:35,802 --> 00:03:38,406
+Next up: restore default file contexts.
+
+37
+00:03:38,876 --> 00:03:41,779
+Subscribe to follow the series, and let's keep going.
