@@ -1,0 +1,187 @@
+1
+00:00:00,400 --> 00:00:05,613
+A new file. Who can read it? Who can change it? You never chose, yet Linux decided.
+
+2
+00:00:05,633 --> 00:00:08,892
+The decision comes from one small number: the umask.
+
+3
+00:00:09,362 --> 00:00:12,222
+In this video: manage default file permissions.
+
+4
+00:00:16,742 --> 00:00:19,325
+Here's the task, the way an exam would state it.
+
+5
+00:00:19,795 --> 00:00:21,652
+Manage default file permissions.
+
+6
+00:00:22,122 --> 00:00:25,590
+We'll read the current umask, work out the permissions it gives,
+
+7
+00:00:25,610 --> 00:00:29,078
+change it for one user, and see where the system default is set.
+
+8
+00:00:36,598 --> 00:00:42,356
+Every new file starts from a maximum: 666 for a file, 777 for a directory.
+
+9
+00:00:42,376 --> 00:00:44,777
+Files never start with execute.
+
+10
+00:00:44,797 --> 00:00:50,242
+Then the umask takes permissions away, digit by digit. Take umask 027.
+
+11
+00:00:50,262 --> 00:00:54,771
+The owner loses nothing. The group loses 2, the write bit.
+
+12
+00:00:54,791 --> 00:01:00,471
+Others lose 7, everything. So a file ends as 640, and a directory as 750.
+
+13
+00:01:04,941 --> 00:01:08,424
+The umask only removes permissions. It never adds any.
+
+14
+00:01:08,444 --> 00:01:12,900
+And it only affects files created after the change, not the old ones.
+
+15
+00:01:22,420 --> 00:01:27,676
+First, the current umask. The command umask alone prints it:
+
+16
+00:01:27,696 --> 00:01:34,886
+0022. Add -S, for symbolic, to see it as letters: user rwx, group r-x, others r-x.
+
+17
+00:01:34,906 --> 00:01:38,667
+Those are the permissions that are allowed.
+
+18
+00:01:38,687 --> 00:01:43,943
+Now we create a file with touch, and a directory with mkdir.
+
+19
+00:01:43,963 --> 00:01:50,362
+ls -l -d lists them without opening the directory. The file is rw-r--r--:
+
+20
+00:01:50,382 --> 00:01:57,309
+644. The directory is rwxr-xr-x: 755. The dot at the end is the SELinux marker.
+
+21
+00:01:57,329 --> 00:02:01,178
+We come back to SELinux later in the course.
+
+22
+00:02:05,698 --> 00:02:06,931
+Now we change it.
+
+23
+00:02:06,951 --> 00:02:12,386
+Typing umask 027 changes only the current shell, and it is lost at logout.
+
+24
+00:02:12,406 --> 00:02:16,219
+In this lab every command runs in its own new shell,
+
+25
+00:02:16,239 --> 00:02:19,315
+so we make it permanent the way you would:
+
+26
+00:02:19,335 --> 00:02:23,369
+we add the line to the file .bashrc in the home folder.
+
+27
+00:02:23,389 --> 00:02:29,340
+The echo command prints the text, and the two arrows, greater-than, greater-than,
+
+28
+00:02:29,360 --> 00:02:34,057
+append it to the end of the file. tail -n 1 shows the last line.
+
+29
+00:02:34,077 --> 00:02:39,733
+Now umask prints 0027, and the symbolic form shows group r-x, others nothing.
+
+30
+00:02:39,753 --> 00:02:42,387
+This changes the lab user's .bashrc.
+
+31
+00:02:46,907 --> 00:02:55,286
+Now new files. touch creates file2, and mkdir creates dir2. The file is rw-r-----:
+
+32
+00:02:55,306 --> 00:03:01,124
+640. The directory is rwxr-x---: 750. Others get nothing.
+
+33
+00:03:01,144 --> 00:03:03,890
+Exactly what we calculated.
+
+34
+00:03:08,410 --> 00:03:11,457
+Where does the system default come from?
+
+35
+00:03:11,477 --> 00:03:16,978
+In the file /etc/bashrc, one line sets the umask to 022 when it is zero.
+
+36
+00:03:16,998 --> 00:03:20,735
+And in /etc/login.defs, the setting UMASK is 022.
+
+37
+00:03:20,755 --> 00:03:25,642
+A change for one user belongs in their own .bashrc, like we did.
+
+38
+00:03:25,662 --> 00:03:29,553
+System-wide changes affect everyone, so be careful.
+
+39
+00:03:34,073 --> 00:03:37,509
+Our five steps: task, demo, check, reboot, and your turn.
+
+40
+00:03:39,029 --> 00:03:45,522
+We reboot. The umask is still 0027, because the line is in .bashrc.
+
+41
+00:03:45,542 --> 00:03:48,438
+A new file is again rw-r-----.
+
+42
+00:03:55,958 --> 00:04:00,206
+Your turn. The lab silently creates the user ivan first.
+
+43
+00:04:00,226 --> 00:04:05,616
+Make the umask 077 permanent for ivan, with a line in his .bashrc file.
+
+44
+00:04:05,636 --> 00:04:09,122
+Run the checker, then reboot and run it again.
+
+45
+00:04:19,592 --> 00:04:21,343
+Try before you open the solution.
+
+46
+00:04:26,863 --> 00:04:30,726
+Next up: configure key-based authentication for SSH.
+
+47
+00:04:31,196 --> 00:04:34,098
+Subscribe to follow the series, and let's keep going.
