@@ -1,0 +1,199 @@
+1
+00:00:00,400 --> 00:00:03,488
+Two servers in the same room, and they cannot talk.
+
+2
+00:00:03,508 --> 00:00:07,997
+One typo in an address, a missing number after a slash, and nothing works.
+
+3
+00:00:08,017 --> 00:00:13,116
+Every network problem starts with the same question: what is this machine's address?
+
+4
+00:00:13,586 --> 00:00:18,089
+In this video: configure I P v four and I P v six addresses.
+
+5
+00:00:22,609 --> 00:00:25,192
+Here's the task, the way an exam would state it.
+
+6
+00:00:25,662 --> 00:00:29,354
+Configure IPv4 and IPv6 addresses.
+
+7
+00:00:29,824 --> 00:00:35,116
+We'll look at the addresses, then give a new connection a static I P v four address
+
+8
+00:00:35,136 --> 00:00:38,572
+and a static I P v six address, that survive a reboot.
+
+9
+00:00:46,092 --> 00:00:47,765
+An address has two parts:
+
+10
+00:00:47,785 --> 00:00:51,759
+the address itself, and after the slash, the prefix length.
+
+11
+00:00:51,779 --> 00:00:56,363
+Slash twenty four means the first twenty four bits name the network.
+
+12
+00:00:56,383 --> 00:00:59,004
+An I P v four address has four numbers.
+
+13
+00:00:59,024 --> 00:01:03,608
+An I P v six address is longer, written in hexadecimal, with colons.
+
+14
+00:01:10,078 --> 00:01:14,976
+On RHEL, Network Manager manages addresses, and the command is nmcli.
+
+15
+00:01:14,996 --> 00:01:17,827
+A connection is a saved set of settings.
+
+16
+00:01:17,847 --> 00:01:22,317
+A device is the network interface the connection is applied to.
+
+17
+00:01:22,337 --> 00:01:25,738
+Settings saved in a connection survive a reboot.
+
+18
+00:01:33,208 --> 00:01:38,239
+We will not touch the real interface, because that could cut our own connection.
+
+19
+00:01:38,259 --> 00:01:42,154
+We create a virtual interface called dummy, made for practice.
+
+20
+00:01:42,174 --> 00:01:47,016
+Before the demo, silently, the lab deletes any old connection named lab zero.
+
+21
+00:01:47,036 --> 00:01:48,847
+This step changes the system.
+
+22
+00:01:57,367 --> 00:02:03,542
+First, look. I P, dash b r, address. Dash b r means brief: one line per interface.
+
+23
+00:02:03,562 --> 00:02:10,115
+Lo is the loopback interface, with the address one two seven dot zero dot zero dot one.
+
+24
+00:02:10,135 --> 00:02:14,648
+Ens three is the real interface, with an I P v four address,
+
+25
+00:02:14,668 --> 00:02:16,462
+and I P v six addresses.
+
+26
+00:02:26,982 --> 00:02:33,239
+Now create a connection. Sudo nmcli connection add. Type dummy, a virtual interface.
+
+27
+00:02:33,259 --> 00:02:36,303
+Ifname is the interface name, dummy zero.
+
+28
+00:02:36,323 --> 00:02:40,338
+Con dash name is the name of the connection: lab zero.
+
+29
+00:02:49,858 --> 00:02:53,766
+Now the addresses. Nmcli connection modify lab zero.
+
+30
+00:02:53,786 --> 00:02:59,582
+I P v four dot method manual means: no D H C P, we set the address ourselves.
+
+31
+00:02:59,602 --> 00:03:03,811
+I P v four dot addresses is the address with its prefix.
+
+32
+00:03:13,281 --> 00:03:18,573
+The same for I P v six: method manual, and an address with slash sixty four.
+
+33
+00:03:25,043 --> 00:03:29,503
+Nothing is applied yet. Connection up applies the connection to the device.
+
+34
+00:03:37,023 --> 00:03:39,964
+Check. I P brief address show dummy zero:
+
+35
+00:03:39,984 --> 00:03:44,442
+the I P v four address, and the I P v six address, both there.
+
+36
+00:03:44,462 --> 00:03:48,847
+The last address, starting with f e eight zero, is automatic:
+
+37
+00:03:48,867 --> 00:03:52,747
+every I P v six interface gets one, called link local.
+
+38
+00:04:02,217 --> 00:04:05,681
+And nmcli can show what is saved in the connection:
+
+39
+00:04:05,701 --> 00:04:07,936
+method manual, and the addresses.
+
+40
+00:04:15,456 --> 00:04:18,892
+Our five steps: task, demo, check, reboot, and your turn.
+
+41
+00:04:20,412 --> 00:04:23,472
+We reboot. Dummy zero is back with both addresses.
+
+42
+00:04:23,492 --> 00:04:28,584
+The settings were saved in the connection, so Network Manager applied them at boot.
+
+43
+00:04:37,104 --> 00:04:43,007
+Your turn. Create a connection called exam zero, on a dummy interface called dummy one.
+
+44
+00:04:43,027 --> 00:04:47,568
+Give it the I P v four address ten dot twenty dot thirty dot forty,
+
+45
+00:04:47,588 --> 00:04:48,794
+slash twenty four.
+
+46
+00:04:48,814 --> 00:04:53,900
+And the I P v six address f d zero zero, colon, twenty, colon colon, forty,
+
+47
+00:04:53,920 --> 00:04:57,372
+slash sixty four. Activate it, and run the checker.
+
+48
+00:05:06,842 --> 00:05:08,593
+Try before you open the solution.
+
+49
+00:05:14,113 --> 00:05:16,717
+Next up: configure hostname resolution.
+
+50
+00:05:17,187 --> 00:05:20,090
+Subscribe to follow the series, and let's keep going.
