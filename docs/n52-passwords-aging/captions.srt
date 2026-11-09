@@ -1,0 +1,171 @@
+1
+00:00:00,400 --> 00:00:04,695
+A password that never expires is a door that never changes its lock.
+
+2
+00:00:04,715 --> 00:00:08,058
+Good administrators decide how long a password lives,
+
+3
+00:00:08,078 --> 00:00:10,343
+and when a user must pick a new one.
+
+4
+00:00:10,813 --> 00:00:15,891
+In this video: change passwords and adjust password aging for local user accounts.
+
+5
+00:00:20,411 --> 00:00:22,994
+Here's the task, the way an exam would state it.
+
+6
+00:00:23,464 --> 00:00:27,646
+Change passwords and adjust password aging for local user accounts.
+
+7
+00:00:28,116 --> 00:00:31,355
+We'll set a password, read the aging rules, change them,
+
+8
+00:00:31,375 --> 00:00:33,856
+and force a new password at the next login.
+
+9
+00:00:40,376 --> 00:00:44,258
+Password aging is a set of rules about time. The minimum days:
+
+10
+00:00:44,278 --> 00:00:49,230
+how long a user must wait before changing the password again. The maximum days:
+
+11
+00:00:49,250 --> 00:00:53,447
+how long the password lives, then it expires. And the warning days:
+
+12
+00:00:53,467 --> 00:00:56,783
+how many days before the end the user gets a warning.
+
+13
+00:01:07,253 --> 00:01:11,397
+Two commands do the work. passwd sets or changes a password.
+
+14
+00:01:11,417 --> 00:01:15,560
+chage, short for change age, reads and sets the aging rules.
+
+15
+00:01:15,580 --> 00:01:18,753
+In this demo the lab changes nothing silently.
+
+16
+00:01:27,273 --> 00:01:30,856
+First we create the user alice. Then we set her password.
+
+17
+00:01:30,876 --> 00:01:34,965
+Normally you type sudo passwd alice and enter the password twice.
+
+18
+00:01:34,985 --> 00:01:39,390
+Here we send it through a pipe with --stdin, so the video can show it.
+
+19
+00:01:39,410 --> 00:01:41,602
+That is fine for a lab or a script,
+
+20
+00:01:41,622 --> 00:01:45,332
+but the password then appears on screen and in the history.
+
+21
+00:01:45,352 --> 00:01:48,871
+passwd -S shows the status: P means the password is set.
+
+22
+00:01:48,891 --> 00:01:51,210
+Then the date, and the aging numbers.
+
+23
+00:02:04,730 --> 00:02:11,320
+chage -l lists the aging rules, in plain words. The password was changed today.
+
+24
+00:02:11,340 --> 00:02:14,750
+It expires: never. The minimum is 0 days.
+
+25
+00:02:14,770 --> 00:02:20,774
+The maximum is 99999 days, which means never. And the warning is 7 days.
+
+26
+00:02:30,294 --> 00:02:36,726
+Now we change the rules, one option per command. -M sets the maximum:
+
+27
+00:02:36,746 --> 00:02:42,150
+90 days. -m sets the minimum: 7 days. -W sets the warning:
+
+28
+00:02:42,170 --> 00:02:49,163
+14 days. Then chage -l again. The password now expires on February 7, 2027:
+
+29
+00:02:49,183 --> 00:02:51,501
+90 days after the change.
+
+30
+00:03:03,021 --> 00:03:07,626
+One more: force a new password. passwd -e expires the password now.
+
+31
+00:03:07,646 --> 00:03:12,113
+The user must choose a new one at the next login. chage shows it:
+
+32
+00:03:12,133 --> 00:03:13,838
+password must be changed.
+
+33
+00:03:22,358 --> 00:03:25,794
+Our five steps: task, demo, check, reboot, and your turn.
+
+34
+00:03:27,314 --> 00:03:29,582
+We reboot. The rules are still there:
+
+35
+00:03:29,602 --> 00:03:33,353
+the minimum, the maximum, the warning, and the forced change.
+
+36
+00:03:33,373 --> 00:03:37,001
+Aging is saved in the shadow file, so it survives a reboot.
+
+37
+00:03:44,521 --> 00:03:49,839
+Your turn. The lab silently creates the user dave first. Set a password for dave.
+
+38
+00:03:49,859 --> 00:03:54,979
+Set the minimum to 2 days, the maximum to 60 days, and the warning to 10 days.
+
+39
+00:03:54,999 --> 00:03:57,747
+Force a password change at the next login.
+
+40
+00:03:57,767 --> 00:04:00,778
+Run the checker, then reboot and run it again.
+
+41
+00:04:09,248 --> 00:04:10,999
+Try before you open the solution.
+
+42
+00:04:16,519 --> 00:04:20,958
+Next up: create, delete, and modify local groups and group memberships.
+
+43
+00:04:21,428 --> 00:04:24,330
+Subscribe to follow the series, and let's keep going.
