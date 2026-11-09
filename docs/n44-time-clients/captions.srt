@@ -1,0 +1,191 @@
+1
+00:00:00,400 --> 00:00:06,960
+Clocks drift. Logs from two servers disagree by a minute, a certificate says it is not valid yet,
+
+2
+00:00:06,980 --> 00:00:10,352
+a login fails. The cause is often just wrong time.
+
+3
+00:00:10,372 --> 00:00:13,201
+One small service keeps every clock right.
+
+4
+00:00:13,671 --> 00:00:16,403
+In this video: configure time service clients.
+
+5
+00:00:20,923 --> 00:00:23,506
+Here's the task, the way an exam would state it.
+
+6
+00:00:23,976 --> 00:00:25,769
+Configure time service clients.
+
+7
+00:00:26,239 --> 00:00:29,344
+We'll look at the client configuration, add a time server,
+
+8
+00:00:29,364 --> 00:00:31,552
+and check that the clock is synchronized.
+
+9
+00:00:38,072 --> 00:00:43,831
+A time client asks time servers for the correct time, and adjusts the local clock.
+
+10
+00:00:43,851 --> 00:00:45,875
+On RHEL the client is chrony.
+
+11
+00:00:45,895 --> 00:00:51,442
+Its service is chrony D, its configuration file is slash E T C slash chrony dot
+
+12
+00:00:51,462 --> 00:00:53,839
+conf, and its command is chrony C.
+
+13
+00:01:00,309 --> 00:01:01,809
+The protocol is N T P.
+
+14
+00:01:01,829 --> 00:01:06,164
+In the configuration file, a server line names one time server.
+
+15
+00:01:06,184 --> 00:01:09,690
+A pool line names a group of servers. Iburst means:
+
+16
+00:01:09,710 --> 00:01:14,390
+send a quick burst of requests at start, so the clock is set sooner.
+
+17
+00:01:21,860 --> 00:01:25,755
+Before the demo, silently, the lab installs the chrony package.
+
+18
+00:01:25,775 --> 00:01:27,557
+This step changes the system.
+
+19
+00:01:35,077 --> 00:01:39,967
+First, the configuration. Grep prints the lines that match. The caret means:
+
+20
+00:01:39,987 --> 00:01:43,973
+at the start of the line. So we see every pool or server line.
+
+21
+00:01:43,993 --> 00:01:46,428
+This machine uses a pool, with iburst.
+
+22
+00:01:54,898 --> 00:01:55,988
+Now add a server.
+
+23
+00:01:56,008 --> 00:01:59,385
+Echo prints the line, the pipe hands it to sudo tee,
+
+24
+00:01:59,405 --> 00:02:04,350
+and tee dash a appends it to the end of the file. Grep shows both lines now.
+
+25
+00:02:13,870 --> 00:02:15,046
+Next, the service.
+
+26
+00:02:15,066 --> 00:02:20,227
+Is dash enabled says it starts at boot, and is dash active says it is running.
+
+27
+00:02:20,247 --> 00:02:25,541
+Chrony D reads its configuration only at start, so after a change we restart it.
+
+28
+00:02:36,061 --> 00:02:38,495
+Now check. Sleep twenty gives it time.
+
+29
+00:02:38,515 --> 00:02:43,725
+Then chrony C sources lists the time servers it uses. Each line shows one server:
+
+30
+00:02:43,745 --> 00:02:48,052
+its name, its stratum, how far away it is from the reference clock,
+
+31
+00:02:48,072 --> 00:02:50,441
+and the measured offset of our clock.
+
+32
+00:03:00,911 --> 00:03:03,912
+The star marks the server we are synchronized to.
+
+33
+00:03:03,932 --> 00:03:07,056
+A dash means a good server, not selected right now.
+
+34
+00:03:14,576 --> 00:03:20,267
+Time date control gives the overview. System clock synchronized: yes. N T P service:
+
+35
+00:03:20,287 --> 00:03:24,007
+active. The clock is right, and the service is working.
+
+36
+00:03:33,527 --> 00:03:36,963
+Our five steps: task, demo, check, reboot, and your turn.
+
+37
+00:03:38,483 --> 00:03:41,145
+We reboot. Chrony D is enabled and active.
+
+38
+00:03:41,165 --> 00:03:44,019
+The sources show question marks for a moment:
+
+39
+00:03:44,039 --> 00:03:48,490
+after a boot, chrony measures the servers again before it chooses one.
+
+40
+00:03:59,010 --> 00:04:00,542
+Your turn. Add the line:
+
+41
+00:04:00,562 --> 00:04:05,003
+server, ntp dot lab dot example, iburst, to the chrony configuration.
+
+42
+00:04:05,023 --> 00:04:07,589
+Make chrony D start at boot and run now.
+
+43
+00:04:07,609 --> 00:04:11,468
+The server name does not exist, so nothing will synchronize.
+
+44
+00:04:11,488 --> 00:04:15,865
+The checker only looks at the line and the service. Run the checker.
+
+45
+00:04:24,335 --> 00:04:26,085
+Try before you open the solution.
+
+46
+00:04:31,605 --> 00:04:37,253
+Next up: install and update software packages from Red Hat Content Delivery Network,
+
+47
+00:04:37,273 --> 00:04:40,694
+a remote repository, or from the local file system.
+
+48
+00:04:41,164 --> 00:04:44,067
+Subscribe to follow the series, and let's keep going.
