@@ -1,0 +1,203 @@
+1
+00:00:00,400 --> 00:00:03,188
+SELinux is the security guard inside Linux.
+
+2
+00:00:03,208 --> 00:00:07,629
+Many people meet it for the first time when something stops working,
+
+3
+00:00:07,649 --> 00:00:11,482
+and they switch it off. Don't. Learn the two modes instead:
+
+4
+00:00:11,502 --> 00:00:13,180
+enforcing, and permissive.
+
+5
+00:00:13,650 --> 00:00:17,683
+In this video: set enforcing and permissive modes for SELinux.
+
+6
+00:00:22,203 --> 00:00:24,786
+Here's the task, the way an exam would state it.
+
+7
+00:00:25,256 --> 00:00:28,286
+Set enforcing and permissive modes for SELinux.
+
+8
+00:00:28,756 --> 00:00:31,965
+We'll read the current mode, change it until the next reboot,
+
+9
+00:00:31,985 --> 00:00:34,347
+change it for the next boot, and put it back.
+
+10
+00:00:41,867 --> 00:00:43,521
+SELinux has three modes.
+
+11
+00:00:43,541 --> 00:00:48,126
+In enforcing, SELinux blocks what the policy forbids, and logs it.
+
+12
+00:00:48,146 --> 00:00:51,475
+In permissive, it only logs, and blocks nothing:
+
+13
+00:00:51,495 --> 00:00:56,568
+perfect for finding the cause of a problem. And disabled: SELinux is off.
+
+14
+00:00:56,588 --> 00:01:01,452
+Avoid disabled: turning it on again needs a relabel of the whole disk.
+
+15
+00:01:05,922 --> 00:01:08,498
+There are two places to set the mode.
+
+16
+00:01:08,518 --> 00:01:14,249
+The command setenforce changes the running system, and is lost at the next reboot.
+
+17
+00:01:14,269 --> 00:01:17,897
+It can only switch between enforcing and permissive.
+
+18
+00:01:17,917 --> 00:01:21,474
+The file /etc/selinux/config sets the mode at boot.
+
+19
+00:01:21,494 --> 00:01:24,420
+For a permanent change, you edit the file.
+
+20
+00:01:33,940 --> 00:01:38,827
+First, the current mode. getenforce prints it in one word: Enforcing.
+
+21
+00:01:38,847 --> 00:01:44,231
+Then grep shows the mode for the next boot, in the file /etc/selinux/config:
+
+22
+00:01:44,251 --> 00:01:45,511
+SELINUX=enforcing.
+
+23
+00:01:45,531 --> 00:01:50,702
+The single quotes keep the shell away from the text, and the caret means:
+
+24
+00:01:50,722 --> 00:01:52,480
+at the start of the line.
+
+25
+00:01:57,000 --> 00:02:01,471
+sestatus shows more. The status is enabled. The policy is targeted.
+
+26
+00:02:01,491 --> 00:02:06,700
+The current mode is enforcing, and the mode from the config file is enforcing:
+
+27
+00:02:06,720 --> 00:02:11,593
+two lines, two places. If they differ, the mode changes at the next boot.
+
+28
+00:02:16,113 --> 00:02:21,545
+Now change the mode, until the next reboot. setenforce 0 means permissive.
+
+29
+00:02:21,565 --> 00:02:26,554
+getenforce confirms: Permissive. setenforce 1 means enforcing again.
+
+30
+00:02:26,574 --> 00:02:31,858
+And getenforce says Enforcing. This needs sudo: only root can change it.
+
+31
+00:02:36,378 --> 00:02:41,860
+Now the next boot. We edit the file with sed. The option -i edits the file in place.
+
+32
+00:02:41,880 --> 00:02:44,873
+The text between the quotes is a substitution:
+
+33
+00:02:44,893 --> 00:02:48,214
+s, slash, the old text, slash, the new text, slash.
+
+34
+00:02:48,234 --> 00:02:51,554
+The old text is any line that starts with SELINUX=.
+
+35
+00:02:51,574 --> 00:02:55,353
+The new text is SELINUX=permissive. grep shows the result.
+
+36
+00:02:55,373 --> 00:02:57,711
+But getenforce still says Enforcing:
+
+37
+00:02:57,731 --> 00:03:01,510
+the file acts at the next boot, not on the running system.
+
+38
+00:03:07,030 --> 00:03:10,466
+Our five steps: task, demo, check, reboot, and your turn.
+
+39
+00:03:11,986 --> 00:03:16,425
+We reboot. And getenforce says Permissive: the file was read at boot.
+
+40
+00:03:16,445 --> 00:03:21,013
+sestatus, with a pipe to grep, keeps only the lines with the word mode.
+
+41
+00:03:21,033 --> 00:03:23,017
+The current mode is permissive.
+
+42
+00:03:27,537 --> 00:03:31,149
+Back to normal. The same sed command, with enforcing.
+
+43
+00:03:31,169 --> 00:03:34,575
+Then setenforce 1, so we do not wait for a reboot.
+
+44
+00:03:34,595 --> 00:03:38,344
+getenforce says Enforcing, and the file says enforcing.
+
+45
+00:03:38,364 --> 00:03:41,085
+Always leave a system in enforcing mode.
+
+46
+00:03:46,605 --> 00:03:52,376
+Your turn. Set SELinux to permissive now, with setenforce, and for the next boot too,
+
+47
+00:03:52,396 --> 00:03:57,759
+in the file /etc/selinux/config. Run the checker, then reboot and run it again.
+
+48
+00:03:57,779 --> 00:04:02,052
+On your own system, put it back to enforcing when you are done.
+
+49
+00:04:12,522 --> 00:04:14,272
+Try before you open the solution.
+
+50
+00:04:19,792 --> 00:04:24,252
+Next up: list and identify SELinux file and process context.
+
+51
+00:04:24,722 --> 00:04:27,625
+Subscribe to follow the series, and let's keep going.
